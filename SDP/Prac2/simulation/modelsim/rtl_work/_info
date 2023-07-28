@@ -1,0 +1,56 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dW:/SDP/Prac2/simulation/modelsim
+vCOUNT
+Z1 !s110 1683388757
+!i10b 1
+!s100 ekQfYFeJkVB;QWN?cGA2d0
+IKUzQ6g?Z_B`jMb[S;f?Io2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1678806466
+8W:/SDP/Prac2/COUNT.v
+FW:/SDP/Prac2/COUNT.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1683388757.000000
+!s107 W:/SDP/Prac2/COUNT.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2|W:/SDP/Prac2/COUNT.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+W:/SDP/Prac2
+Z7 tCvgOpt 0
+n@c@o@u@n@t
+vtb_COUNT
+R1
+!i10b 1
+!s100 Z9mBC6h6KHmV]1MdR3V6f2
+Il?QF=SCaQB3NTlB<QPNX73
+R2
+R0
+w1678276490
+8W:/SDP/Prac2/tb_COUNT.v
+FW:/SDP/Prac2/tb_COUNT.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 W:/SDP/Prac2/tb_COUNT.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2|W:/SDP/Prac2/tb_COUNT.v|
+!i113 1
+R5
+R6
+R7
+ntb_@c@o@u@n@t

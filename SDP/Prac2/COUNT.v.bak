@@ -1,0 +1,24 @@
+module COUNT(CLK, RST_n,EN, Cuenta,TC);
+
+parameter modulo = 1056;
+parameter n = $clog2(modulo);
+
+input CLK, RST_n;
+output EN, TC;
+output reg (n-1:0) Cuenta;
+
+always @(posedge CLK, negedge RST_n) begin
+
+	if(~RST_n)
+		cuenta = 0;
+	else if(EN)
+	
+		if(Cuenta = modulo -1)
+		
+			Cuenta <= 0;
+		else 
+			Cuenta <= Cuenta + 1;
+end
+assign TC = ((Cuenta == modulo - 1) && (EN==1)) ? 1:0;
+
+endmodule

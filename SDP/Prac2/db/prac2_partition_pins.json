@@ -1,0 +1,69 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "cuenta[0]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[1]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[2]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[3]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[4]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[5]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[6]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[7]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[8]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[9]",
+					"strict" : false
+				},
+				{
+					"name" : "cuenta[10]",
+					"strict" : false
+				},
+				{
+					"name" : "TC",
+					"strict" : false
+				},
+				{
+					"name" : "EN",
+					"strict" : false
+				},
+				{
+					"name" : "CLK",
+					"strict" : false
+				},
+				{
+					"name" : "RST_n",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

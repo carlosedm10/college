@@ -1,0 +1,137 @@
+Determining the location of the ModelSim executable...
+
+Using: c:/intelfpga/17.1/modelsim_ase/win32aloem/
+
+To specify a ModelSim executable directory, select: Tools -> Options -> EDA Tool Options
+Note: if both ModelSim-Altera and ModelSim executables are available, ModelSim-Altera will be used.
+
+**** Generating the ModelSim Testbench ****
+
+quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off prac2 -c prac2 --vector_source="W:/SDP/Prac2/wcont.vwf" --testbench_file="W:/SDP/Prac2/simulation/qsim/wcont.vwf.vt"
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+    Info: Copyright (C) 2017  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details.
+    Info: Processing started: Wed Mar 08 12:32:55 2023
+Info: Command: quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off prac2 -c prac2 --vector_source=W:/SDP/Prac2/wcont.vwf --testbench_file=W:/SDP/Prac2/simulation/qsim/wcont.vwf.vt
+Info (119006): Selected device EP4CE115F29C7 for design "prac2"
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+
+Completed successfully. 
+
+Completed successfully. 
+
+**** Generating the functional simulation netlist ****
+
+quartus_eda --write_settings_files=off --simulation --functional=on --flatten_buses=off --tool=modelsim_oem --format=verilog --output_directory="W:/SDP/Prac2/simulation/qsim/" prac2 -c prac2
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+    Info: Copyright (C) 2017  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details.
+    Info: Processing started: Wed Mar 08 12:32:57 2023
+Info: Command: quartus_eda --write_settings_files=off --simulation=on --functional=on --flatten_buses=off --tool=modelsim_oem --format=verilog --output_directory=W:/SDP/Prac2/simulation/qsim/ prac2 -c prac2
+Info (119006): Selected device EP4CE115F29C7 for design "prac2"
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (204019): Generated file prac2.vo in folder "W:/SDP/Prac2/simulation/qsim//" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 4648 megabytes
+    Info: Processing ended: Wed Mar 08 12:32:58 2023
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+Completed successfully. 
+
+**** Generating the ModelSim .do script ****
+
+W:/SDP/Prac2/simulation/qsim/prac2.do generated.
+
+Completed successfully. 
+
+**** Running the ModelSim simulation ****
+
+c:/intelfpga/17.1/modelsim_ase/win32aloem//vsim -c -do prac2.do
+
+Reading C:/intelFPGA/17.1/modelsim_ase/tcl/vsim/pref.tcl
+
+
+# 10.5b
+
+# do prac2.do
+
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 12:33:00 on Mar 08,2023
+# vlog -work work prac2.vo 
+
+# -- Compiling module COUNT
+# 
+# Top level modules:
+# 	COUNT
+# End time: 12:33:00 on Mar 08,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 12:33:00 on Mar 08,2023
+# vlog -work work wcont.vwf.vt 
+# -- Compiling module COUNT_vlg_vec_tst
+# 
+
+# Top level modules:
+# 	COUNT_vlg_vec_tst
+# End time: 12:33:00 on Mar 08,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+
+# vsim -novopt -c -t 1ps -L cycloneive_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate_ver -L altera_lnsim_ver work.COUNT_vlg_vec_tst 
+# Start time: 12:33:00 on Mar 08,2023
+# Loading work.COUNT_vlg_vec_tst
+# Loading work.COUNT
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# after#23
+# ** Note: $finish    : wcont.vwf.vt(50)
+#    Time: 1 us  Iteration: 0  Instance: /COUNT_vlg_vec_tst
+# End time: 12:33:01 on Mar 08,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+
+Completed successfully. 
+
+**** Converting ModelSim VCD to vector waveform ****
+
+Reading W:/SDP/Prac2/wcont.vwf...
+
+Reading W:/SDP/Prac2/simulation/qsim/prac2.msim.vcd...
+
+Processing channel transitions... 
+
+Writing the resulting VWF to W:/SDP/Prac2/simulation/qsim/prac2_20230308123301.sim.vwf
+
+Finished VCD to VWF conversion.
+
+Completed successfully. 
+
+All completed.

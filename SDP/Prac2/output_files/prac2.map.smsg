@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at COUNT.v(10): always construct contains both blocking and non-blocking assignments File: W:/SDP/Prac2/COUNT.v Line: 10

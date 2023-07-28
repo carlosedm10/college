@@ -1,0 +1,271 @@
+// Copyright (C) 2017  Intel Corporation. All rights reserved.
+// Your use of Intel Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License 
+// Subscription Agreement, the Intel Quartus Prime License Agreement,
+// the Intel FPGA IP License Agreement, or other applicable license
+// agreement, including, without limitation, that your use is for
+// the sole purpose of programming logic devices manufactured by
+// Intel and sold by Intel or its authorized distributors.  Please
+// refer to the applicable agreement for further details.
+
+// VENDOR "Altera"
+// PROGRAM "Quartus Prime"
+// VERSION "Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition"
+
+// DATE "03/08/2023 12:32:58"
+
+// 
+// Device: Altera EP4CE115F29C7 Package FBGA780
+// 
+
+// 
+// This Verilog file should be used for ModelSim-Altera (Verilog) only
+// 
+
+`timescale 1 ps/ 1 ps
+
+module COUNT (
+	CLK,
+	RST_n,
+	EN,
+	cuenta,
+	TC);
+input 	CLK;
+input 	RST_n;
+output 	EN;
+output 	[10:0] cuenta;
+output 	TC;
+
+wire gnd;
+wire vcc;
+wire unknown;
+
+assign gnd = 1'b0;
+assign vcc = 1'b1;
+assign unknown = 1'bx;
+
+tri1 devclrn;
+tri1 devpor;
+tri1 devoe;
+wire \CLK~input_o ;
+wire \RST_n~input_o ;
+wire \EN~output_o ;
+wire \cuenta[0]~output_o ;
+wire \cuenta[1]~output_o ;
+wire \cuenta[2]~output_o ;
+wire \cuenta[3]~output_o ;
+wire \cuenta[4]~output_o ;
+wire \cuenta[5]~output_o ;
+wire \cuenta[6]~output_o ;
+wire \cuenta[7]~output_o ;
+wire \cuenta[8]~output_o ;
+wire \cuenta[9]~output_o ;
+wire \cuenta[10]~output_o ;
+wire \TC~output_o ;
+
+
+cycloneive_io_obuf \EN~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\EN~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \EN~output .bus_hold = "false";
+defparam \EN~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[0]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[0]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[0]~output .bus_hold = "false";
+defparam \cuenta[0]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[1]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[1]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[1]~output .bus_hold = "false";
+defparam \cuenta[1]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[2]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[2]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[2]~output .bus_hold = "false";
+defparam \cuenta[2]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[3]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[3]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[3]~output .bus_hold = "false";
+defparam \cuenta[3]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[4]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[4]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[4]~output .bus_hold = "false";
+defparam \cuenta[4]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[5]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[5]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[5]~output .bus_hold = "false";
+defparam \cuenta[5]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[6]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[6]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[6]~output .bus_hold = "false";
+defparam \cuenta[6]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[7]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[7]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[7]~output .bus_hold = "false";
+defparam \cuenta[7]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[8]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[8]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[8]~output .bus_hold = "false";
+defparam \cuenta[8]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[9]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[9]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[9]~output .bus_hold = "false";
+defparam \cuenta[9]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \cuenta[10]~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cuenta[10]~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cuenta[10]~output .bus_hold = "false";
+defparam \cuenta[10]~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_obuf \TC~output (
+	.i(gnd),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\TC~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \TC~output .bus_hold = "false";
+defparam \TC~output .open_drain_output = "false";
+// synopsys translate_on
+
+cycloneive_io_ibuf \CLK~input (
+	.i(CLK),
+	.ibar(gnd),
+	.o(\CLK~input_o ));
+// synopsys translate_off
+defparam \CLK~input .bus_hold = "false";
+defparam \CLK~input .simulate_z_as = "z";
+// synopsys translate_on
+
+cycloneive_io_ibuf \RST_n~input (
+	.i(RST_n),
+	.ibar(gnd),
+	.o(\RST_n~input_o ));
+// synopsys translate_off
+defparam \RST_n~input .bus_hold = "false";
+defparam \RST_n~input .simulate_z_as = "z";
+// synopsys translate_on
+
+assign EN = \EN~output_o ;
+
+assign cuenta[0] = \cuenta[0]~output_o ;
+
+assign cuenta[1] = \cuenta[1]~output_o ;
+
+assign cuenta[2] = \cuenta[2]~output_o ;
+
+assign cuenta[3] = \cuenta[3]~output_o ;
+
+assign cuenta[4] = \cuenta[4]~output_o ;
+
+assign cuenta[5] = \cuenta[5]~output_o ;
+
+assign cuenta[6] = \cuenta[6]~output_o ;
+
+assign cuenta[7] = \cuenta[7]~output_o ;
+
+assign cuenta[8] = \cuenta[8]~output_o ;
+
+assign cuenta[9] = \cuenta[9]~output_o ;
+
+assign cuenta[10] = \cuenta[10]~output_o ;
+
+assign TC = \TC~output_o ;
+
+endmodule

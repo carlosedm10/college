@@ -1,0 +1,32 @@
+|semaforo
+CLK => cnt[0].CLK
+CLK => cnt[1].CLK
+CLK => cnt[2].CLK
+CLK => cnt[3].CLK
+CLK => cnt[4].CLK
+CLK => cnt[5].CLK
+CLK => cnt[6].CLK
+CLK => cnt[7].CLK
+CLK => cnt[8].CLK
+CLK => cnt[9].CLK
+CLK => state~1.DATAIN
+RST => cnt[0].ACLR
+RST => cnt[1].ACLR
+RST => cnt[2].ACLR
+RST => cnt[3].ACLR
+RST => cnt[4].ACLR
+RST => cnt[5].ACLR
+RST => cnt[6].ACLR
+RST => cnt[7].ACLR
+RST => cnt[8].ACLR
+RST => cnt[9].ACLR
+RST => state~3.DATAIN
+EN => ~NO_FANOUT~
+T => nexstate.S1.DATAB
+T => Selector0.IN2
+B << V.DB_MAX_OUTPUT_PORT_TYPE
+A << A.DB_MAX_OUTPUT_PORT_TYPE
+R << R.DB_MAX_OUTPUT_PORT_TYPE
+V << V.DB_MAX_OUTPUT_PORT_TYPE
+
+

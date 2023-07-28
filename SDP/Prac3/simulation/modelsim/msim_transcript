@@ -1,0 +1,57 @@
+# Reading C:/intelFPGA/17.1/modelsim_ase/tcl/vsim/pref.tcl
+# do motor_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying C:/intelFPGA/17.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+W:/SDP/Prac3 {W:/SDP/Prac3/contador_variable.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:17:53 on May 07,2023
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+W:/SDP/Prac3" W:/SDP/Prac3/contador_variable.v 
+# -- Compiling module contador_variable
+# 
+# Top level modules:
+# 	contador_variable
+# End time: 14:17:53 on May 07,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+W:/SDP/Prac3 {W:/SDP/Prac3/tb_contador_variable.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 14:17:53 on May 07,2023
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+W:/SDP/Prac3" W:/SDP/Prac3/tb_contador_variable.v 
+# -- Compiling module tb_contador_variable
+# 
+# Top level modules:
+# 	tb_contador_variable
+# End time: 14:17:54 on May 07,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  tb_contador_variable
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" tb_contador_variable 
+# Start time: 14:17:54 on May 07,2023
+# Loading work.tb_contador_variable
+# Loading work.contador_variable
+# 
+# add wave *
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: CEDOMMAR  Hostname: MASTER-WETSIT  ProcessID: 2176
+#           Attempting to use alternate WLF file "./wlft2cavj6".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft2cavj6
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# ** Note: $finish    : W:/SDP/Prac3/tb_contador_variable.v(44)
+#    Time: 1115 ns  Iteration: 0  Instance: /tb_contador_variable
+# 1
+# Break in Module tb_contador_variable at W:/SDP/Prac3/tb_contador_variable.v line 44
+# End time: 14:20:20 on May 07,2023, Elapsed time: 0:02:26
+# Errors: 0, Warnings: 2

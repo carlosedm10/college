@@ -1,0 +1,26 @@
+module counter2(clock,reset,enable,up_down,fin_cuenta,cnt)
+
+parameter MODULE =5000000; //para que la frecuencia sea de 10hz
+parameter n =$clog2(MODULE)
+
+input clock, reset, enable;
+output fin_cuenta;
+output reg [n-1:0] cnt;
+
+always @(posedge clock, negedge reset) begin
+
+	if(~reset)
+		contador <= 0;
+	else if(enable)
+		if(up_down)
+			if(cnt == MODULE - 1)
+				cnt <= 0;
+			else cnt <= MODULE + 1;
+		else if(cnt == 0)
+			cnt <= MODULE - 1;
+			else cnt <= cnt -1;
+			
+	end
+
+assign fin_cuenta = (up_down == 1)? ((cnt == MODULE -1)? enable:0):((cnt == 0)? enable:0);
+endmodule

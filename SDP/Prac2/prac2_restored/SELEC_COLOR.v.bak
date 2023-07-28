@@ -1,0 +1,27 @@
+module SELEC_COLOR (sel,R,G,B);
+
+input sel;
+output reg [7:0] R,G,B;
+
+reg [7:0] Rb,Gb,Bb; 
+reg [7:0] Rf,Gf,Bf;
+
+
+
+
+always (*) 
+begin
+	if(~sel)
+	begin
+		R = Rb;
+		G = Gb;
+		B = Bb;
+	end
+	else 
+	begin
+		R = Rf;
+		G = Gf;
+		B = Bf;
+   end
+end
+endmodule

@@ -1,0 +1,66 @@
+`timescale 1ns/1ns
+
+module control_motor_tb;
+
+reg CLK, RESET, ENABLE, HALF_FULL, UP_DOWN;
+wire A, B, C, D, INH1, INH2;
+
+control_motor uut (
+    .CLK(CLK),
+    .RESET(RESET),
+    .ENABLE(ENABLE),
+    .HALF_FULL(HALF_FULL),
+    .UP_DOWN(UP_DOWN),
+    .A(A),
+    .B(B),
+    .C(C),
+    .D(D),
+    .INH1(INH1),
+    .INH2(INH2)
+);
+
+initial begin
+    CLK = 0;
+    RESET = 1;
+    ENABLE = 0;
+    HALF_FULL = 0;
+    UP_DOWN = 0;
+    #10 RESET = 0;
+end
+
+always #5 CLK = ~CLK;
+
+always @* begin
+    $display("CLK=%d, RESET=%d, ENABLE=%d, HALF_FULL=%d, UP_DOWN=%d, A=%d, B=%d, C=%d, D=%d, INH1=%d, INH2=%d",
+             CLK, RESET, ENABLE, HALF_FULL, UP_DOWN, A, B, C, D, INH1, INH2);
+end
+
+initial begin
+    #100;
+    // Test case 1
+    ENABLE = 1;
+    HALF_FULL = 1;
+    UP_DOWN = 1;
+    #100;
+    // Test case 2
+    UP_DOWN = 0;
+    #100;
+    // Test case 3
+    HALF_FULL = 0;
+    #100;
+    // Test case 4
+    ENABLE = 0;
+    #100;
+    // Test case 5
+    ENABLE = 1;
+    HALF_FULL = 1;
+    UP_DOWN = 1;
+    #100;
+    // Test case 6
+    RESET = 1;
+    #10 RESET = 0;
+    #100;
+    $finish;
+end
+
+endmodule

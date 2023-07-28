@@ -1,0 +1,34 @@
+
+State Machine - |Luces_final|FSM_luces_kit_medvedev:md|cuenta
+Name cuenta.ESTADO_13 cuenta.ESTADO_12 cuenta.ESTADO_11 cuenta.ESTADO_10 cuenta.ESTADO_9 cuenta.ESTADO_8 cuenta.ESTADO_7 cuenta.ESTADO_6 cuenta.ESTADO_5 cuenta.ESTADO_4 cuenta.ESTADO_3 cuenta.ESTADO_2 cuenta.ESTADO_1 cuenta.ESTADO_0 
+cuenta.ESTADO_0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+cuenta.ESTADO_1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+cuenta.ESTADO_2 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+cuenta.ESTADO_3 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+cuenta.ESTADO_4 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+cuenta.ESTADO_5 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+cuenta.ESTADO_6 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+cuenta.ESTADO_7 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+cuenta.ESTADO_8 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+cuenta.ESTADO_9 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+cuenta.ESTADO_10 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+cuenta.ESTADO_11 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+cuenta.ESTADO_12 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+cuenta.ESTADO_13 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |Luces_final|FSM_luces_kit_medvedev:md|estado_actual
+Name estado_actual.ESTADO_13 estado_actual.ESTADO_12 estado_actual.ESTADO_11 estado_actual.ESTADO_10 estado_actual.ESTADO_9 estado_actual.ESTADO_8 estado_actual.ESTADO_7 estado_actual.ESTADO_6 estado_actual.ESTADO_5 estado_actual.ESTADO_4 estado_actual.ESTADO_3 estado_actual.ESTADO_2 estado_actual.ESTADO_1 estado_actual.ESTADO_0 
+estado_actual.ESTADO_0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+estado_actual.ESTADO_1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+estado_actual.ESTADO_2 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+estado_actual.ESTADO_3 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+estado_actual.ESTADO_4 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+estado_actual.ESTADO_5 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+estado_actual.ESTADO_6 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+estado_actual.ESTADO_7 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+estado_actual.ESTADO_8 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+estado_actual.ESTADO_9 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+estado_actual.ESTADO_10 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+estado_actual.ESTADO_11 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+estado_actual.ESTADO_12 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+estado_actual.ESTADO_13 1 0 0 0 0 0 0 0 0 0 0 0 0 1 

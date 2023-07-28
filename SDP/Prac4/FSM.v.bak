@@ -1,0 +1,3 @@
+module FSM(CLK,RST_n, Enable1, Enable2, ADC_CS, ADC_PENIRQ_n, Ena_Trans,Fin_Trans)
+
+endmodule

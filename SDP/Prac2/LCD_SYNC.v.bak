@@ -1,0 +1,9 @@
+module LCD_SYNC (CLK,RST_n, NCLK, GREST,HD,VD,DEN);
+
+input CLK, RST_n;
+output HD,VD,GREST,NCLK,DEN;
+
+parameter modulo = 1056;
+
+
+endmodule

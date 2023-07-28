@@ -1,0 +1,47 @@
+module FRASE_LCD1 (CLK,RST_n,NCLK,GREST,HD,VD,DEN,R,G,B);
+
+input CLK, RST_n;
+output NCLK,GREST, HD, VD,DEN;
+output [7:0] R,G,B;
+
+
+wire [9:0] fil; 
+wire [10:0] col;
+wire [6:0] car;
+wire [10:0] dir;	
+wire [12:0] address;		
+wire q;
+
+
+reg [9:0] Y;
+reg [10:0] X;
+
+
+LCD_SYNC lcd3(CLK,RST_n, NCLK, GREST,HD,VD,DEN,col,fil);
+
+//CHAR_ROM
+assign car = 7'h30;
+
+
+always @(fil, col) // Direccionamiento
+begin
+
+	Y = (fil - 35);
+	X = (col - 216);
+
+end
+
+assign address = {car,Y[5:3], X[5:3]} ; 	
+///////////////////////////////////////////	
+
+ROM_char   ROM_char_inst1 ( .address ( address ), .clock ( NCLK ), .q ( q ) ); //memoria ROM 8192x1
+
+SELEC_COLOR s2(q,R,G,B);
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+frase_rom f1(.address ( address ), .clock ( NCLK ), .q ( q )); //r
+
+
+
+endmodule

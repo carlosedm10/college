@@ -1,0 +1,157 @@
+Flow report for motor
+Wed May 17 13:23:48 2023
+Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------------------------+
+; Flow Summary                                                                                  ;
++------------------------------------+----------------------------------------------------------+
+; Flow Status                        ; Successful - Wed May 17 13:23:48 2023                    ;
+; Quartus Prime Version              ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
+; Revision Name                      ; motor                                                    ;
+; Top-level Entity Name              ; Luces_final                                              ;
+; Family                             ; Cyclone IV E                                             ;
+; Device                             ; EP4CE115F29C7                                            ;
+; Timing Models                      ; Final                                                    ;
+; Total logic elements               ; 73 / 114,480 ( < 1 % )                                   ;
+;     Total combinational functions  ; 67 / 114,480 ( < 1 % )                                   ;
+;     Dedicated logic registers      ; 46 / 114,480 ( < 1 % )                                   ;
+; Total registers                    ; 46                                                       ;
+; Total pins                         ; 22 / 529 ( 4 % )                                         ;
+; Total virtual pins                 ; 0                                                        ;
+; Total memory bits                  ; 0 / 3,981,312 ( 0 % )                                    ;
+; Embedded Multiplier 9-bit elements ; 0 / 532 ( 0 % )                                          ;
+; Total PLLs                         ; 0 / 4 ( 0 % )                                            ;
++------------------------------------+----------------------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 05/17/2023 13:23:02 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; motor               ;
++-------------------+---------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                        ;
++--------------------------------------+----------------------------------------+---------------+-------------+---------------------------+
+; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id                ;
++--------------------------------------+----------------------------------------+---------------+-------------+---------------------------+
+; COMPILER_SIGNATURE_ID                ; 335035121444.168432258209048           ; --            ; --          ; --                        ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; tb_contador_variable      ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; tb_counter2               ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; tb_contador_up_down       ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; control_motor_tb          ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; tb_fsm_luces_kit_medvedev ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; tb_FSM_speed_mealey       ;
+; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --          ; eda_simulation            ;
+; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; tb_contador_variable                   ; --            ; --          ; eda_simulation            ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                            ; --            ; --          ; eda_simulation            ;
+; EDA_SIMULATION_TOOL                  ; ModelSim-Altera (Verilog)              ; <None>        ; --          ; --                        ;
+; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                        ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_FILE                  ; tb_contador_variable.v                 ; --            ; --          ; tb_contador_variable      ;
+; EDA_TEST_BENCH_FILE                  ; tb_counter2.v                          ; --            ; --          ; tb_counter2               ;
+; EDA_TEST_BENCH_FILE                  ; tb_contador_up_down.v                  ; --            ; --          ; tb_contador_up_down       ;
+; EDA_TEST_BENCH_FILE                  ; control_motor_tb.v                     ; --            ; --          ; control_motor_tb          ;
+; EDA_TEST_BENCH_FILE                  ; tb_fsm_luces_kit_medvedev.v            ; --            ; --          ; tb_fsm_luces_kit_medvedev ;
+; EDA_TEST_BENCH_FILE                  ; tb_FSM_speed_mealey.v                  ; --            ; --          ; tb_FSM_speed_mealey       ;
+; EDA_TEST_BENCH_MODULE_NAME           ; tb_contador_variable                   ; --            ; --          ; tb_contador_variable      ;
+; EDA_TEST_BENCH_MODULE_NAME           ; tb_counter2                            ; --            ; --          ; tb_counter2               ;
+; EDA_TEST_BENCH_MODULE_NAME           ; tb_contador_up_down                    ; --            ; --          ; tb_contador_up_down       ;
+; EDA_TEST_BENCH_MODULE_NAME           ; control_motor_tb                       ; --            ; --          ; control_motor_tb          ;
+; EDA_TEST_BENCH_MODULE_NAME           ; tb_fsm_luces_kit_medvedev              ; --            ; --          ; tb_fsm_luces_kit_medvedev ;
+; EDA_TEST_BENCH_MODULE_NAME           ; tb_FSM_speed_mealey                    ; --            ; --          ; tb_FSM_speed_mealey       ;
+; EDA_TEST_BENCH_NAME                  ; control_motor_tb                       ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_NAME                  ; tb_fsm_luces_kit_medvedev              ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_NAME                  ; tb_counter2                            ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_NAME                  ; tb_contador_up_down                    ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_NAME                  ; tb_contador_variable                   ; --            ; --          ; eda_simulation            ;
+; EDA_TEST_BENCH_NAME                  ; tb_FSM_speed_mealey                    ; --            ; --          ; eda_simulation            ;
+; EDA_TIME_SCALE                       ; 1 ps                                   ; --            ; --          ; eda_simulation            ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                     ; --            ; --          ; --                        ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                      ; --            ; --          ; --                        ;
+; PARTITION_COLOR                      ; -- (Not supported for targeted family) ; --            ; Luces_final ; Top                       ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family) ; --            ; Luces_final ; Top                       ;
+; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family) ; --            ; Luces_final ; Top                       ;
+; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                    ; --            ; --          ; --                        ;
+; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW  ; --            ; --          ; --                        ;
+; TOP_LEVEL_ENTITY                     ; Luces_final                            ; motor         ; --          ; --                        ;
++--------------------------------------+----------------------------------------+---------------+-------------+---------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:11     ; 1.0                     ; 4796 MB             ; 00:00:18                           ;
+; Fitter                    ; 00:00:12     ; 1.0                     ; 5878 MB             ; 00:00:18                           ;
+; Assembler                 ; 00:00:05     ; 1.0                     ; 4682 MB             ; 00:00:03                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 4868 MB             ; 00:00:02                           ;
+; EDA Netlist Writer        ; 00:00:01     ; 1.0                     ; 4648 MB             ; 00:00:01                           ;
+; Total                     ; 00:00:33     ; --                      ; --                  ; 00:00:42                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++-----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                         ;
++---------------------------+------------------+------------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++---------------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis      ; dise05           ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; dise05           ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; dise05           ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; dise05           ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer        ; dise05           ; Windows 10 ; 10.0       ; x86_64         ;
++---------------------------+------------------+------------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off motor -c motor
+quartus_fit --read_settings_files=off --write_settings_files=off motor -c motor
+quartus_asm --read_settings_files=off --write_settings_files=off motor -c motor
+quartus_sta motor -c motor
+quartus_eda --read_settings_files=off --write_settings_files=off motor -c motor
+
+
+
