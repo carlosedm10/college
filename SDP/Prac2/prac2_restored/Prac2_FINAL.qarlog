@@ -1,0 +1,61 @@
+Quartus Prime Archive log --	W:/SDP/Prac2/prac2_restored/Prac2_FINAL.qarlog
+
+Archive:	W:/SDP/Prac2/prac2_restored/Prac2_FINAL.qar
+Date:		Fri Mar 31 14:30:02 2023
+Quartus Prime		17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+
+	=========== Files Selected: ===========
+W:/SDP/Prac2/IMAGEN_LCD.v
+W:/SDP/Prac2/prac2_restored/BARRAS_LCD.v
+W:/SDP/Prac2/prac2_restored/CARACTERES_LCD.v
+W:/SDP/Prac2/prac2_restored/COUNT.v
+W:/SDP/Prac2/prac2_restored/FRASE_LCD.v
+W:/SDP/Prac2/prac2_restored/LCD_SYNC.v
+W:/SDP/Prac2/prac2_restored/ROM_char.qip
+W:/SDP/Prac2/prac2_restored/ROM_char.v
+W:/SDP/Prac2/prac2_restored/ROM_char_bb.v
+W:/SDP/Prac2/prac2_restored/ROM_char_inst.v
+W:/SDP/Prac2/prac2_restored/ROM_image.qip
+W:/SDP/Prac2/prac2_restored/ROM_image.v
+W:/SDP/Prac2/prac2_restored/ROM_image_bb.v
+W:/SDP/Prac2/prac2_restored/ROM_image_inst.v
+W:/SDP/Prac2/prac2_restored/SELEC_COLOR.v
+W:/SDP/Prac2/prac2_restored/TEXTO.qip
+W:/SDP/Prac2/prac2_restored/TEXTO.v
+W:/SDP/Prac2/prac2_restored/TEXTO_bb.v
+W:/SDP/Prac2/prac2_restored/TEXTO_inst.v
+W:/SDP/Prac2/prac2_restored/assignment_defaults.qdf
+W:/SDP/Prac2/prac2_restored/char_rom-1.hex
+W:/SDP/Prac2/prac2_restored/output_files/prac2.asm.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.eda.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.fit.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.fit.smsg
+W:/SDP/Prac2/prac2_restored/output_files/prac2.fit.summary
+W:/SDP/Prac2/prac2_restored/output_files/prac2.flow.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.jdi
+W:/SDP/Prac2/prac2_restored/output_files/prac2.map.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.map.smsg
+W:/SDP/Prac2/prac2_restored/output_files/prac2.map.summary
+W:/SDP/Prac2/prac2_restored/output_files/prac2.pin
+W:/SDP/Prac2/prac2_restored/output_files/prac2.sld
+W:/SDP/Prac2/prac2_restored/output_files/prac2.sof
+W:/SDP/Prac2/prac2_restored/output_files/prac2.sta.rpt
+W:/SDP/Prac2/prac2_restored/output_files/prac2.sta.summary
+W:/SDP/Prac2/prac2_restored/pll_ltm.ppf
+W:/SDP/Prac2/prac2_restored/pll_ltm.qip
+W:/SDP/Prac2/prac2_restored/pll_ltm.v
+W:/SDP/Prac2/prac2_restored/pll_ltm_bb.v
+W:/SDP/Prac2/prac2_restored/pll_ltm_inst.v
+W:/SDP/Prac2/prac2_restored/prac2.qpf
+W:/SDP/Prac2/prac2_restored/prac2.qsf
+W:/SDP/Prac2/prac2_restored/tb_BARRAS_LCD.v
+W:/SDP/Prac2/prac2_restored/tb_CARACTERES_LCD.v
+W:/SDP/Prac2/prac2_restored/tb_COUNT.v
+W:/SDP/Prac2/prac2_restored/tb_FRASE_LCD.v
+W:/SDP/Prac2/prac2_restored/tb_IMAGEN_LCD.v
+W:/SDP/Prac2/prac2_restored/tb_LCD_SYNC.v
+W:/SDP/Prac2/prac2_restored/text_rom_ejemplo.mif
+	======= Total: 50 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.

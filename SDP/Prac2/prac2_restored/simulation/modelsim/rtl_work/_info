@@ -1,0 +1,123 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dW:/SDP/Prac2/prac2_restored/simulation/modelsim
+vCOUNT
+Z1 !s110 1680370880
+!i10b 1
+!s100 ekQfYFeJkVB;QWN?cGA2d0
+I9l9lck2Z_H42L7]`0ODFX1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1678802866
+8W:/SDP/Prac2/prac2_restored/COUNT.v
+FW:/SDP/Prac2/prac2_restored/COUNT.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1680370880.000000
+!s107 W:/SDP/Prac2/prac2_restored/COUNT.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2/prac2_restored|W:/SDP/Prac2/prac2_restored/COUNT.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+W:/SDP/Prac2/prac2_restored
+Z7 tCvgOpt 0
+n@c@o@u@n@t
+vLCD_SYNC
+!s110 1680370879
+!i10b 1
+!s100 AT[P3@^H4o?=93m4jRlh`1
+Id<`3HbGaUZO`4RT9ABcQX2
+R2
+R0
+w1678805035
+8W:/SDP/Prac2/prac2_restored/LCD_SYNC.v
+FW:/SDP/Prac2/prac2_restored/LCD_SYNC.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1680370879.000000
+!s107 W:/SDP/Prac2/prac2_restored/LCD_SYNC.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2/prac2_restored|W:/SDP/Prac2/prac2_restored/LCD_SYNC.v|
+!i113 1
+R5
+R6
+R7
+n@l@c@d_@s@y@n@c
+vpll_ltm
+R1
+!i10b 1
+!s100 EP@0kF_mEJE_=70M@1kLG2
+ImVaT@z]ckjYRimki8[^Zn2
+R2
+R0
+w1678274331
+8W:/SDP/Prac2/prac2_restored/pll_ltm.v
+FW:/SDP/Prac2/prac2_restored/pll_ltm.v
+L0 39
+R3
+r1
+!s85 0
+31
+R4
+!s107 W:/SDP/Prac2/prac2_restored/pll_ltm.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2/prac2_restored|W:/SDP/Prac2/prac2_restored/pll_ltm.v|
+!i113 1
+R5
+R6
+R7
+vpll_ltm_altpll
+R1
+!i10b 1
+!s100 4cF:2UJd_?jBKeZM_7_KD2
+I?LR[1M`NoddN6oLcSCiDR0
+R2
+R0
+w1679485544
+8W:/SDP/Prac2/prac2_restored/db/pll_ltm_altpll.v
+FW:/SDP/Prac2/prac2_restored/db/pll_ltm_altpll.v
+L0 29
+R3
+r1
+!s85 0
+31
+R4
+!s107 W:/SDP/Prac2/prac2_restored/db/pll_ltm_altpll.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2/prac2_restored/db|W:/SDP/Prac2/prac2_restored/db/pll_ltm_altpll.v|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+W:/SDP/Prac2/prac2_restored/db
+R7
+vtb_LCD_SYNC
+R1
+!i10b 1
+!s100 ;kmazUdSD4HGWh^A<OM7V2
+IP=]K>d4FGQO?<HMddU[mZ0
+R2
+R0
+w1678804707
+8W:/SDP/Prac2/prac2_restored/tb_LCD_SYNC.v
+FW:/SDP/Prac2/prac2_restored/tb_LCD_SYNC.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 W:/SDP/Prac2/prac2_restored/tb_LCD_SYNC.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+W:/SDP/Prac2/prac2_restored|W:/SDP/Prac2/prac2_restored/tb_LCD_SYNC.v|
+!i113 1
+R5
+R6
+R7
+ntb_@l@c@d_@s@y@n@c

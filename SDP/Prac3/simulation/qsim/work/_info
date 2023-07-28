@@ -1,0 +1,75 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dW:/SDP/Prac3/simulation/qsim
+vFSM_luces_kit_medvedev
+Z1 !s110 1683370571
+!i10b 1
+!s100 ez0_mC1gm128WIZeJGi6W1
+Ic>H8cN@<Me>E_HIS>m;5o0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1683370569
+Z4 8motor.vo
+Z5 Fmotor.vo
+L0 31
+Z6 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z7 !s108 1683370571.000000
+Z8 !s107 motor.vo|
+Z9 !s90 -work|work|motor.vo|
+!i113 1
+Z10 o-work work
+Z11 tCvgOpt 0
+n@f@s@m_luces_kit_medvedev
+vFSM_luces_kit_medvedev_vlg_vec_tst
+R1
+!i10b 1
+!s100 WYMdXi^<Y3Xj9NIB4:e<U3
+Izh525iSD^gGoe_KeSkFeh1
+R2
+R0
+w1683370553
+8Waveform.vwf.vt
+FWaveform.vwf.vt
+L0 29
+R6
+r1
+!s85 0
+31
+R7
+!s107 Waveform.vwf.vt|
+!s90 -work|work|Waveform.vwf.vt|
+!i113 1
+R10
+R11
+n@f@s@m_luces_kit_medvedev_vlg_vec_tst
+vhard_block
+R1
+!i10b 1
+!s100 Y5jSCLbo82ZEWF4LA2Yoj3
+IJ8Uz4V<69ZF2YfASf8o@^3
+R2
+R0
+R3
+R4
+R5
+L0 572
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+R11

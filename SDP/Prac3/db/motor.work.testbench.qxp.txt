@@ -1,0 +1,91 @@
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
++-------------------------------------------------------------------------------------+
+; Quartus Prime QXP Design File                                                       ;
++------------------+------------------------------------------------------------------+
+; Field            ; Value                                                            ;
++------------------+------------------------------------------------------------------+
+; Entity           ; testbench                                                        ;
+; Case Sensitive   ;                                                                  ;
+; QXP Source       ; testbench-U1.qxp                                                 ;
+; Software Version ; Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
+; Date             ; Fri Dec 20 17:37:19 2019                                         ;
+; Contents         ; Netlist Only                                                     ;
+; Family           ; EP4CE115F29C7                                                    ;
+; Device           ; CYCLONEIVE6F780C7                                                ;
++------------------+------------------------------------------------------------------+
+
++------------------------------------------+
+; Boundary Ports                           ;
++--------------+--------+------------------+
+; Port Name    ; Type   ; Default Value    ;
++--------------+--------+------------------+
+; Reloj        ; input  ; 0                ;
+; Reset        ; input  ; 0                ;
+; ENABLE       ; input  ; 0                ;
+; A            ; input  ; 0                ;
+; B            ; input  ; 0                ;
+; C            ; input  ; 0                ;
+; D            ; input  ; 0                ;
+; INH1         ; input  ; 0                ;
+; INH2         ; input  ; 0                ;
+; HEX0_a       ; output ; 0                ;
+; HEX0_b       ; output ; 0                ;
+; HEX0_c       ; output ; 0                ;
+; HEX0_d       ; output ; 0                ;
+; HEX0_e       ; output ; 0                ;
+; HEX0_f       ; output ; 0                ;
+; HEX0_g       ; output ; 0                ;
+; HEX1_a       ; output ; 0                ;
+; HEX1_b       ; output ; 0                ;
+; HEX1_c       ; output ; 0                ;
+; HEX1_d       ; output ; 0                ;
+; HEX1_f       ; output ; 0                ;
+; HEX1_g       ; output ; 0                ;
+; HEX1_e       ; output ; 0                ;
+; HEX2_a       ; output ; 0                ;
+; HEX2_b       ; output ; 0                ;
+; HEX2_c       ; output ; 0                ;
+; HEX2_d       ; output ; 0                ;
+; HEX2_e       ; output ; 0                ;
+; HEX2_f       ; output ; 0                ;
+; HEX2_g       ; output ; 0                ;
+; HEX3_a       ; output ; 0                ;
+; HEX3_b       ; output ; 0                ;
+; HEX3_c       ; output ; 0                ;
+; HEX3_d       ; output ; 0                ;
+; HEX3_e       ; output ; 0                ;
+; HEX3_f       ; output ; 0                ;
+; HEX3_g       ; output ; 0                ;
+; AUTOENABLE   ; output ; 0                ;
+; SPEED_MAS    ; input  ; 0                ;
+; SPEED_MENOS  ; input  ; 0                ;
+; LEDR [15:0]  ; output ; 0000000000000000 ;
+; LTM_R [7:0]  ; output ; 00000000         ;
+; LTM_G [7:0]  ; output ; 00000000         ;
+; LTM_B [7:0]  ; output ; 00000000         ;
+; LTM_NCLK     ; output ; 0                ;
+; LTM_HD       ; output ; 0                ;
+; LTM_VD       ; output ; 0                ;
+; LTM_DEN      ; output ; 0                ;
+; LTM_GRST     ; output ; 0                ;
+; LTM_SDA      ; bidir  ; 0                ;
+; LTM_SCEN     ; output ; 0                ;
+; ADC_PENIRQ_N ; input  ; 0                ;
+; ADC_BUSY     ; input  ; 0                ;
+; ADC_DIN      ; output ; 0                ;
+; ADC_DOUT     ; input  ; 0                ;
+; ADC_LTM_SCLK ; output ; 0                ;
++--------------+--------+------------------+

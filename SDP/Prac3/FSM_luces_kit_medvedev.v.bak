@@ -1,0 +1,52 @@
+module FSM_luces_kit_medvedev(clk, reset, cuenta);
+  input clk, reset;
+  output reg [3:0] cuenta;
+  
+  parameter ESTADO_0 = 4'b0000;
+  parameter ESTADO_1 = 4'b0001;
+  parameter ESTADO_2 = 4'b0011;
+  parameter ESTADO_3 = 4'b0111;
+  parameter ESTADO_4 = 4'b1111;
+  parameter ESTADO_5 = 4'b1110;
+  parameter ESTADO_6 = 4'b1100;
+  parameter ESTADO_7 = 4'b1000;
+  parameter ESTADO_8 = 4'b0001;
+  parameter ESTADO_9 = 4'b0010;
+  parameter ESTADO_10 = 4'b0110;
+  parameter ESTADO_11 = 4'b1100;
+  parameter ESTADO_12 = 4'b1000;
+  parameter ESTADO_13 = 4'b0000;
+
+  reg [3:0] estado_actual, estado_siguiente;
+  
+  always @(posedge clk, negedge reset) begin
+    if (reset) begin
+      estado_actual <= ESTADO_0;
+      cuenta <= ESTADO_0;
+    end else begin
+      estado_actual <= estado_siguiente;
+      cuenta <= estado_actual;
+    end
+  end
+  
+  always @(estado_actual) begin
+    case(estado_actual)
+      ESTADO_0: estado_siguiente = ESTADO_1;
+      ESTADO_1: estado_siguiente = ESTADO_2;
+      ESTADO_2: estado_siguiente = ESTADO_3;
+      ESTADO_3: estado_siguiente = ESTADO_4;
+      ESTADO_4: estado_siguiente = ESTADO_5;
+      ESTADO_5: estado_siguiente = ESTADO_6;
+      ESTADO_6: estado_siguiente = ESTADO_7;
+      ESTADO_7: estado_siguiente = ESTADO_8;
+      ESTADO_8: estado_siguiente = ESTADO_9;
+      ESTADO_9: estado_siguiente = ESTADO_10;
+		ESTADO_10: estado_siguiente = ESTADO_11;
+		ESTADO_11: estado_siguiente = ESTADO_12;
+		ESTADO_12: estado_siguiente = ESTADO_13;
+		ESTADO_13: estado_siguiente = ESTADO_0;
+  default: estado_siguiente = ESTADO_0;
+endcase
+
+endmodule
+

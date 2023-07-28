@@ -1,0 +1,33 @@
+|COUNT80
+CLK => cuenta[0]~reg0.CLK
+CLK => cuenta[1]~reg0.CLK
+CLK => cuenta[2]~reg0.CLK
+CLK => cuenta[3]~reg0.CLK
+CLK => cuenta[4]~reg0.CLK
+CLK => cuenta[5]~reg0.CLK
+CLK => cuenta[6]~reg0.CLK
+RST_n => cuenta[0]~reg0.ACLR
+RST_n => cuenta[1]~reg0.ACLR
+RST_n => cuenta[2]~reg0.ACLR
+RST_n => cuenta[3]~reg0.ACLR
+RST_n => cuenta[4]~reg0.ACLR
+RST_n => cuenta[5]~reg0.ACLR
+RST_n => cuenta[6]~reg0.ACLR
+Enable => TC.IN1
+Enable => cuenta[6]~reg0.ENA
+Enable => cuenta[5]~reg0.ENA
+Enable => cuenta[4]~reg0.ENA
+Enable => cuenta[3]~reg0.ENA
+Enable => cuenta[2]~reg0.ENA
+Enable => cuenta[1]~reg0.ENA
+Enable => cuenta[0]~reg0.ENA
+cuenta[0] << cuenta[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[1] << cuenta[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[2] << cuenta[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[3] << cuenta[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[4] << cuenta[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[5] << cuenta[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+cuenta[6] << cuenta[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+TC << TC.DB_MAX_OUTPUT_PORT_TYPE
+
+

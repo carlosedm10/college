@@ -1,0 +1,27 @@
+// --------------------------------------------------------------------
+// Universitat Politècnica de València
+// Escuela Técnica Superior de Ingenieros de Telecomunicación
+// --------------------------------------------------------------------
+// Sistemas Digitales Programables
+// Curso 2022-23
+// --------------------------------------------------------------------
+// Nombre del archivo: Luces_final.v
+//
+// Descripción: 
+//
+// --------------------------------------------------------------------
+// Versión: v1.0 | Fecha Modificación: 26/04/2023
+//
+// Autores: Carlos E Dominguez Martinez, y  Oscar Jimenez Bou
+//
+// --------------------------------------------------------------------
+module Luces_final(SW,CLOCK_50,KEY,LEDG,LEDR);
+
+input CLOCK;
+input [1:0] SW;
+input [2:0] KEY;
+
+output [7:0] LEDG,LEDR;
+
+
+endmodule

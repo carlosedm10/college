@@ -1,0 +1,12 @@
+`timescale 1ns/100ps
+
+module tb_BARRAS_LCD();
+
+
+reg CLK, RST_n;
+wire NCLK,GREST, HD, VD,DEN;
+wire [7:0] R,G,B;
+
+
+
+endmodule 

@@ -1,0 +1,46 @@
+Quartus Prime Archive log --	W:/SDP/Prac2/prac2.qarlog
+
+Archive:	W:/SDP/Prac2/prac2.qar
+Date:		Tue Mar 14 16:44:08 2023
+Quartus Prime		17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+
+	=========== Files Selected: ===========
+W:/SDP/Prac2/COUNT.v
+W:/SDP/Prac2/LCD_SYNC.v
+W:/SDP/Prac2/output_files/prac2.eda.rpt
+W:/SDP/Prac2/output_files/prac2.flow.rpt
+W:/SDP/Prac2/output_files/prac2.map.rpt
+W:/SDP/Prac2/output_files/prac2.map.smsg
+W:/SDP/Prac2/output_files/prac2.map.summary
+W:/SDP/Prac2/pll_ltm.ppf
+W:/SDP/Prac2/pll_ltm.qip
+W:/SDP/Prac2/pll_ltm.v
+W:/SDP/Prac2/pll_ltm_bb.v
+W:/SDP/Prac2/pll_ltm_inst.v
+W:/SDP/Prac2/prac2.qpf
+W:/SDP/Prac2/prac2.qsf
+W:/SDP/Prac2/tb_COUNT.v
+W:/SDP/Prac2/tb_LCD_SYNC.v
+c:/intelfpga/17.1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 17 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.
+
+
+******* Archived project restoration attempt on Wed Mar 22 12:16:38 2023
+Source archive file:	W:/SDP/Prac2/prac2.qar
+Archive was extracted into	W:/SDP/Prac2/prac2_restored/
+		 - successfully.
+
+
+******* Archived project restoration attempt on Tue Mar 28 08:36:28 2023
+Source archive file:	W:/SDP/Prac2/prac2.qar
+Archive was extracted into	W:/SDP/Prac2/prac2_restored/
+		 - successfully.
+
+
+******* Archived project restoration attempt on Wed Mar 29 11:59:47 2023
+Source archive file:	W:/SDP/Prac2/prac2.qar
+Archive was extracted into	W:/SDP/Prac2/prac2_restored/
+		 - successfully.

@@ -1,0 +1,40 @@
+module CARACTERES_LCD (CLK,RST_n,NCLK,GREST,HD,VD,DEN,R,G,B);
+
+input CLK, RST_n;
+output NCLK,GREST, HD, VD,DEN;
+output [7:0] R,G,B;
+
+wire [9:0] fil;
+wire [10:0] col;
+wire [6:0] car;			//Caracter
+wire [12:0] address;		// Direccion CHAR_ROM
+wire q;
+
+reg [9:0] Y;
+reg [10:0] X;
+
+
+LCD_SYNC lcd2(CLK,RST_n, NCLK, GREST,HD,VD,DEN,col,fil);
+
+
+assign car = 7'h30; //Elige el caracter en ASCII
+
+//CHAR_ROM
+
+always @(fil, col) // Direccionamiento
+begin
+
+	Y = (fil - 35);
+	X = (col - 216);
+
+end
+
+assign address = {car,Y[5:3], X[5:3]} ;
+	
+
+ROM_char   ROM_char_inst ( .address ( address ), .clock ( NCLK ), .q ( q ) );
+
+SELEC_COLOR s1(q,R,G,B); //Programma secundario
+
+
+endmodule

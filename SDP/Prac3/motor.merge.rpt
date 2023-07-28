@@ -1,0 +1,702 @@
+Partition Merge report for motor
+Wed Apr 26 13:18:28 2023
+Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Partition Merge Summary
+  3. Partition Merge Netlist Types Used
+  4. Partition Merge Partition Warnings
+  5. Partition Merge Partition Statistics
+  6. Partition Merge Partition Pin Processing
+  7. Partition Merge Resource Usage Summary
+  8. Partition Merge RAM Summary
+  9. Partition Merge Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------------------------+
+; Partition Merge Summary                                                                       ;
++------------------------------------+----------------------------------------------------------+
+; Partition Merge Status             ; Successful - Wed Apr 26 13:18:28 2023                    ;
+; Quartus Prime Version              ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
+; Revision Name                      ; motor                                                    ;
+; Top-level Entity Name              ; Verifica_Motor                                           ;
+; Family                             ; Cyclone IV E                                             ;
+; Total logic elements               ; 812                                                      ;
+;     Total combinational functions  ; 741                                                      ;
+;     Dedicated logic registers      ; 338                                                      ;
+; Total registers                    ; 338                                                      ;
+; Total pins                         ; 93                                                       ;
+; Total virtual pins                 ; 0                                                        ;
+; Total memory bits                  ; 384,000                                                  ;
+; Embedded Multiplier 9-bit elements ; 0                                                        ;
+; Total PLLs                         ; 0                                                        ;
++------------------------------------+----------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge Netlist Types Used                                                                                            ;
++--------------------------------+----------------+-------------------+------------------------+--------------------------------+
+; Partition Name                 ; Partition Type ; Netlist Type Used ; Netlist Type Requested ; Partition Contents             ;
++--------------------------------+----------------+-------------------+------------------------+--------------------------------+
+; Top                            ; User-created   ; Source File       ; Source File            ;                                ;
+; testbench:U1                   ; User-created   ; Post-Synthesis    ; Post-Synthesis         ; testbench:U1                   ;
+; hard_block:auto_generated_inst ; Auto-generated ; Source File       ; Source File            ; hard_block:auto_generated_inst ;
++--------------------------------+----------------+-------------------+------------------------+--------------------------------+
+
+
++------------------------------------------------------------------+
+; Partition Merge Partition Warnings                               ;
++--------------------------+--------------+------------------------+
+; Port                     ; Partition    ; Info                   ;
++--------------------------+--------------+------------------------+
+; testbench:U1|HEX1_e      ; testbench:U1 ; Driven by constant GND ;
+; testbench:U1|HEX1_g      ; testbench:U1 ; Driven by constant GND ;
+; testbench:U1|HEX1_f      ; testbench:U1 ; Driven by constant GND ;
+; testbench:U1|HEX1_d      ; testbench:U1 ; Driven by constant GND ;
+; testbench:U1|HEX1_a      ; testbench:U1 ; Driven by constant GND ;
+; testbench:U1|HEX2_g      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_f      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_e      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_d      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_c      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_b      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX2_a      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX1_c      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|HEX1_b      ; testbench:U1 ; Driven by constant VCC ;
+; testbench:U1|SPEED_MAS   ; testbench:U1 ; No fanout              ;
+; testbench:U1|SPEED_MENOS ; testbench:U1 ; No fanout              ;
+; testbench:U1|ADC_BUSY    ; testbench:U1 ; No fanout              ;
++--------------------------+--------------+------------------------+
+Note: The Incremental Compilation Advisor can be used to get more detailed recommendations.
+
+
++---------------------------------------------------------------------------------------------------+
+; Partition Merge Partition Statistics                                                              ;
++---------------------------------------------+-----+--------------+--------------------------------+
+; Statistic                                   ; Top ; testbench:U1 ; hard_block:auto_generated_inst ;
++---------------------------------------------+-----+--------------+--------------------------------+
+; Estimated Total logic elements              ; 22  ; 796          ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Total combinational functions               ; 22  ; 719          ; 0                              ;
+; Logic element usage by number of LUT inputs ;     ;              ;                                ;
+;     -- 4 input functions                    ; 18  ; 400          ; 0                              ;
+;     -- 3 input functions                    ; 4   ; 70           ; 0                              ;
+;     -- <=2 input functions                  ; 0   ; 249          ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Logic elements by mode                      ;     ;              ;                                ;
+;     -- normal mode                          ; 22  ; 541          ; 0                              ;
+;     -- arithmetic mode                      ; 0   ; 178          ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Total registers                             ; 8   ; 330          ; 0                              ;
+;     -- Dedicated logic registers            ; 8   ; 330          ; 0                              ;
+;     -- I/O registers                        ; 0   ; 0            ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Virtual pins                                ; 0   ; 0            ; 0                              ;
+; I/O pins                                    ; 92  ; 1            ; 0                              ;
+; Embedded Multiplier 9-bit elements          ; 0   ; 0            ; 0                              ;
+; Total memory bits                           ; 0   ; 384000       ; 0                              ;
+; Total RAM block bits                        ; 0   ; 0            ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Connections                                 ;     ;              ;                                ;
+;     -- Input Connections                    ; 84  ; 293          ; 0                              ;
+;     -- Registered Input Connections         ; 8   ; 290          ; 0                              ;
+;     -- Output Connections                   ; 293 ; 84           ; 0                              ;
+;     -- Registered Output Connections        ; 0   ; 29           ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Internal Connections                        ;     ;              ;                                ;
+;     -- Total Connections                    ; 582 ; 4283         ; 0                              ;
+;     -- Registered Connections               ; 58  ; 2794         ; 0                              ;
+;                                             ;     ;              ;                                ;
+; External Connections                        ;     ;              ;                                ;
+;     -- Top                                  ; 2   ; 375          ; 0                              ;
+;     -- testbench:U1                         ; 375 ; 2            ; 0                              ;
+;     -- hard_block:auto_generated_inst       ; 0   ; 0            ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Partition Interface                         ;     ;              ;                                ;
+;     -- Input Ports                          ; 10  ; 14           ; 0                              ;
+;     -- Output Ports                         ; 82  ; 77           ; 0                              ;
+;     -- Bidir Ports                          ; 1   ; 1            ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Registered Ports                            ;     ;              ;                                ;
+;     -- Registered Input Ports               ; 0   ; 10           ; 0                              ;
+;     -- Registered Output Ports              ; 0   ; 29           ; 0                              ;
+;                                             ;     ;              ;                                ;
+; Port Connectivity                           ;     ;              ;                                ;
+;     -- Input Ports driven by GND            ; 0   ; 0            ; 0                              ;
+;     -- Output Ports driven by GND           ; 0   ; 5            ; 0                              ;
+;     -- Input Ports driven by VCC            ; 0   ; 0            ; 0                              ;
+;     -- Output Ports driven by VCC           ; 0   ; 9            ; 0                              ;
+;     -- Input Ports with no Source           ; 0   ; 0            ; 0                              ;
+;     -- Output Ports with no Source          ; 0   ; 0            ; 0                              ;
+;     -- Input Ports with no Fanout           ; 0   ; 3            ; 0                              ;
+;     -- Output Ports with no Fanout          ; 0   ; 0            ; 0                              ;
++---------------------------------------------+-----+--------------+--------------------------------+
+Note: Resource usage numbers presented for Partitions containing post-synthesis logic are estimates.  For Partitions containing post-fit logic, resource usage numbers are accurate based on previous placement information.  Actual Fitter results may vary depending on current Fitter Preservation Level assignments.
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge Partition Pin Processing                                                                                  ;
++------------------------------------+--------------+---------------+----------+--------------------------------------------+
+; Name                               ; Partition    ; Type          ; Location ; Status                                     ;
++------------------------------------+--------------+---------------+----------+--------------------------------------------+
+; A                                  ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- A                           ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- A~output                    ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; ADC_BUSY                           ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- ADC_BUSY                    ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- ADC_BUSY~input              ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ADC_BUSY       ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; ADC_DIN                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- ADC_DIN                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- ADC_DIN~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ADC_DIN        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; ADC_DOUT                           ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- ADC_DOUT                    ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- ADC_DOUT~input              ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ADC_DOUT       ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; ADC_LTM_SCLK                       ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- ADC_LTM_SCLK                ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- ADC_LTM_SCLK~output         ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ADC_LTM_SCLK   ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; ADC_PENIRQ_N                       ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- ADC_PENIRQ_N                ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- ADC_PENIRQ_N~input          ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ADC_PENIRQ_N   ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; B                                  ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- B                           ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- B~output                    ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; C                                  ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- C                           ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- C~output                    ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; D                                  ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- D                           ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- D~output                    ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; ENABLE                             ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- ENABLE                      ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- ENABLE~input                ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|ENABLE         ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HALF_FULL                          ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- HALF_FULL                   ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- HALF_FULL~input             ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_a                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_a                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_a~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_a         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_b                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_b                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_b~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_b         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_c                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_c                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_c~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_c         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_d                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_d                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_d~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_d         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_e                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_e                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_e~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_e         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_f                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_f                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_f~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_f         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX0_g                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX0_g                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX0_g~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX0_g         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_a                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_a                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_a~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_a         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_b                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_b                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_b~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_b         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_c                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_c                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_c~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_c         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_d                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_d                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_d~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_d         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_e                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_e                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_e~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_e         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_f                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_f                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_f~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_f         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX1_g                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX1_g                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX1_g~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX1_g         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_a                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_a                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_a~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_a         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_b                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_b                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_b~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_b         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_c                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_c                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_c~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_c         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_d                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_d                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_d~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_d         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_e                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_e                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_e~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_e         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_f                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_f                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_f~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_f         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX2_g                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX2_g                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX2_g~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX2_g         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_a                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_a                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_a~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_a         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_b                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_b                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_b~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_b         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_c                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_c                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_c~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_c         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_d                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_d                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_d~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_d         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_e                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_e                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_e~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_e         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_f                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_f                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_f~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_f         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; HEX3_g                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- HEX3_g                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- HEX3_g~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|HEX3_g         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; INH1                               ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- INH1                        ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- INH1~output                 ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; INH2                               ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- INH2                        ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- INH2~output                 ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; KEY2                               ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- KEY2                        ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- KEY2~input                  ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|SPEED_MENOS    ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; KEY3                               ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- KEY3                        ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- KEY3~input                  ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|SPEED_MAS      ; testbench:U1 ; Input Port    ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[0]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[0]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[0]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[0]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[10]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[10]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[10]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[10]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[11]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[11]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[11]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[11]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[12]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[12]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[12]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[12]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[13]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[13]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[13]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[13]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[14]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[14]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[14]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[14]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[15]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[15]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[15]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[15]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[1]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[1]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[1]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[1]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[2]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[2]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[2]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[2]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[3]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[3]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[3]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[3]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[4]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[4]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[4]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[4]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[5]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[5]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[5]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[5]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[6]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[6]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[6]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[6]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[7]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[7]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[7]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[7]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[8]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[8]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[8]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[8]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LEDR[9]                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LEDR[9]                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LEDR[9]~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LEDR[9]        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[0]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[0]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[0]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[0]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[1]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[1]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[1]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[1]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[2]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[2]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[2]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[2]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[3]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[3]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[3]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[3]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[4]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[4]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[4]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[4]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[5]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[5]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[5]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[5]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[6]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[6]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[6]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[6]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_B[7]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_B[7]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_B[7]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_B[7]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_DEN                            ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_DEN                     ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_DEN~output              ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_DEN        ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_GRST                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_GRST                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_GRST~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_GRST       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[0]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[0]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[0]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[0]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[1]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[1]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[1]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[1]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[2]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[2]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[2]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[2]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[3]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[3]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[3]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[3]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[4]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[4]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[4]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[4]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[5]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[5]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[5]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[5]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[6]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[6]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[6]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[6]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_G[7]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_G[7]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_G[7]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_G[7]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_HD                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_HD                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_HD~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_HD         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_NCLK                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_NCLK                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_NCLK~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_NCLK       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[0]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[0]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[0]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[0]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[1]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[1]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[1]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[1]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[2]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[2]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[2]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[2]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[3]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[3]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[3]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[3]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[4]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[4]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[4]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[4]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[5]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[5]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[5]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[5]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[6]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[6]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[6]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[6]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_R[7]                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_R[7]                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_R[7]~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_R[7]       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_SCEN                           ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_SCEN                    ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_SCEN~output             ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_SCEN       ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_SDA                            ; Top          ; Bidir Port    ; n/a      ;                                            ;
+;     -- testbench:U1|LTM_SDA        ; testbench:U1 ; Bidir Port    ; n/a      ;                                            ;
+;     -- LTM_SDA                     ; testbench:U1 ; Bidir Pad     ; Unplaced ; Preserved from Synthesis Netlist (WYSIWYG) ;
+;     -- testbench:U1|LTM_SDA~output ; testbench:U1 ; Output Buffer ; Unplaced ; Preserved from Synthesis Netlist (WYSIWYG) ;
+;                                    ;              ;               ;          ;                                            ;
+; LTM_VD                             ; Top          ; Output Port   ; n/a      ;                                            ;
+;     -- LTM_VD                      ; Top          ; Output Pad    ; Unplaced ; Synthesized                                ;
+;     -- LTM_VD~output               ; Top          ; Output Buffer ; Unplaced ; Synthesized                                ;
+;     -- testbench:U1|LTM_VD         ; testbench:U1 ; Output Port   ; n/a      ;                                            ;
+;                                    ;              ;               ;          ;                                            ;
+; Reloj                              ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- Reloj                       ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- Reloj~input                 ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; Reset                              ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- Reset                       ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- Reset~input                 ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
+; UP_DOWN                            ; Top          ; Input Port    ; n/a      ;                                            ;
+;     -- UP_DOWN                     ; Top          ; Input Pad     ; Unplaced ; Synthesized                                ;
+;     -- UP_DOWN~input               ; Top          ; Input Buffer  ; Unplaced ; Synthesized                                ;
+;                                    ;              ;               ;          ;                                            ;
++------------------------------------+--------------+---------------+----------+--------------------------------------------+
+
+
++-----------------------------------------------------------+
+; Partition Merge Resource Usage Summary                    ;
++---------------------------------------------+-------------+
+; Resource                                    ; Usage       ;
++---------------------------------------------+-------------+
+; Estimated Total logic elements              ; 812         ;
+;                                             ;             ;
+; Total combinational functions               ; 741         ;
+; Logic element usage by number of LUT inputs ;             ;
+;     -- 4 input functions                    ; 418         ;
+;     -- 3 input functions                    ; 74          ;
+;     -- <=2 input functions                  ; 249         ;
+;                                             ;             ;
+; Logic elements by mode                      ;             ;
+;     -- normal mode                          ; 563         ;
+;     -- arithmetic mode                      ; 178         ;
+;                                             ;             ;
+; Total registers                             ; 338         ;
+;     -- Dedicated logic registers            ; 338         ;
+;     -- I/O registers                        ; 0           ;
+;                                             ;             ;
+; I/O pins                                    ; 93          ;
+; Total memory bits                           ; 384000      ;
+;                                             ;             ;
+; Embedded Multiplier 9-bit elements          ; 0           ;
+;                                             ;             ;
+; Maximum fan-out node                        ; Reloj~input ;
+; Maximum fan-out                             ; 209         ;
+; Total fan-out                               ; 4490        ;
+; Average fan-out                             ; 3.42        ;
++---------------------------------------------+-------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge RAM Summary                                                                                                                                                                                                                          ;
++----------------------------------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+--------+--------------+
+; Name                                                                                                                                               ; Type ; Mode ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF          ;
++----------------------------------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+--------+--------------+
+; testbench:U1|DE2_LTM_Control:U5|lcd_timing_controller:u6|imagen_fondo:u0|altsyncram:altsyncram_component|altsyncram_g681:auto_generated|ALTSYNCRAM ; AUTO ; ROM  ; 384000       ; 1            ; --           ; --           ; 384000 ; Fondo115.hex ;
++----------------------------------------------------------------------------------------------------------------------------------------------------+------+------+--------------+--------------+--------------+--------------+--------+--------------+
+
+
++--------------------------+
+; Partition Merge Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Partition Merge
+    Info: Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+    Info: Processing started: Wed Apr 26 13:18:26 2023
+Info: Command: quartus_cdb --read_settings_files=off --write_settings_files=off motor -c motor --merge=on
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (35007): Using synthesis netlist for partition "Top"
+Info (35007): Using synthesis netlist for partition "testbench:U1" File: W:/SDP/Prac3/Verifica_Motor.v Line: 186
+Info (35002): Resolved and merged 2 partition(s)
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (35048): Found 14 ports with constant drivers. For more information, refer to the Partition Merger report
+Info (35047): Found 3 ports with no fan-out. For more information, refer to the Partition Merger report
+Warning (35016): Found partition port(s) not driving logic, possibly wasting area
+    Warning (35018): Partition port "testbench:U1|ADC_BUSY", driven by node "ADC_BUSY~input", does not drive logic File: W:/SDP/Prac3/Verifica_Motor.v Line: 115
+    Warning (35018): Partition port "testbench:U1|SPEED_MAS", driven by node "KEY3~input", does not drive logic File: W:/SDP/Prac3/Verifica_Motor.v Line: 65
+    Warning (35018): Partition port "testbench:U1|SPEED_MENOS", driven by node "KEY2~input", does not drive logic File: W:/SDP/Prac3/Verifica_Motor.v Line: 64
+Warning (21074): Design contains 3 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "ADC_BUSY" File: W:/SDP/Prac3/Verifica_Motor.v Line: 115
+    Warning (15610): No output dependent on input pin "KEY3" File: W:/SDP/Prac3/Verifica_Motor.v Line: 65
+    Warning (15610): No output dependent on input pin "KEY2" File: W:/SDP/Prac3/Verifica_Motor.v Line: 64
+Info (21057): Implemented 972 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 10 input pins
+    Info (21059): Implemented 82 output pins
+    Info (21060): Implemented 1 bidirectional pins
+    Info (21061): Implemented 832 logic cells
+    Info (21064): Implemented 47 RAM segments
+Info: Quartus Prime Partition Merge was successful. 0 errors, 9 warnings
+    Info: Peak virtual memory: 4699 megabytes
+    Info: Processing ended: Wed Apr 26 13:18:28 2023
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01
+
+

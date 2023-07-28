@@ -1,0 +1,35 @@
+module control_motor(CLK, RESET, ENABLE, HALF_FULL, UP_DOWN, A, B, C ,D, INH1, INH2)
+
+input CLK, RESET, ENABLE, HALF_FULL, UP_DOWN;
+output reg  A, B, C ,D, INH1, INH2;
+
+reg [2:0] state, next_state;
+localparam S1=3'b000, S2=3'b001, S3=3'b010, S4=3'b011, S5=3'b100, S6=3'b101, S7=3'b110, S8=3'b111; 
+
+always @(posedge CLK or negedge RESET)
+begin
+if(~RESET)
+	state <= S1;
+else
+	state <= next_state;
+end
+
+always @(*)
+if (EN)
+case(state)
+	S1: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S2 : next_state = S8) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	S2: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S3 : next_state = S7) : ((UP_DOWN == 1) ? next_state = S5 : next_state = S7)
+	S3: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S4 : next_state = S6) : ((UP_DOWN == 1) ? next_state = S7 : next_state = S7)
+	S4: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S5 : next_state = S5) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	S5: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S6 : next_state = S4) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	S6: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S7 : next_state = S3) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	S7: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S8 : next_state = S2) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	S8: (HLAF_FULL == 1) ? ((UP_DOWN == 1) ? next_state = S1 : next_state = S1) : ((UP_DOWN == 1) ? next_state = S3 : next_state = S7)
+	default next_state = S!
+	endcase
+else next_state =S1
+
+
+//☺
+
+endmodule

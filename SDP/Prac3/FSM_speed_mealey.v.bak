@@ -1,0 +1,7 @@
+module FSM_speed_mealey(clock, reset, key2, key1, enable, up_down);
+
+input clock, reset, key2, key1;
+output reg up_down;
+output enable;
+
+endmodule

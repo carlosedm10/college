@@ -1,0 +1,46 @@
+Quartus Prime Archive log --	W:/SDP/Prac3/Proyecto3.qarlog
+
+Archive:	W:/SDP/Prac3/Proyecto3.qar
+Date:		Fri May 19 19:53:18 2023
+Quartus Prime		17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+
+	=========== Files Selected: ===========
+W:/SDP/Prac3/FSM_luces_kit_medvedev.v
+W:/SDP/Prac3/FSM_speed_mealey.v
+W:/SDP/Prac3/Luces_final.v
+W:/SDP/Prac3/Verifica_Motor.v
+W:/SDP/Prac3/contador_up_down.v
+W:/SDP/Prac3/contador_variable.v
+W:/SDP/Prac3/control_motor.v
+W:/SDP/Prac3/control_motor_tb.v
+W:/SDP/Prac3/counter2.v
+W:/SDP/Prac3/motor.asm.rpt
+W:/SDP/Prac3/motor.eda.rpt
+W:/SDP/Prac3/motor.fit.rpt
+W:/SDP/Prac3/motor.fit.smsg
+W:/SDP/Prac3/motor.fit.summary
+W:/SDP/Prac3/motor.flow.rpt
+W:/SDP/Prac3/motor.jdi
+W:/SDP/Prac3/motor.map.rpt
+W:/SDP/Prac3/motor.map.summary
+W:/SDP/Prac3/motor.merge.rpt
+W:/SDP/Prac3/motor.merge.summary
+W:/SDP/Prac3/motor.pin
+W:/SDP/Prac3/motor.qpf
+W:/SDP/Prac3/motor.qsf
+W:/SDP/Prac3/motor.restore.rpt
+W:/SDP/Prac3/motor.sld
+W:/SDP/Prac3/motor.sof
+W:/SDP/Prac3/motor.sta.rpt
+W:/SDP/Prac3/motor.sta.summary
+W:/SDP/Prac3/tb_FSM_speed_mealey.v
+W:/SDP/Prac3/tb_contador_up_down.v
+W:/SDP/Prac3/tb_contador_variable.v
+W:/SDP/Prac3/tb_counter2.v
+W:/SDP/Prac3/tb_fsm_luces_kit_medvedev.v
+W:/SDP/Prac3/testbench-U1.qxp
+c:/intelfpga/17.1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 35 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.

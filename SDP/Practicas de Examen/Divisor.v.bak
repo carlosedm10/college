@@ -1,0 +1,53 @@
+module Divisor (start, Num, Den, done, Coc, Res);
+
+  input start;
+  input [7:0] Num, Den;
+  output done, er;
+  output [7:0] Coc, Res;
+
+
+  reg [7:0] Num_reg, Den_reg, Coc_reg, Res_reg, State;
+
+  // Asignación de valores iniciales
+  always @(posedge start) 
+  begin
+    if (Den == 0) 
+    begin
+      State <= 2'b01;  // ERROR
+    end else 
+    begin
+      State <= 2'b10;  // SUBTRACT
+      Num_reg <= Num;
+      Den_reg <= Den;
+      Coc_reg <= 0;
+      Res_reg <= 0;
+    end
+  end
+
+  // Máquina de estados
+  always @(posedge start or posedge State) begin
+    case (State)
+      // SUBTRACT
+      2'b10:  
+        if (Num_reg >= Den_reg) begin
+          Num_reg <= Num_reg - Den_reg;
+          Coc_reg <= Coc_reg + 1;
+        end else begin
+          State <= 2'b11;  // FINISH
+        end
+      // FINISH  
+      2'b11:
+      begin  
+        Res_reg <= Num_reg;
+        State <= 2'b00;  // DONE
+      end
+      default: State <= 2'b00;  // START
+    endcase
+  end
+
+  // Asignación de las salidas
+  assign done = (State == 2'b00);  // DONE
+  assign Coc = Coc_reg;
+  assign Res = Res_reg;
+
+endmodule

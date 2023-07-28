@@ -1,0 +1,9 @@
+module CARACTERES_LCD ((CLK,RST_n,NCLK,GREST,HD,VD,DEN,R,G,B);
+
+input CLK, RST_n;
+output NCLK,GREST, HD, VD,DEN;
+output reg [7:0] R,G,B;
+
+LCD_SYNC lcd2(CLK,RST_n, NCLK, GREST,HD,VD,DEN,col,fil);
+
+endmodule

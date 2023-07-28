@@ -1,0 +1,36 @@
+module tb_fsm_luces_kit_medvedev;
+  
+  // Inputs
+  reg clk;
+  reg reset;
+  
+  // Outputs
+  wire [7:0] LEDG;
+  
+  // Instantiate the module to be tested
+  FSM_luces_kit_medvedev dut (
+    .clk(clk),
+    .reset(reset),
+    .LEDG(LEDG)
+  );
+  
+  // Clock generator
+  always #5 clk = ~clk;
+  
+  // Reset the module at the beginning of simulation
+  initial begin
+    reset = 0;
+    #10 reset = 1;
+    #10 reset = 0;
+  end
+  
+  // Test the FSM for 100 clock cycles
+  integer i;
+  initial begin
+    for (i = 0; i < 100; i = i + 1) begin
+      #5;
+    end
+    $finish;
+  end
+  
+endmodule
