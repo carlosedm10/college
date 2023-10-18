@@ -4,8 +4,10 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from utilities import compute_residuals, eliminate_max_correlated_with_target
 
 
+# ----------------------------------------- DATA PREPARATION -----------------------------------------#
 # Parse the XML data
 tree = ET.parse("/Users/carlosedm10/projects/college/Econometria/Prac4/MRL028tc.gdt")
 root = tree.getroot()
@@ -24,37 +26,47 @@ df = df.apply(pd.to_numeric)
 
 df.head()
 
-# print(df)
+# Exclude the TRIM variables and compute the correlation matrix
+correlation_matrix = df.drop(
+    columns=["TRIM", "TRIM1", "TRIM2", "TRIM3", "TRIM4"]
+).corr()
+
+print(correlation_matrix)
+
+# Apply the function
+df_reduced, removed_variable = eliminate_max_correlated_with_target(df, "MUERTOS")
+
+print(f"Removed variable: {removed_variable}")
 
 
-# Define dependent variable y and independent variables X
-y = df["PARQUE"]
-X = df.drop("PARQUE", axis=1)
+# Plot the correlation matrix using a heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(
+    correlation_matrix, annot=True, cmap="coolwarm", vmin=-1, vmax=1, square=True
+)
+plt.title("Correlation Matrix")
+plt.show()
 
-print(X.columns)
+# ----------------------------------------- REGRESSION -----------------------------------------#
 
-# Add a constant (intercept) to the independent variables
+# Prepare data for regression with 'MUERTOS' as dependent variable
+y = df_reduced["MUERTOS"]
+X = df_reduced.drop(["MUERTOS", "TRIM", "TRIM1", "TRIM2", "TRIM3", "TRIM4"], axis=1)
 X = sm.add_constant(X)
 
-# Calculate VIF for each independent variable
-vif_data = pd.DataFrame()
-vif_data["Variable"] = X.columns
-vif_data["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
-
-print(vif_data)
-
-
-# Fit the linear regression model
-model = sm.OLS(y, X).fit()
+model = sm.OLS(y, X).fit()  # ordinary least squares model
 
 # Get the summary of the regression
 summary = model.summary()
-summary
-print(summary)
 
+print(summary)
+# ----------------------------------------- RESIDUALS -----------------------------------------#
 # Calculating residuals
 residuals = model.resid
 fitted = model.fittedvalues
+
+residuals_muertos = compute_residuals("MUERTOS", ["PARQUE"], df)
+residuals_accidentes = compute_residuals("ACCIDENTES", ["PARQUE"], df)
 
 # Plotting residuals vs fitted values
 plt.figure(figsize=(10, 6))
@@ -81,10 +93,23 @@ plt.title("Q-Q Plot of Residuals")
 plt.show()
 
 # Plot residuals over time
-plt.figure(figsize=(12, 6))
-plt.plot(df.index, residuals, marker="o", linestyle="--")
-plt.axhline(y=0, color="red", linestyle="-")
+plt.figure(figsize=(14, 6))
+plt.scatter(df_reduced.index, residuals, alpha=0.7)
+plt.axhline(y=0, color="red", linestyle="--")
 plt.title("Residuals over Time")
 plt.xlabel("Time")
-plt.ylabel("Residual")
+plt.ylabel("Residuals")
+plt.grid(True)
+plt.show()
+
+
+# Plot residuals for MUERTOS against PARQUE
+fig, ax1 = plt.subplots(2, 1, figsize=(14, 12), sharex=True)
+
+# Scatter plot for MUERTOS residuals against PARQUE
+ax1.scatter(df["PARQUE"], residuals_muertos, color="blue", alpha=0.7)
+ax1.axhline(y=0, color="red", linestyle="--")
+ax1.set_title("Residuals for MUERTOS vs PARQUE")
+ax1.set_ylabel("Residuals")
+ax1.grid(True)
 plt.show()
