@@ -92,16 +92,15 @@ sm.qqplot(residuals, line="45", fit=True)
 plt.title("Q-Q Plot of Residuals")
 plt.show()
 
-# Plot residuals over time
-plt.figure(figsize=(14, 6))
-plt.scatter(df_reduced.index, residuals, alpha=0.7)
-plt.axhline(y=0, color="red", linestyle="--")
-plt.title("Residuals over Time")
+plt.figure(figsize=(10, 6))
+plt.plot(
+    df_reduced.index, residuals, marker="o", linestyle="-", color="blue", alpha=0.5
+)  # Line plot with points
+plt.axhline(y=0, color="r", linestyle="--")
 plt.xlabel("Time")
 plt.ylabel("Residuals")
-plt.grid(True)
+plt.title("Residuals over Time")
 plt.show()
-
 
 # Plot residuals for MUERTOS against PARQUE
 fig, ax1 = plt.subplots(2, 1, figsize=(14, 12), sharex=True)
