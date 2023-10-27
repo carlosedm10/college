@@ -4,6 +4,8 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from statsmodels.stats.diagnostic import het_breuschpagan
 
+from funciones import backward_elimination
+
 
 # Leer y procesar el archivo XML
 with open(
@@ -25,7 +27,7 @@ data_df = pd.DataFrame(data_dict)
 data_df["CANTIDAD_AJUSTADA"] = data_df["CANTIDAD"] - 100000
 X = sm.add_constant(data_df["CANTIDAD_AJUSTADA"])
 y = data_df["PERDIDAS"]
-model = sm.OLS(y, X).fit()
+model = backward_elimination(X, y)
 residuos = model.resid
 valores_ajustados = model.fittedvalues
 
