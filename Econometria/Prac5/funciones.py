@@ -1,4 +1,5 @@
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
 def backward_elimination(X, y, threshold=0.05):
@@ -32,3 +33,78 @@ def backward_elimination(X, y, threshold=0.05):
 # Uso del algoritmo:
 # X es tu dataframe de predictores y y es tu serie/vector de respuesta.
 # final_model = backward_elimination(X, y)
+
+
+def forward_selection(X, y):
+    """
+    Performs forward selection based on residual analysis.
+
+    Parameters:
+    - X: DataFrame of predictors.
+    - y: Series/vector of response variable.
+
+    Returns:
+    - Final model after forward selection.
+    """
+    remaining_predictors = list(X.columns)
+    included_predictors = []
+    current_score, best_new_score = float("inf"), float(
+        "inf"
+    )  # initialized with infinity
+
+    while remaining_predictors and current_score == best_new_score:
+        scores_with_predictors = []
+        for predictor in remaining_predictors:
+            formula = "{} ~ {}".format(
+                y.name, " + ".join(included_predictors + [predictor])
+            )
+            score = sm.OLS.from_formula(formula, data=X.join(y)).fit().ssr
+            scores_with_predictors.append((score, predictor))
+
+        scores_with_predictors.sort(reverse=True)
+        best_new_score, best_predictor = scores_with_predictors.pop()
+        if current_score > best_new_score:
+            included_predictors.append(best_predictor)
+            remaining_predictors.remove(best_predictor)
+            current_score = best_new_score
+
+    formula = "{} ~ {}".format(y.name, " + ".join(included_predictors))
+    model = sm.OLS.from_formula(formula, data=X.join(y)).fit()
+
+    return model
+
+
+# Using the algorithm:
+# X is your DataFrame of predictors and y is your Series/vector of response.
+# final_model = forward_selection(X, y)
+
+
+def calculate_max_vif(X):
+    """Calculate the maximum VIF for the predictors in X."""
+    vif_data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+    return max(vif_data)
+
+
+def compare_models(X, y):
+    # Apply both methods to obtain models
+    model_backward = backward_elimination(X, y)
+    model_forward = forward_selection(X, y)
+
+    # Calculate max VIF for both models
+    # max_vif_backward = calculate_max_vif(X[model_backward.model.exog_names])
+    # max_vif_forward = calculate_max_vif(X[model_forward.model.exog_names])
+
+    # # Print the VIF values
+    # print(f"Maximum VIF for Backward Elimination model: {max_vif_backward:.2f}")
+    # print(f"Maximum VIF for Forward Selection model: {max_vif_forward:.2f}")
+
+    # Compare R^2 adjusted
+    if model_backward.rsquared_adj > model_forward.rsquared_adj:
+        return model_backward
+    else:
+        return model_forward
+
+
+# Using the function:
+# X is your DataFrame of predictors and y is your Series/vector of response.
+# best_model = compare_models(X, y)
