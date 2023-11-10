@@ -4,12 +4,15 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-from utilities import compute_residuals, eliminate_max_correlated_with_target
+from utilities import (
+    compute_residuals,
+    eliminate_max_correlated_with_target,
+)
 
 
 # ----------------------------------------- DATA PREPARATION -----------------------------------------#
 # Parse the XML data
-tree = ET.parse("/Users/carlosedm10/projects/college/Econometria/Prac4/MRL028tc.gdt")
+tree = ET.parse("/Users/carlosedm10/projects/college/Econometria/MRL028tc.gdt")
 root = tree.getroot()
 
 # Extracting variable names from the XML
