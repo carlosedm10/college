@@ -4,13 +4,11 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from statsmodels.stats.diagnostic import het_breuschpagan
 
-from funciones import compare_models
+from utilities import compare_models
 
 
 # Leer y procesar el archivo XML
-with open(
-    "/Users/carlosedm10/projects/college/Econometria/Prac5/MRL151-1.gdt", "r"
-) as file:
+with open("/Users/carlosedm10/projects/college/Econometria/MRL151-1.gdt", "r") as file:
     lines = file.readlines()
 root = ET.fromstring("".join(lines))
 data_dict = {"CANTIDAD": [], "PERDIDAS": []}
