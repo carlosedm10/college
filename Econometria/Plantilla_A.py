@@ -13,14 +13,14 @@ from scipy.stats import f
 from utilities import backward_elimination
 
 # Significance level
-alpha = 0.05
+threshold = 0.05
 
 
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
 
-# print(data.head())  # print the first 5 rows to see the data for building the model
+print(data.head())  # print the first 5 rows to see the data for building the model
 
 # --------------------------- 1. Escribir el Modelo ---------------------------#
 
@@ -72,7 +72,7 @@ model = sm.OLS(y, X).fit()  # ordinary least squares model
 print(model.summary())  # print the model summary
 
 print("Deleting the non-significant variables:")
-new_model = backward_elimination(X, y)
+new_model = backward_elimination(X, y, threshold)
 
 print(new_model.summary())
 
@@ -81,7 +81,7 @@ df_model = len(X.columns)
 df_residuals = len(X) - df_model - 1
 
 f_statistic = new_model.fvalue
-f_critical = f.ppf(1 - alpha, df_model, df_residuals)
+f_critical = f.ppf(1 - threshold, df_model, df_residuals)
 
 if f_statistic > f_critical:
     print(f"Fcalc = {f_statistic} > Fcrit = {f_critical}.The model is adequate.")

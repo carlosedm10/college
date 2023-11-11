@@ -70,7 +70,7 @@ def eliminate_variable_high_pvalue(model, threshold=0.05):
     return high_p_values.idxmax()
 
 
-def backward_elimination(X, y, threshold=0.05):
+def backward_elimination(X, y, threshold):
     """
     Realiza la eliminación progresiva para un modelo lineal.
 
@@ -156,7 +156,7 @@ def calculate_max_vif(X):
 
 def compare_models(X, y):
     # Apply both methods to obtain models
-    model_backward = backward_elimination(X, y)
+    model_backward = backward_elimination(X, y, 0.05)
     model_forward = forward_selection(X, y)
 
     # Compare R^2 adjusted
