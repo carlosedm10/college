@@ -9,8 +9,11 @@
 from numpy import mean
 import pandas as pd
 import statsmodels.api as sm
-
+from scipy.stats import f
 from utilities import backward_elimination
+
+# Significance level
+alpha = 0.05
 
 
 # Load the CSV file
@@ -63,7 +66,8 @@ X = data[
 X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
-# # Create the model
+# --------------------------- 2. El modelo es adecuado ---------------------------#
+
 model = sm.OLS(y, X).fit()  # ordinary least squares model
 print(model.summary())  # print the model summary
 
@@ -71,3 +75,15 @@ print("Deleting the non-significant variables:")
 new_model = backward_elimination(X, y)
 
 print(new_model.summary())
+
+# Degrees of freedom for the model (number of predictors) and residuals (sample size - number of predictors - 1)
+df_model = len(X.columns)
+df_residuals = len(X) - df_model - 1
+
+f_statistic = new_model.fvalue
+f_critical = f.ppf(1 - alpha, df_model, df_residuals)
+
+if f_statistic > f_critical:
+    print(f"Fcalc = {f_statistic} > Fcrit = {f_critical}.The model is adequate.")
+else:
+    print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
