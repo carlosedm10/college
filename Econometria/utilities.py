@@ -1,6 +1,8 @@
 import pandas as pd
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.api as sm
+from pandas.core.api import DataFrame
+from itertools import product
 
 import numpy as np
 
@@ -166,6 +168,41 @@ def compare_models(X, y):
         return model_forward
 
 
-# Using the function:
-# X is your DataFrame of predictors and y is your Series/vector of response.
-# best_model = compare_models(X, y)
+def create_dummies(data: DataFrame) -> DataFrame:
+    """
+    Create all possible dummy variables for categorical variables.
+    The created dummy variables heve the format: {value}
+    For example for the column "NPROV" with possible values "ALICANTE", "CASTELLÓN" and "VALENCIA",
+    the dummy variables will be "ALICANTE", "CASTELLÓN" and "VALENCIA".
+    """
+    # Get the categorical variables columns
+    categorical_columns = data.select_dtypes(include=["object"]).columns
+
+    # Create dummy variables
+    dummies = pd.get_dummies(
+        data[categorical_columns],
+        prefix="",
+        prefix_sep="",
+        dtype=int,
+    )
+    # Concatenate the dummy variables with the original data
+    data = pd.concat([data, dummies], axis=1)
+    return data
+
+
+def create_interactions(data: DataFrame) -> DataFrame:
+    """
+    Create all possible interactions between variables.
+    """
+    # Iterate over all possible combinations of columns
+    for col1, col2 in product(data.columns, data.columns):
+        # If the column is categorical, skip it
+        categorical_columns = data.select_dtypes(include=["object"]).columns
+        if col1 in categorical_columns or col2 in categorical_columns:
+            continue
+
+        # If the column is not the same, create the interaction variable
+        if col1 != col2:
+            data[f"{col1}_{col2}"] = data[col1] * data[col2]
+
+    return data
