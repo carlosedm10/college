@@ -1,7 +1,7 @@
 """
-1. Escribir el Modelo por cada nivel de sector
+1. Escribir el Modelo
 2. El modelo es adecuado → Estadistico + prueba + conclusion
-3. Determina si la relación entre Y y X no depende del factor 
+3. Determina si la relación entre Y y X no depende del factor (colinealidad)
 4. Determina si existen problemas de heterocedasticidad
 5. Determine la forma en que causa la desviacion tipica del error (interpreta valores)
 """
@@ -26,6 +26,7 @@ nprov_dummies = pd.get_dummies(data["NPROV"])
 # Joining the dummy variables with the original data
 data_with_dummies = data.join(nprov_dummies)
 X_with_dummies = data_with_dummies.drop(["VAA_AGR", "NPROV"], axis=1)
+print(X_with_dummies)
 
 # Comparing the two models using the compare_models function
 best_model = compare_models(X, y)
