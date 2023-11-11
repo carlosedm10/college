@@ -89,6 +89,7 @@ def backward_elimination(X, y, threshold=0.05):
             remove = (
                 model.pvalues.idxmax()
             )  # Identificar variable con el valor p más alto
+            print("Deleting {} with p-value {}".format(remove, max_p_value))
             X = X.drop(remove, axis=1)  # Eliminar variable
         else:
             break

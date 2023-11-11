@@ -6,34 +6,65 @@
 5. Determine la forma en que causa la desviacion tipica del error (interpreta valores)
 """
 
+from numpy import mean
 import pandas as pd
 import statsmodels.api as sm
 
-from utilities import backward_elimination, compare_models, forward_selection
+from utilities import backward_elimination
 
 
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
 
-# Setting up the independent and dependent variables
-X = data[["EMPLEOS_AGR"]]  # Predictor
-y = data["VAA_AGR"]  # Dependent variable
+# print(data.head())  # print the first 5 rows to see the data for building the model
+
+# Define all the variables:
 
 # Creating dummy variables for the 'NPROV' column
-nprov_dummies = pd.get_dummies(data["NPROV"])
+dummies = pd.get_dummies(
+    data["NPROV"], drop_first=True
+)  # drop_first=True to get K-1 dummies out of K categorical levels by removing the first one which is redundant
 
-# Joining the dummy variables with the original data
-data_with_dummies = data.join(nprov_dummies)
-X_with_dummies = data_with_dummies.drop(["VAA_AGR", "NPROV"], axis=1)
-print(X_with_dummies)
+data = data.drop(["NPROV"], axis=1)  # drop the 'NPROV' column
 
-# Comparing the two models using the compare_models function
-best_model = compare_models(X, y)
+# print(dummies.head())
 
-# Printing the best model method and summary
-print(best_model.summary())
+data["CASTELLON"] = dummies["CASTELLÓN"] * 1  # interaction variable
+data["VALENCIA"] = dummies["VALENCIA"] * 1  # interaction variable
 
+# Define all the variables:
+data["EMPLEOS_AGR_centered"] = data["EMPLEOS_AGR"] - mean(
+    data["EMPLEOS_AGR"]
+)  # variable independiente
+
+data["EMPLEOS_CASTELLON"] = (
+    data["EMPLEOS_AGR"] * dummies["CASTELLÓN"]
+)  # interaction variable
+data["EMPLEOS_VALENCIA"] = (
+    data["EMPLEOS_AGR"] * dummies["VALENCIA"]
+)  # interaction variable
+
+# model_data = pd.concat([data, dummies])  # concatenate the data and dummies dataframes
+
+X = data[
+    [
+        "EMPLEOS_AGR_centered",
+        "CASTELLON",
+        "VALENCIA",
+        "EMPLEOS_CASTELLON",
+        "EMPLEOS_VALENCIA",
+    ]
+]  # variables independientes
+
+X = sm.add_constant(X)  # add a constant to the model
+y = data["VAA_AGR"]  # variable dependiente
+
+# # Create the model
 model = sm.OLS(y, X).fit()  # ordinary least squares model
+print(model.summary())  # print the model summary
 
-print(model.summary())
+print("Deleting the non-significant variables:")
+new_model = backward_elimination(X, y)
+
+print(new_model.summary())
