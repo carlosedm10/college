@@ -158,8 +158,10 @@ def compare_models(X, y):
 
     # Compare R^2 adjusted
     if model_backward.rsquared_adj > model_forward.rsquared_adj:
+        print("backward_elimination")
         return model_backward
     else:
+        print("forward_selection")
         return model_forward
 
 
