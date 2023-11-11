@@ -19,7 +19,7 @@ data = pd.read_csv(file_path)
 
 # print(data.head())  # print the first 5 rows to see the data for building the model
 
-# Define all the variables:
+# --------------------------- 1. Escribir el Modelo ---------------------------#
 
 # Creating dummy variables for the 'NPROV' column
 dummies = pd.get_dummies(
@@ -28,15 +28,18 @@ dummies = pd.get_dummies(
 
 data = data.drop(["NPROV"], axis=1)  # drop the 'NPROV' column
 
+# --------------------------- Dummy variables ---------------------------#
 # print(dummies.head())
 
 data["CASTELLON"] = dummies["CASTELLÓN"] * 1  # interaction variable
 data["VALENCIA"] = dummies["VALENCIA"] * 1  # interaction variable
 
-# Define all the variables:
+# --------------------------- Adjusted variables ---------------------------#
 data["EMPLEOS_AGR_centered"] = data["EMPLEOS_AGR"] - mean(
     data["EMPLEOS_AGR"]
 )  # variable independiente
+
+# --------------------------- Interaction variables ---------------------------#
 
 data["EMPLEOS_CASTELLON"] = (
     data["EMPLEOS_AGR"] * dummies["CASTELLÓN"]
