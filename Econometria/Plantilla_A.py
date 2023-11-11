@@ -23,7 +23,7 @@ data = pd.read_csv(file_path)
 
 # Creating dummy variables for the 'NPROV' column
 dummies = pd.get_dummies(
-    data["NPROV"], drop_first=True
+    data["NPROV"], drop_first=True, dtype=int
 )  # drop_first=True to get K-1 dummies out of K categorical levels by removing the first one which is redundant
 
 data = data.drop(["NPROV"], axis=1)  # drop the 'NPROV' column
@@ -31,8 +31,8 @@ data = data.drop(["NPROV"], axis=1)  # drop the 'NPROV' column
 # --------------------------- Dummy variables ---------------------------#
 # print(dummies.head())
 
-data["CASTELLON"] = dummies["CASTELLÓN"] * 1  # interaction variable
-data["VALENCIA"] = dummies["VALENCIA"] * 1  # interaction variable
+data["CASTELLON"] = dummies["CASTELLÓN"]  # interaction variable
+data["VALENCIA"] = dummies["VALENCIA"]  # interaction variable
 
 # --------------------------- Adjusted variables ---------------------------#
 data["EMPLEOS_AGR_centered"] = data["EMPLEOS_AGR"] - mean(
