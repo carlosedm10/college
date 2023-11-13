@@ -21,7 +21,9 @@ threshold = 0.05
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
-
+print("")
+print("------------------------------DATA------------------------------")
+print("")
 print(data.head())  # print the first 5 rows to see the data for building the model
 
 ########################################## 1. Escribir el Modelo ##########################################
@@ -69,10 +71,18 @@ X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
 model = sm.OLS(y, X).fit()  # ordinary least squares model
-print(model.summary())  # print the model summary
 
+print("")
+print("------------------------------FIRST MODEL------------------------------")
+print("")
+
+print(model.summary())  # print the model summary
+print("")
 print("Deleting the non-significant variables:")
 new_model = backward_elimination(X, y, threshold)
+print("")
+print("------------------------------ADJUSTED MODEL------------------------------")
+print("")
 
 print(new_model.summary())
 
@@ -91,6 +101,10 @@ else:
 
 ########################################### 2. Análisis de los Errores ##########################################
 
+print("")
+print("------------------------------ERROR ANALYSIS------------------------------")
+print("")
+
 # Extracting statistics
 std_error = model.resid.std()
 r_squared = model.rsquared
@@ -100,7 +114,47 @@ print("Standard Deviation of the Error:", std_error)
 print("R-squared:", r_squared)
 print("Adjusted R-squared:", adjusted_r_squared)
 
+
+if std_error < 1:
+    print("The model has a low prediction error, indicating high accuracy.")
+elif std_error < 2:
+    print("The model has a moderate level of prediction error.")
+else:
+    print("The model has a high level of prediction error, indicating low accuracy.")
+
+
 ############################################ 3. Relación Cuadrática ##########################################
+print("------------------------------SQUARED MODEL------------------------------")
+print("")
+
+data["EMPLEOS_AGR_centered^2"] = (
+    data["EMPLEOS_AGR_centered"] * data["EMPLEOS_AGR_centered"]
+)  # added the squared variable to the dataframe
+squared_X = data[
+    [
+        "EMPLEOS_AGR_centered",
+        "CASTELLON",
+        "VALENCIA",
+        "EMPLEOS_CASTELLON",
+        "EMPLEOS_VALENCIA",
+        "EMPLEOS_AGR_centered^2",
+    ]
+]
+squared_X = sm.add_constant(squared_X)  # add a constant to the model
+
+
+squared_model = sm.OLS(
+    y, squared_X
+).fit()  # new model to check if the squared variable is significant
+
+print(squared_model.summary())
+final_model = backward_elimination(squared_X, y, threshold)
+
+print("")
+print("------------------------------FIRST MODEL------------------------------")
+print("")
+
+print(final_model.summary())
 
 ############################################ 4. Heterocedasticidad ############################################
 residuals = new_model.resid
@@ -135,16 +189,20 @@ plt.tight_layout()
 plt.show()
 
 # ########################################### * PREDICCIÓN * ##########################################
-# new_model_params = new_model.params
-# exog_data = {
-#     "const": 1,  # Include the constant term
-#     "EMPLEOS_AGR_centered": [100, 250],  # Example value
-#     "VALENCIA": [0, 1],  # Example value (1 or 0)
-#     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
-#     "EMPLEOS_VALENCIA": [0, 150],  # Example value (EMPLEOS_AGR * VALENCIA)
-# }  # This is the data given for the prediction
-# exog_df = pd.DataFrame(exog_data)
-# predicted_values = new_model.predict(exog=exog_df)
+print("")
+print("------------------------------Predictions------------------------------")
+print("")
 
-# for i in range(len(predicted_values)):
-#     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
+new_model_params = new_model.params
+exog_data = {
+    "const": 1,  # Include the constant term
+    "EMPLEOS_AGR_centered": [100, 250],  # Example value
+    "VALENCIA": [0, 1],  # Example value (1 or 0)
+    "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
+    "EMPLEOS_VALENCIA": [0, 150],  # Example value (EMPLEOS_AGR * VALENCIA)
+}  # This is the data given for the prediction
+exog_df = pd.DataFrame(exog_data)
+predicted_values = new_model.predict(exog=exog_df)
+
+for i in range(len(predicted_values)):
+    print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
