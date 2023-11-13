@@ -109,8 +109,8 @@ plt.ylabel("Residues")
 # VAA vs Residuals
 plt.subplot(2, 2, 2)
 sns.scatterplot(x=y, y=residuals)
-plt.title("VAA vs Residues")
-plt.xlabel("VAA")
+plt.title(f"{y.name} vs Residues")
+plt.xlabel(f"{y.name}")
 plt.ylabel("Residues")
 
 # Fitted Values vs Residuals
@@ -123,6 +123,22 @@ plt.ylabel("Residues")
 # Adjusting layout for better spacing between subplots
 plt.tight_layout()
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################################### * PREDICCIÓN * ##########################################
 new_model_params = new_model.params
 exog_data = {
@@ -130,7 +146,7 @@ exog_data = {
     "EMPLEOS_AGR_centered": [100, 250],  # Example value
     "VALENCIA": [0, 1],  # Example value (1 or 0)
     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
-    "EMPLEOS_VALENCIA": [0, 150],  # Example value (EMPLEOS_AGR * VALENCIA)
+    "EMPLEOS_VALENCIA": [0, 250],  # Example value (EMPLEOS_AGR * VALENCIA)
 }  # This is the data given for the prediction
 exog_df = pd.DataFrame(exog_data)
 predicted_values = new_model.predict(exog=exog_df)
@@ -138,8 +154,3 @@ predicted_values = new_model.predict(exog=exog_df)
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
     
-    
-    
-########################################### * Heterocedasticidad * ##########################################
-
-
