@@ -22,7 +22,7 @@ data = pd.read_csv(file_path)
 
 print(data.head())  # print the first 5 rows to see the data for building the model
 
-# --------------------------- 1. Escribir el Modelo ---------------------------#
+########################################## 1. Escribir el Modelo ##########################################
 
 # Creating dummy variables for the 'NPROV' column
 dummies = pd.get_dummies(
@@ -66,10 +66,10 @@ X = data[
 X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
-# --------------------------- 2. El modelo es adecuado ---------------------------#
-
 model = sm.OLS(y, X).fit()  # ordinary least squares model
 print(model.summary())  # print the model summary
+
+########################################### 2. El modelo es adecuado ##########################################
 
 print("Deleting the non-significant variables:")
 new_model = backward_elimination(X, y, threshold)
