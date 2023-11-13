@@ -137,3 +137,9 @@ predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
+    
+    
+    
+########################################### * Heterocedasticidad * ##########################################
+
+
