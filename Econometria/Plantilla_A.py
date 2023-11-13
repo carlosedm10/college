@@ -151,15 +151,6 @@ else:
     print("",f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.")
 
 
-
-
-
-
-
-
-
-
-
 print("","\n########################### 5. prediccion ############################################")
 ########################################### * PREDICCIÓN * ##########################################
 
