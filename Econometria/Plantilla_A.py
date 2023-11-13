@@ -6,9 +6,13 @@
 5. Determine la forma en que causa la desviacion tipica del error (interpreta valores)
 """
 
-from numpy import mean
 import pandas as pd
 import statsmodels.api as sm
+import seaborn as sns
+
+
+from numpy import mean
+from matplotlib import pyplot as plt
 from scipy.stats import f
 from utilities import backward_elimination
 
@@ -88,7 +92,37 @@ if f_statistic > f_critical:
 else:
     print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
 
+########################### 4. Heterocedasticidad ############################################
+residuals = new_model.resid
+fitted = model.fittedvalues
 
+# Correcting the subplot structure and improving the overall aesthetics of the plots.
+plt.figure(figsize=(12, 10))
+
+# EMPLEOS vs Residuals
+plt.subplot(2, 2, 1)
+sns.scatterplot(x=X["EMPLEOS_AGR_centered"], y=residuals)
+plt.title("EMPLEOS vs Residues")
+plt.xlabel("EMPLEOS")
+plt.ylabel("Residues")
+
+# VAA vs Residuals
+plt.subplot(2, 2, 2)
+sns.scatterplot(x=y, y=residuals)
+plt.title("VAA vs Residues")
+plt.xlabel("VAA")
+plt.ylabel("Residues")
+
+# Fitted Values vs Residuals
+plt.subplot(2, 2, 3)
+sns.scatterplot(x=fitted, y=residuals)
+plt.title("Fitted Values vs Residues")
+plt.xlabel("Fitted Values")
+plt.ylabel("Residues")
+
+# Adjusting layout for better spacing between subplots
+plt.tight_layout()
+plt.show()
 ########################################### * PREDICCIÓN * ##########################################
 new_model_params = new_model.params
 exog_data = {
