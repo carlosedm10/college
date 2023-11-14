@@ -8,6 +8,7 @@
 
 import pandas as pd
 import statsmodels.api as sm
+
 import seaborn as sns
 
 
@@ -16,7 +17,6 @@ from matplotlib import pyplot as plt
 from scipy.stats import f
 from utilities import backward_elimination
 from statsmodels.stats.diagnostic import het_white
-
 
 # Significance level
 threshold = 0.05
@@ -69,6 +69,7 @@ X = data[
     ]
 ]  # variables independientes
 
+
 X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
@@ -79,6 +80,7 @@ print(
     "\n",
 )
 print(model.summary(), "\n")  # print the model summary
+
 
 ########################################### 2. El modelo es adecuado ##########################################
 
@@ -193,6 +195,7 @@ print(
     "\n",
 )
 
+
 new_model_params = new_model.params
 exog_data = {
     "const": 1,  # Include the constant term
@@ -200,9 +203,11 @@ exog_data = {
     "VALENCIA": [0, 1],  # Example value (1 or 0)
     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
     "EMPLEOS_VALENCIA": [0, 250],  # Example value (EMPLEOS_AGR * VALENCIA)
+
 }  # This is the data given for the prediction
 exog_df = pd.DataFrame(exog_data)
 predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
+
