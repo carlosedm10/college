@@ -99,6 +99,22 @@ if f_statistic > f_critical:
 else:
     print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
 
+
+# Perform the Wald test for the hypotheses
+hypotheses = "(VALENCIA = 0), (EMPLEOS_VALENCIA = 0)"  # H0: β2 = β4 = 0
+wald_test_result = model.wald_test(hypotheses)
+print(f"\n RESTRICTED LINEAR MODEL (H0): {hypotheses}")
+print(f"\nWald Test Result: {wald_test_result}")
+
+if wald_test_result.pvalue < threshold:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is less than {threshold}. Reject H0."
+    )
+else:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is greater than {threshold}. Accept H0."
+    )
+
 ########################### 4. Heterocedasticidad ############################################
 print(
     "",
