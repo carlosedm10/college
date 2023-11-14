@@ -44,9 +44,7 @@ data["CASTELLON"] = dummies["CASTELLÓN"]  # interaction variable
 data["VALENCIA"] = dummies["VALENCIA"]  # interaction variable
 
 # --------------------------- Adjusted variables ---------------------------#
-data["EMPLEOS_AGR_centered"] = data["EMPLEOS_AGR"] - mean(
-    data["EMPLEOS_AGR"]
-)  # variable independiente
+data["EMPLEOS_AGR"] = data["EMPLEOS_AGR"] - 10  # variable independiente
 
 # --------------------------- Interaction variables ---------------------------#
 
@@ -61,7 +59,7 @@ data["EMPLEOS_VALENCIA"] = (
 
 X = data[
     [
-        "EMPLEOS_AGR_centered",
+        "EMPLEOS_AGR",
         "CASTELLON",
         "VALENCIA",
         "EMPLEOS_CASTELLON",
@@ -117,6 +115,24 @@ else:
         f"The p-value for the Wald test is {wald_test_result.pvalue} and it is greater than {threshold}. Accept H0."
     )
 
+########################### 4. Colinealidad ############################################
+print(
+    "",
+    "\n------------------------------COLINEALITY------------------------------",
+    "\n",
+)
+
+# En el modelo original la relación entre ambas variables depende de la provincia.
+# Hay cuatro parámetros que miden las diferencias entre ellas, β3, β4 y β5. Por
+# tanto, si los parámetros que miden diferencias valiesen simultáneamente cero,
+# eso querría decir que no hay diferencias entre provincias.
+
+hyphotesis = "(VALENCIA = 0), (EMPLEOS_VALENCIA = 0), (EMPLEOS_CASTELLON = 0)"
+f_test = new_model.f_test(hyphotesis)
+print("Test de hipotesis")
+print(f_test)
+
+
 ########################### 4. Heterocedasticidad ############################################
 print(
     "",
@@ -132,7 +148,7 @@ plt.figure(figsize=(12, 10))
 
 # EMPLEOS vs Residuals
 plt.subplot(2, 2, 1)
-sns.scatterplot(x=X["EMPLEOS_AGR_centered"], y=residuals)
+sns.scatterplot(x=X["EMPLEOS_AGR"], y=residuals)
 plt.title("EMPLEOS vs Residues")
 plt.xlabel("EMPLEOS")
 plt.ylabel("Residues")
@@ -199,15 +215,13 @@ print(
 new_model_params = new_model.params
 exog_data = {
     "const": 1,  # Include the constant term
-    "EMPLEOS_AGR_centered": [100, 250],  # Example value
+    "EMPLEOS_AGR": [100, 250],  # Example value
     "VALENCIA": [0, 1],  # Example value (1 or 0)
     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
     "EMPLEOS_VALENCIA": [0, 250],  # Example value (EMPLEOS_AGR * VALENCIA)
-
 }  # This is the data given for the prediction
 exog_df = pd.DataFrame(exog_data)
 predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
-
