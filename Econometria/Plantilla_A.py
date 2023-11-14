@@ -25,7 +25,7 @@ threshold = 0.05
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
-
+print("", "\n------------------------------DATA------------------------------", "\n")
 print(data.head())  # print the first 5 rows to see the data for building the model
 
 ########################################## 1. Escribir el Modelo ##########################################
@@ -73,7 +73,12 @@ X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
 model = sm.OLS(y, X).fit()  # ordinary least squares model
-print(model.summary())  # print the model summary
+print(
+    "",
+    "\n------------------------------FIRST MODEL------------------------------",
+    "\n",
+)
+print(model.summary(), "\n")  # print the model summary
 
 ########################################### 2. El modelo es adecuado ##########################################
 
@@ -95,9 +100,9 @@ else:
     print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
 
 ########################### 4. Heterocedasticidad ############################################
-
 print(
-    "########################### 4. Heterocedasticidad ############################################",
+    "",
+    "\n------------------------------HETEROCEDASTICITY------------------------------",
     "\n",
 )
 
@@ -130,7 +135,7 @@ plt.ylabel("Residues")
 
 # Adjusting layout for better spacing between subplots
 plt.tight_layout()
-# plt.show()
+plt.show()
 
 residuals_squared = residuals**2
 error_variables = sm.add_constant(data["VALENCIA"])
@@ -164,13 +169,13 @@ else:
         "",
         f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.",
     )
-
+########################################### * PREDICCIÓN * ##########################################
 
 print(
     "",
-    "\n########################### 5. prediccion ############################################",
+    "\n------------------------------PREDICTIONS------------------------------",
+    "\n",
 )
-########################################### * PREDICCIÓN * ##########################################
 
 new_model_params = new_model.params
 exog_data = {

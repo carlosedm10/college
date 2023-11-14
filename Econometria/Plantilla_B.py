@@ -13,6 +13,8 @@ from matplotlib import pyplot as plt
 from numpy import mean
 from scipy.stats import f
 from utilities import backward_elimination
+from statsmodels.stats.diagnostic import het_white
+
 
 # Significance level
 threshold = 0.05
@@ -21,9 +23,7 @@ threshold = 0.05
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
-print("")
-print("------------------------------DATA------------------------------")
-print("")
+print("", "\n------------------------------DATA------------------------------", "\n")
 print(data.head())  # print the first 5 rows to see the data for building the model
 
 ########################################## 1. Escribir el Modelo ##########################################
@@ -72,17 +72,23 @@ y = data["VAA_AGR"]  # variable dependiente
 
 model = sm.OLS(y, X).fit()  # ordinary least squares model
 
-print("")
-print("------------------------------FIRST MODEL------------------------------")
-print("")
+print(
+    "",
+    "\n------------------------------FIRST MODEL------------------------------",
+    "\n",
+)
 
-print(model.summary())  # print the model summary
-print("")
+print(model.summary(), "\n")  # print the model summary
+
 print("Deleting the non-significant variables:")
 new_model = backward_elimination(X, y, threshold)
-print("")
-print("------------------------------ADJUSTED MODEL------------------------------")
-print("")
+
+print(
+    "",
+    "\n------------------------------ADJUSTED MODEL------------------------------",
+    "\n",
+)
+
 
 print(new_model.summary())
 
@@ -101,9 +107,11 @@ else:
 
 ########################################### 2. Análisis de los Errores ##########################################
 
-print("")
-print("------------------------------ERROR ANALYSIS------------------------------")
-print("")
+print(
+    "",
+    "\n------------------------------ERROR ANALYSIS------------------------------",
+    "\n",
+)
 
 # Extracting statistics
 std_error = model.resid.std()
@@ -124,9 +132,11 @@ else:
 
 
 ############################################ 3. Relación Cuadrática ##########################################
-print("------------------------------SQUARED MODEL------------------------------")
-print("")
-
+print(
+    "",
+    "\n------------------------------SQUARED MODEL------------------------------",
+    "\n",
+)
 data["EMPLEOS_AGR_centered^2"] = (
     data["EMPLEOS_AGR_centered"] * data["EMPLEOS_AGR_centered"]
 )  # added the squared variable to the dataframe
@@ -150,13 +160,21 @@ squared_model = sm.OLS(
 print(squared_model.summary())
 final_model = backward_elimination(squared_X, y, threshold)
 
-print("")
-print("------------------------------FIRST MODEL------------------------------")
-print("")
+print(
+    "",
+    "\n------------------------------FINAL MODEL------------------------------",
+    "\n",
+)
 
 print(final_model.summary())
 
 ############################################ 4. Heterocedasticidad ############################################
+print(
+    "",
+    "\n------------------------------HETEROCEDASTICITY------------------------------",
+    "\n",
+)
+
 residuals = new_model.resid
 fitted = model.fittedvalues
 
@@ -188,11 +206,45 @@ plt.ylabel("Residues")
 plt.tight_layout()
 plt.show()
 
-# ########################################### * PREDICCIÓN * ##########################################
-print("")
-print("------------------------------Predictions------------------------------")
-print("")
+residuals_squared = residuals**2
+error_variables = sm.add_constant(data["VALENCIA"])
+error_model = sm.OLS(residuals_squared, error_variables).fit()
+print(error_model.summary(), "\n")
 
+f_pvalue = error_model.f_pvalue  # P-value for the F-statistic
+
+if f_pvalue < threshold:
+    print(
+        f"P-value for the F-statistic is {f_pvalue} and it is less than {threshold}. The model has heteroscedasticity. Reject H0."
+    )
+else:
+    print(
+        f"P-value for F-statistic is {f_pvalue} and it is greater than {threshold}. The model does not have heteroscedasticity. Accept H0."
+    )
+
+
+test = het_white(
+    residuals, error_model.model.exog
+)  # Heteroscedasticity test with White's test
+estadistico, p_valor, f_estadistico, f_p_valor = test
+
+if p_valor < threshold:
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is less than {threshold}. The model has heteroscedasticity.",
+    )
+else:
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.",
+    )
+############################################ * PREDICCIÓN * ##########################################
+
+print(
+    "",
+    "\n------------------------------PREDICTIONS------------------------------",
+    "\n",
+)
 new_model_params = new_model.params
 exog_data = {
     "const": 1,  # Include the constant term
