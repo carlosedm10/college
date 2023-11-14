@@ -6,11 +6,17 @@
 5. Determine la forma en que causa la desviacion tipica del error (interpreta valores)
 """
 
-from numpy import mean
 import pandas as pd
 import statsmodels.api as sm
+
+import seaborn as sns
+
+
+from numpy import mean
+from matplotlib import pyplot as plt
 from scipy.stats import f
 from utilities import backward_elimination
+from statsmodels.stats.diagnostic import het_white
 
 # Significance level
 threshold = 0.05
@@ -19,7 +25,7 @@ threshold = 0.05
 # Load the CSV file
 file_path = "Econometria/MRL016-1.csv"
 data = pd.read_csv(file_path)
-
+print("", "\n------------------------------DATA------------------------------", "\n")
 print(data.head())  # print the first 5 rows to see the data for building the model
 
 ########################################## 1. Escribir el Modelo ##########################################
@@ -63,11 +69,18 @@ X = data[
     ]
 ]  # variables independientes
 
+
 X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
 model = sm.OLS(y, X).fit()  # ordinary least squares model
-print(model.summary())  # print the model summary
+print(
+    "",
+    "\n------------------------------FIRST MODEL------------------------------",
+    "\n",
+)
+print(model.summary(), "\n")  # print the model summary
+
 
 ########################################### 2. El modelo es adecuado ##########################################
 
@@ -89,18 +102,112 @@ else:
     print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
 
 
+# Perform the Wald test for the hypotheses
+hypotheses = "(VALENCIA = 0), (EMPLEOS_VALENCIA = 0)"  # H0: β2 = β4 = 0
+wald_test_result = model.wald_test(hypotheses)
+print(f"\n RESTRICTED LINEAR MODEL (H0): {hypotheses}")
+print(f"\nWald Test Result: {wald_test_result}")
+
+if wald_test_result.pvalue < threshold:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is less than {threshold}. Reject H0."
+    )
+else:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is greater than {threshold}. Accept H0."
+    )
+
+########################### 4. Heterocedasticidad ############################################
+print(
+    "",
+    "\n------------------------------HETEROCEDASTICITY------------------------------",
+    "\n",
+)
+
+residuals = new_model.resid
+fitted = model.fittedvalues
+
+# Correcting the subplot structure and improving the overall aesthetics of the plots.
+plt.figure(figsize=(12, 10))
+
+# EMPLEOS vs Residuals
+plt.subplot(2, 2, 1)
+sns.scatterplot(x=X["EMPLEOS_AGR_centered"], y=residuals)
+plt.title("EMPLEOS vs Residues")
+plt.xlabel("EMPLEOS")
+plt.ylabel("Residues")
+
+# VAA vs Residuals
+plt.subplot(2, 2, 2)
+sns.scatterplot(x=y, y=residuals)
+plt.title(f"{y.name} vs Residues")
+plt.xlabel(f"{y.name}")
+plt.ylabel("Residues")
+
+# Fitted Values vs Residuals
+plt.subplot(2, 2, 3)
+sns.scatterplot(x=fitted, y=residuals)
+plt.title("Fitted Values vs Residues")
+plt.xlabel("Fitted Values")
+plt.ylabel("Residues")
+
+# Adjusting layout for better spacing between subplots
+plt.tight_layout()
+plt.show()
+
+residuals_squared = residuals**2
+error_variables = sm.add_constant(data["VALENCIA"])
+error_model = sm.OLS(residuals_squared, error_variables).fit()
+print(error_model.summary(), "\n")
+
+f_pvalue = error_model.f_pvalue  # P-value for the F-statistic
+
+if f_pvalue < threshold:
+    print(
+        f"P-value for the F-statistic is {f_pvalue} and it is less than {threshold}. The model has heteroscedasticity. Reject H0."
+    )
+else:
+    print(
+        f"P-value for F-statistic is {f_pvalue} and it is greater than {threshold}. The model does not have heteroscedasticity. Accept H0."
+    )
+
+
+test = het_white(
+    residuals, error_model.model.exog
+)  # Heteroscedasticity test with White's test
+estadistico, p_valor, f_estadistico, f_p_valor = test
+
+if p_valor < threshold:
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is less than {threshold}. The model has heteroscedasticity.",
+    )
+else:
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.",
+    )
 ########################################### * PREDICCIÓN * ##########################################
+
+print(
+    "",
+    "\n------------------------------PREDICTIONS------------------------------",
+    "\n",
+)
+
+
 new_model_params = new_model.params
 exog_data = {
     "const": 1,  # Include the constant term
     "EMPLEOS_AGR_centered": [100, 250],  # Example value
     "VALENCIA": [0, 1],  # Example value (1 or 0)
     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
-    "EMPLEOS_VALENCIA": [0, 150],  # Example value (EMPLEOS_AGR * VALENCIA)
+    "EMPLEOS_VALENCIA": [0, 250],  # Example value (EMPLEOS_AGR * VALENCIA)
+
 }  # This is the data given for the prediction
 exog_df = pd.DataFrame(exog_data)
 predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
-#hol
+
