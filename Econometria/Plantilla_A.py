@@ -8,6 +8,7 @@
 
 import pandas as pd
 import statsmodels.api as sm
+
 import seaborn as sns
 
 
@@ -16,7 +17,6 @@ from matplotlib import pyplot as plt
 from scipy.stats import f
 from utilities import backward_elimination
 from statsmodels.stats.diagnostic import het_white
-
 
 # Significance level
 threshold = 0.05
@@ -69,6 +69,7 @@ X = data[
     ]
 ]  # variables independientes
 
+
 X = sm.add_constant(X)  # add a constant to the model
 y = data["VAA_AGR"]  # variable dependiente
 
@@ -79,6 +80,7 @@ print(
     "\n",
 )
 print(model.summary(), "\n")  # print the model summary
+
 
 ########################################### 2. El modelo es adecuado ##########################################
 
@@ -98,6 +100,22 @@ if f_statistic > f_critical:
     print(f"Fcalc = {f_statistic} > Fcrit = {f_critical}.The model is adequate.")
 else:
     print(f"Fcalc = {f_statistic} < Fcrit = {f_critical}.The model is not adequate.")
+
+
+# Perform the Wald test for the hypotheses
+hypotheses = "(VALENCIA = 0), (EMPLEOS_VALENCIA = 0)"  # H0: β2 = β4 = 0
+wald_test_result = model.wald_test(hypotheses)
+print(f"\n RESTRICTED LINEAR MODEL (H0): {hypotheses}")
+print(f"\nWald Test Result: {wald_test_result}")
+
+if wald_test_result.pvalue < threshold:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is less than {threshold}. Reject H0."
+    )
+else:
+    print(
+        f"The p-value for the Wald test is {wald_test_result.pvalue} and it is greater than {threshold}. Accept H0."
+    )
 
 ########################### 4. Heterocedasticidad ############################################
 print(
@@ -177,6 +195,7 @@ print(
     "\n",
 )
 
+
 new_model_params = new_model.params
 exog_data = {
     "const": 1,  # Include the constant term
@@ -184,9 +203,11 @@ exog_data = {
     "VALENCIA": [0, 1],  # Example value (1 or 0)
     "EMPLEOS_CASTELLON": [100, 0],  # Example value (EMPLEOS_AGR * CASTELLÓN)
     "EMPLEOS_VALENCIA": [0, 250],  # Example value (EMPLEOS_AGR * VALENCIA)
+
 }  # This is the data given for the prediction
 exog_df = pd.DataFrame(exog_data)
 predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
+
