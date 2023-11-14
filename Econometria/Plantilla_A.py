@@ -15,6 +15,8 @@ from numpy import mean
 from matplotlib import pyplot as plt
 from scipy.stats import f
 from utilities import backward_elimination
+from statsmodels.stats.diagnostic import het_white
+
 
 # Significance level
 threshold = 0.05
@@ -94,7 +96,10 @@ else:
 
 ########################### 4. Heterocedasticidad ############################################
 
-print("########################### 4. Heterocedasticidad ############################################","\n")
+print(
+    "########################### 4. Heterocedasticidad ############################################",
+    "\n",
+)
 
 residuals = new_model.resid
 fitted = model.fittedvalues
@@ -125,33 +130,46 @@ plt.ylabel("Residues")
 
 # Adjusting layout for better spacing between subplots
 plt.tight_layout()
+# plt.show()
 
-plt.show() 
-
-residuals_squared = residuals ** 2
+residuals_squared = residuals**2
 error_variables = sm.add_constant(data["VALENCIA"])
-error_model = sm.OLS(residuals_squared,error_variables).fit()
-print(error_model.summary(),"\n")
+error_model = sm.OLS(residuals_squared, error_variables).fit()
+print(error_model.summary(), "\n")
 
-f_pvalue = error_model.f_pvalues # P-value for the F-statistic
+f_pvalue = error_model.f_pvalue  # P-value for the F-statistic
 
 if f_pvalue < threshold:
-    print(f"P-value for the F-statistic is {f_pvalue} and it is less than {threshold}. The model has heteroscedasticity. Reject H0.")
+    print(
+        f"P-value for the F-statistic is {f_pvalue} and it is less than {threshold}. The model has heteroscedasticity. Reject H0."
+    )
 else:
-    print(f"P-value for F-statistic is {f_pvalue} and it is greater than {threshold}. The model does not have heteroscedasticity. Accept H0.")
-    
-from statsmodels.stats.diagnostic import het_white    
+    print(
+        f"P-value for F-statistic is {f_pvalue} and it is greater than {threshold}. The model does not have heteroscedasticity. Accept H0."
+    )
 
-test = het_white(residuals, error_model.model.exog) # Heteroscedasticity test with White's test
+
+test = het_white(
+    residuals, error_model.model.exog
+)  # Heteroscedasticity test with White's test
 estadistico, p_valor, f_estadistico, f_p_valor = test
 
 if p_valor < threshold:
-    print("",f"\nP-value for the White test is {p_valor} and it is less than {threshold}. The model has heteroscedasticity.")
-else: 
-    print("",f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.")
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is less than {threshold}. The model has heteroscedasticity.",
+    )
+else:
+    print(
+        "",
+        f"\nP-value for the White test is {p_valor} and it is greater than {threshold}. The model does not have heteroscedasticity.",
+    )
 
 
-print("","\n########################### 5. prediccion ############################################")
+print(
+    "",
+    "\n########################### 5. prediccion ############################################",
+)
 ########################################### * PREDICCIÓN * ##########################################
 
 new_model_params = new_model.params
@@ -167,4 +185,3 @@ predicted_values = new_model.predict(exog=exog_df)
 
 for i in range(len(predicted_values)):
     print(f"The {i+1}º predicted value for {y.name} is: {predicted_values[i]}")
-    
