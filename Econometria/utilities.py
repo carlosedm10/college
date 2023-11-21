@@ -211,6 +211,33 @@ def create_interactions(data: DataFrame) -> DataFrame:
     return data
 
 
+def make_series_stationary(series, max_diff=3, p_value_threshold=0.05):
+    """
+    Apply differencing to a time series until it becomes stationary.
+
+    :param series: The original time series.
+    :param max_diff: Maximum number of differencing allowed.
+    :param p_value_threshold: Threshold for the p-value to consider the series stationary.
+    :return: A tuple containing the differenced series and the number of differences applied.
+    """
+
+    def adf_test(serie):
+        result = adfuller(serie, autolag="AIC")
+        return result[1]  # p-value
+
+    # Initial ADF test
+    p_value = adf_test(series)
+    num_diff = 0
+
+    # Apply differencing until stationary or max_diff reached
+    while p_value > p_value_threshold and num_diff < max_diff:
+        num_diff += 1
+        series = series.diff().dropna()
+        p_value = adf_test(series)
+
+    return series, num_diff
+
+
 # Chequeo de estacionariedad
 def check_stationarity(series):
     result = adfuller(series)
@@ -234,3 +261,29 @@ def suggest_arima_parameters(acf_values, pacf_values, confidence_interval):
     q = sum(abs(acf_values) > confidence_interval)
 
     return p, q
+
+
+def suggest_sarima_parameters(
+    acf_values, pacf_values, number_of_diferentiation, s, confidence_interval
+):
+    """
+    Suggest SARIMA parameters (p, d, q, P, D, Q) based on ACF and PACF values.
+
+    :param acf_values: Array of ACF values.
+    :param pacf_values: Array of PACF values.
+    :param s: Seasonal period.
+    :param confidence_interval: Confidence interval (e.g., 1.96 for 95%).
+    :return: Tuple (p, d, q, P, D, Q) as suggested parameters.
+    """
+    # Non-seasonal p and q
+    p = sum(abs(pacf_values[: s - 1]) > confidence_interval)
+    q = sum(abs(acf_values[: s - 1]) > confidence_interval)
+
+    # Seasonal P and Q
+    P = sum(abs(pacf_values[s - 1 :: s]) > confidence_interval)
+    Q = sum(abs(acf_values[s - 1 :: s]) > confidence_interval)
+
+    # Assuming D=1 as a common practice for seasonal differencing
+    D = number_of_diferentiation
+
+    return p, q, P, D, Q

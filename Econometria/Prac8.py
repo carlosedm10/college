@@ -13,10 +13,17 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+
 
 from matplotlib import pyplot as plt
 
-from utilities import check_stationarity, suggest_arima_parameters
+from utilities import (
+    check_stationarity,
+    suggest_arima_parameters,
+    make_series_stationary,
+    suggest_sarima_parameters,
+)
 
 
 # Significance level
@@ -157,36 +164,51 @@ plt.show()
 
 ######################################### Correlation and Autocorrelation #########################################
 
-print("Prueba ADF para la serie original:")
-check_stationarity(data["PERSONAL"])
+stationary_series, num_differences = make_series_stationary(data["PERSONAL"])
+print(f" \n Number of differences applied: {num_differences} \n")
+check = check_stationarity(stationary_series)
 
-# Diferenciación
-data["PERSONAL_diff"] = data["PERSONAL"].diff().dropna()
 
-print("\nPrueba ADF para la serie diferenciada:")
-check_stationarity(data["PERSONAL_diff"].dropna())
-
+print(f"Analysis of stationarity: {check}\n")
 # Gráficos ACF y PACF
-lags = len(data["PERSONAL_diff"].dropna()) // 2 - 1
+lags = len(stationary_series) // 2 - 1
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(data["PERSONAL_diff"].dropna(), ax=ax1, lags=lags)
-plot_pacf(data["PERSONAL_diff"].dropna(), ax=ax2, lags=lags)
+plot_acf(stationary_series, ax=ax1, lags=lags)
+plot_pacf(stationary_series, ax=ax2, lags=lags)
 
 plt.tight_layout()
 plt.show()
 ######################################### ARIMA #########################################
 
 # Obtén los valores de ACF y PACF
-acf_vals = acf(data["PERSONAL_diff"].dropna(), nlags=lags)
-pacf_vals = pacf(data["PERSONAL_diff"].dropna(), nlags=lags)
+acf_vals = acf(stationary_series, nlags=lags)
+pacf_vals = pacf(stationary_series, nlags=lags)
 
 # Suponiendo un intervalo de confianza del 95%
 confidence_level = 1.96
 
 # Sugerir valores de p y q
 p, q = suggest_arima_parameters(acf_vals, pacf_vals, confidence_level)
+p, q, P, D, Q = suggest_sarima_parameters(
+    acf_vals, pacf_vals, num_differences, 12, confidence_level
+)
 
-model = ARIMA(data["PERSONAL_diff"], order=(p, 1, q))
+print("\n----------------------ARIMA Model ----------------------\n")
+model = ARIMA(stationary_series, order=(p, num_differences, q))
+results = model.fit()
+print(results.summary())
+
+print("\n----------------------SARIMA Model ----------------------\n")
+model = ARIMA(
+    stationary_series, order=(p, num_differences, q), seasonal_order=(P, D, Q, 12)
+)
+results = model.fit()
+print(results.summary())
+
+print("\n----------------------SARIMAX Model ----------------------\n")
+model = SARIMAX(
+    stationary_series, order=(p, num_differences, q), seasonal_order=(P, D, Q, 12)
+)
 results = model.fit()
 print(results.summary())
