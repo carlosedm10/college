@@ -1,6 +1,8 @@
 import pandas as pd
-from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.api as sm
+
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tsa.stattools import adfuller
 from pandas.core.api import DataFrame
 from itertools import product
 
@@ -207,3 +209,28 @@ def create_interactions(data: DataFrame) -> DataFrame:
             data[f"{col1}_{col2}"] = data[col1] * data[col2]
 
     return data
+
+
+# Chequeo de estacionariedad
+def check_stationarity(series):
+    result = adfuller(series)
+    print("Estadístico ADF:", result[0])
+    print("Valor p:", result[1])
+    print("Valores críticos:")
+    for key, value in result[4].items():
+        print(f"    {key}: {value}")
+
+
+def suggest_arima_parameters(acf_values, pacf_values, confidence_interval):
+    """
+    Suggest ARIMA parameters p and q based on ACF and PACF values.
+
+    :param acf_values: Array of ACF values.
+    :param pacf_values: Array of PACF values.
+    :param confidence_interval: Confidence interval (e.g., 1.96 for 95%).
+    :return: Tuple (p, q) as suggested parameters.
+    """
+    p = sum(abs(pacf_values) > confidence_interval)
+    q = sum(abs(acf_values) > confidence_interval)
+
+    return p, q
