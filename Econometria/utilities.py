@@ -1,12 +1,14 @@
 import pandas as pd
+import numpy as np
 import statsmodels.api as sm
 
+from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import adfuller
 from pandas.core.api import DataFrame
 from itertools import product
-
-import numpy as np
+from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor
 
 
 def compute_residuals(target_var, predictors, df):
@@ -287,3 +289,95 @@ def suggest_sarima_parameters(
     D = number_of_diferentiation
 
     return p, q, P, D, Q
+
+
+def generate_all_arima_params(max_value, d, D, S):
+    """
+    Generate all possible combinations of ARIMA models within the specified parameter ranges.
+
+    :param max_value: Maximum value for the ARIMA p, q, P, Q, and s parameters
+    :param d: Value for the ARIMA d parameter
+    :param D: Value for the seasonal ARIMA D parameter
+    :return: List of tuples representing the ARIMA models
+    """
+    values = range(max_value + 1)
+    params = list(
+        product(
+            values,
+            [d],
+            values,
+            values,
+            [D],
+            values,
+            [S],
+        )
+    )
+    return params
+
+
+def fit_arima_model(time_series, spec):
+    p, d, q, P, D, Q, s = spec
+    try:
+        model = ARIMA(time_series, order=(p, d, q), seasonal_order=(P, D, Q, s))
+        fitted_model = model.fit()
+        return spec, fitted_model.aic, fitted_model.bic
+    except Exception as e:
+        print(f"Failed to fit model {spec}: {e}")
+        return spec, float("inf"), float("inf")  # Return 'inf' to denote failed fitting
+
+
+def best_arima_models(time_series, arima_specs, num_processes=None):
+    with Pool(processes=num_processes) as pool:
+        results = pool.starmap(
+            fit_arima_model, [(time_series, spec) for spec in arima_specs]
+        )
+
+    # Sort the models by AIC and BIC
+    sorted_by_aic = sorted(results, key=lambda x: x[1])[:5]
+    sorted_by_bic = sorted(results, key=lambda x: x[2])[:5]
+
+    return sorted_by_aic, sorted_by_bic
+
+
+def best_arima_models(time_series, arima_specs):
+    """
+    Fit an ARIMA model for each specification in arima_specs to the provided time series.
+
+    :param time_series: Pandas Series representing the time series data
+    :param arima_specs: List of tuples with ARIMA specifications (p, d, q, P, D, Q, s)
+    :return: List of fitted ARIMA models
+    """
+    fitted_models_with_criteria = []
+    for spec in arima_specs:
+        p, d, q, P, D, Q, s = spec
+        try:
+            model = ARIMA(time_series, order=(p, d, q), seasonal_order=(P, D, Q, s))
+            fitted_model = model.fit()
+            fitted_models_with_criteria.append(
+                (
+                    spec,
+                    fitted_model.aic,
+                    fitted_model.bic,
+                )
+            )
+
+        except Exception as e:
+            print(f"Failed to fit model {spec}: {e}")
+            continue
+
+    # Sort the models by AIC and BIC
+    sorted_by_aic = sorted(fitted_models_with_criteria, key=lambda x: x[1])[:5]
+    sorted_by_bic = sorted(fitted_models_with_criteria, key=lambda x: x[2])[:5]
+
+    return sorted_by_aic, sorted_by_bic
+
+
+def format_models(models):
+    # Formatting the output to match the given picture style
+    model_strings = []
+    for model in models:
+        # Assuming the model tuple structure is (params, AIC, BIC)
+        params, aic, bic = model
+        model_str = f"({' ,'.join(map(str, params[:-1]))}){params[-1]} - AIC: {aic:.5f} - BIC: {bic:.5f}"
+        model_strings.append(model_str)
+    return model_strings
