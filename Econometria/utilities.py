@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import statsmodels.api as sm
 
+from pmdarima import auto_arima
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import adfuller
@@ -381,3 +382,47 @@ def format_models(models):
         model_str = f"({' ,'.join(map(str, params[:-1]))}){params[-1]} - AIC: {aic:.5f} - BIC: {bic:.5f}"
         model_strings.append(model_str)
     return model_strings
+
+
+def find_top_arima_models(data, n_models, max_p, max_d, max_q, seasonal=True, ic="aic"):
+    """
+    Find the top N ARIMA models for given time series data.
+
+    :param data: The time series data.
+    :param n_models: Number of top models to return.
+    :param max_p: Maximum value of AR order to try.
+    :param max_d: Maximum value of differencing order to try.
+    :param max_q: Maximum value of MA order to try.
+    :param seasonal: Whether to consider seasonal ARIMA.
+    :param ic: Information criterion to use ('aic' or 'bic').
+    :return: List of top N ARIMA models.
+    """
+    models = []
+
+    # Iterate over ARIMA parameter combinations
+    for p in range(max_p + 1):
+        for d in range(max_d + 1):
+            for q in range(max_q + 1):
+                try:
+                    model = auto_arima(
+                        data,
+                        start_p=p,
+                        start_q=q,
+                        max_p=p,
+                        max_q=q,
+                        d=d,
+                        seasonal=seasonal,
+                        trace=False,
+                        error_action="ignore",
+                        suppress_warnings=True,
+                        stepwise=True,
+                        information_criterion=ic,
+                    )
+                    aic_bic_value = model.aic() if ic == "aic" else model.bic()
+                    models.append((model, aic_bic_value))
+                except:
+                    continue  # Ignore failed models
+
+    # Sort the models based on AIC/BIC and select the top N
+    models.sort(key=lambda x: x[1])
+    return models[:n_models]

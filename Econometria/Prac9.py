@@ -20,6 +20,7 @@ from matplotlib import pyplot as plt
 
 from utilities import (
     check_stationarity,
+    find_top_arima_models,
     format_models,
     generate_all_arima_params,
     best_arima_models,
@@ -184,16 +185,26 @@ plot_pacf(stationary_series, ax=ax2, lags=lags)
 plt.tight_layout()
 # plt.show()
 
-params = generate_all_arima_params(3, 1, 1, 12)
-print(f"Total number of models: {len(params)}")
-print(f"Models: {params}")
+# params = generate_all_arima_params(3, 1, 1, 12)
+# print(f"Total number of models: {len(params)}")
+# print(f"Models: {params}")
 
-best_aic, best_bic = best_arima_models(stationary_series, params)
+# best_aic, best_bic = best_arima_models(stationary_series, params)
 
-# Formatting the models for printing
-formatted_aic_models = format_models(best_aic)
-formatted_bic_models = format_models(best_bic)
+# # Formatting the models for printing
+# formatted_aic_models = format_models(best_aic)
+# formatted_bic_models = format_models(best_bic)
 
-# Printing the formatted models
-print(f"Best models by AIC:\n{chr(10).join(formatted_aic_models)}")
-print(f"---- Best models by BIC:\n{chr(10).join(formatted_bic_models)}")
+# # Printing the formatted models
+# print(f"Best models by AIC:\n{chr(10).join(formatted_aic_models)}")
+# print(f"---- Best models by BIC:\n{chr(10).join(formatted_bic_models)}")
+
+top_models = find_top_arima_models(
+    stationary_series, n_models=5, max_p=3, max_d=1, max_q=3, seasonal=True, ic="aic"
+)
+
+# Print the summary of the top models
+for i, model in enumerate(top_models, 1):
+    print(
+        f"Model {i}: Order={model[0].order}, Seasonal Order={model[0].seasonal_order}, AIC={model[1]}"
+    )
