@@ -1,5 +1,5 @@
 """
-1. Identifica dos modelos pra la parte tendencia y otros dos para la parte esracional usando modelos ARIMA.
+1. Identifica dos modelos para la parte tendencia y otros dos para la parte esracional usando modelos ARIMA.
 2. Utiliza la funcion BestARIMA para obtener los 5 mejores modelos segun AIC y BIC. ¿Estan los modelos anteriores incluidos?
 3. Identifica el mejor modelo de los estimados.
 4. Predice la produccion de los 3 primeros meses de 1996, incluyendo los intervalos de confianza. 
@@ -19,12 +19,12 @@ from pmdarima import auto_arima
 from matplotlib import pyplot as plt
 
 from utilities import (
-    best_arima,
+    check_white_noise,
     check_stationarity,
-    format_models,
+    format_diagnostics,
+    plot_diagnostics,
     suggest_arima_parameters,
     make_series_stationary,
-    suggest_sarima_parameters,
 )
 
 
@@ -32,10 +32,10 @@ from utilities import (
 threshold = 0.05
 
 # Load the CSV file
-file_path = "Econometria/MST015.csv"
-data = pd.read_csv(file_path)
-
-print(data.head())
+file_path = "Econometria/MST007.csv"
+data = pd.read_csv(file_path).dropna()
+data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")
+print(data)
 
 ######################################### GRAPHS #########################################
 print(
@@ -43,11 +43,12 @@ print(
     "\n------------------------------Graph Representation------------------------------",
     "\n",
 )
-y = data["PASAJEROS"]
-data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")
+data = data[data["obs"].dt.year <= 1985]
+print(f"df_1985: {data}")
+y = data["Vehiculos"]
 x = data["obs"]
 
-
+# ----------------------------- Time Series Plot -----------------------------#
 plt.figure(figsize=(10, 6))
 plt.plot(
     data["obs"],
@@ -56,28 +57,28 @@ plt.plot(
     linestyle="-",
 )  # Line plot with points
 plt.axhline(y=0, color="r", linestyle="--")
-plt.title("Time Series Plot of PASAJEROS Data")
+plt.title("Time Series Plot of Vehiculos Data")
 plt.xlabel("Date")
-plt.ylabel("PASAJEROS")
+plt.ylabel("Vehiculos")
 plt.grid(True)
 plt.ylim(bottom=y.min())
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
+# ----------------------------- Mean range graph -----------------------------#
 # Grouping the data by year
 data["Year"] = data["obs"].dt.year
 grouped_data = data.groupby("Year").agg(["mean", "max", "min"])
 
-# print(grouped_data)
 
 # Calculating the range for each year
 grouped_data["Range"] = (
-    grouped_data["PASAJEROS"]["max"] - grouped_data["PASAJEROS"]["min"]
+    grouped_data["Vehiculos"]["max"] - grouped_data["Vehiculos"]["min"]
 )
 
 # Preparing data for plotting
-mean_values = grouped_data["PASAJEROS"]["mean"]
+mean_values = grouped_data["Vehiculos"]["mean"]
 range_values = grouped_data["Range"]
 # Calculate the slope and intercept of the line
 slope, intercept = np.polyfit(mean_values, range_values, 1)
@@ -90,33 +91,34 @@ plt.plot(
 )  # Add the linear equation to the plot
 
 plt.title("Range Mean Graph by Year")
-plt.xlabel("Mean of PASAJEROS")
-plt.ylabel("Range of PASAJEROS")
+plt.xlabel("Mean of Vehiculos")
+plt.ylabel("Range of Vehiculos")
 plt.grid(True)
 plt.show()
 
-# ----------------------------- ANALYSIS OF THE SEASONAL COMPONENT -----------------------------#
+
+######################################### ANALYSIS OF THE SEASONAL COMPONENT #########################################
 # Extracting month and year from the date
 data["Month"] = data["obs"].dt.month
 
 # Creating a pivot table for the annual subseries plot
 pivot_data = data.pivot_table(
-    values="PASAJEROS", index="Month", columns="Year", aggfunc="mean"
+    values="Vehiculos", index="Month", columns="Year", aggfunc="mean"
 )
 
 # Plotting the annual subseries
 plt.figure(figsize=(12, 8))
 sns.lineplot(data=pivot_data, dashes=False)
-plt.title("Annual Subseries Plot of PASAJEROS Data")
+plt.title("Annual Subseries Plot of Vehiculos Data")
 plt.xlabel("Month")
-plt.ylabel("PASAJEROS")
+plt.ylabel("Vehiculos")
 plt.legend(title="Year", bbox_to_anchor=(1.05, 1), loc="upper left")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
 
 # We are using an multiplicatibe model because the seasonal variation is constant over time.
-decomposition = seasonal_decompose(data["PASAJEROS"], model="multiplicatibe", period=12)
+decomposition = seasonal_decompose(data["Vehiculos"], model="multiplicatibe", period=12)
 
 trend = decomposition.trend
 seasonal = decomposition.seasonal
@@ -127,7 +129,7 @@ plt.figure(figsize=(14, 8))
 
 # Plot for the trend component
 plt.subplot(411)
-plt.plot(data["obs"], data["PASAJEROS"], label="Original")
+plt.plot(data["obs"], data["Vehiculos"], label="Original")
 plt.legend(loc="best")
 plt.title("Original Time Series")
 plt.grid(True)
@@ -167,8 +169,6 @@ plt.tight_layout()
 plt.show()
 
 ######################################### Correlation and Autocorrelation #########################################
-
-
 lags = 24
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
@@ -179,8 +179,24 @@ plt.tight_layout()
 plt.show()
 
 stationary_series, num_differences, num_seasonal_diff = make_series_stationary(
-    data["PASAJEROS"]
+    data["Vehiculos"]
 )
+
+plt.figure(figsize=(10, 6))
+plt.plot(
+    stationary_series,
+    marker="o",
+    linestyle="-",
+)  # Line plot with points
+plt.axhline(y=0, color="r", linestyle="--")
+plt.title("Time Series Plot of Vehiculos Data")
+plt.xlabel("Date")
+plt.ylabel("Vehiculos")
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
 print(f" \n Number of differences applied: {num_differences}")
 print(f" Number of seasonal differences applied: {num_seasonal_diff} \n")
 check = check_stationarity(stationary_series)
@@ -209,10 +225,9 @@ p, q = suggest_arima_parameters(acf_vals, pacf_vals, confidence_level)
 
 print("\n----------------------ARIMA Model ----------------------\n")
 best_model = auto_arima(
-    stationary_series,
-    d=num_differences,
+    y,
     m=12,
-    seasonal=True,
+    seasonal=False,
     trace=False,
     stepwise=True,
     error_action="ignore",
@@ -224,38 +239,13 @@ print(
     f"\n AIC: {best_model.aic()} -------- BIC: {best_model.bic()}",
 )
 print(best_model.summary())
-# Realizar predicciones
-predicciones = best_model.predict(
-    n_periods=3,
-    X=x,
-    return_conf_int=True,
-    alpha=0.05,
-)
-predicted_counts = predicciones[0]
-confidence_intervals = predicciones[1]
 
+######################################### WHITE NOISE #########################################
 
-# Creando un DataFrame para las predicciones y los intervalos de confianza
-fechas_futuras = pd.date_range(start=data.index[-1], periods=4)[1:]
-predicciones_df = pd.DataFrame(
-    {
-        "predicted": predicted_counts,
-        "lower_ci": confidence_intervals[:, 0],
-        "upper_ci": confidence_intervals[:, 1],
-    },
-    index=fechas_futuras,
-)
+# Checking if residues are white noise
+residuals = best_model.resid()
+print("\n----------------------White Noise ----------------------\n")
+print("White noise test:")
 
-
-print(predicciones_df)
-# models = best_arima(stationary_series, d=num_differences, D=num_seasonal_diff)
-# print(f"Best models: {models}")
-
-
-# # Formatting the models for printing
-# formatted_aic_models = format_models(best_aic)
-# formatted_bic_models = format_models(best_bic)
-
-# # Printing the formatted models
-# print(f"Best models by AIC:\n{chr(10).join(formatted_aic_models)}")
-# print(f"---- Best models by BIC:\n{chr(10).join(formatted_bic_models)}")
+print(format_diagnostics(check_white_noise(residuals, alpha=0.05)))
+plot_diagnostics(residuals)
