@@ -1,10 +1,19 @@
 import pandas as pd
-from statsmodels.stats.outliers_influence import variance_inflation_factor
+import numpy as np
+from pmdarima import plot_acf
 import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+from pmdarima.arima import ARIMA
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.stats.diagnostic import acorr_ljungbox
+from scipy.stats import shapiro
 from pandas.core.api import DataFrame
 from itertools import product
-
-import numpy as np
+from scipy import stats
+from statsmodels.stats.diagnostic import het_white
+from statsmodels.stats.stattools import durbin_watson
 
 
 def compute_residuals(target_var, predictors, df):
@@ -207,3 +216,213 @@ def create_interactions(data: DataFrame) -> DataFrame:
             data[f"{col1}_{col2}"] = data[col1] * data[col2]
 
     return data
+
+
+def make_series_stationary(
+    series, max_diff=3, p_value_threshold=0.05, seasonal_period=12
+):
+    """
+    Apply differencing to a time series until it becomes stationary.
+
+    :param series: The original time series.
+    :param max_diff: Maximum number of differencing allowed.
+    :param p_value_threshold: Threshold for the p-value to consider the series stationary.
+    :return: A tuple containing the differenced series and the number of differences applied.
+    """
+
+    def adf_test(serie):
+        result = adfuller(serie, autolag="AIC", regression="ct")
+        return result[1]  # p-value
+
+    # Initial ADF test
+    p_value = adf_test(series)
+
+    num_diff = 0
+    num_seasonal_diff = 0
+
+    # Apply differencing until stationary or max_diff reached
+    if p_value < 0.05:
+        print("Series is already stationary.")
+
+    while p_value > p_value_threshold and num_diff < max_diff:
+        num_diff += 1
+        series = series.diff().dropna()
+        p_value = adf_test(series)
+        print(f"ADF test p-value: {p_value}")
+
+    # # Apply seasonal differencing until stationary or max_diff reached
+    # while p_value > p_value_threshold and num_seasonal_diff < max_diff:
+    #     num_seasonal_diff += 1
+    #     series = series.diff(seasonal_period).dropna()
+    #     p_value = adf_test(series)
+
+    return series, num_diff, num_seasonal_diff
+
+
+# Chequeo de estacionariedad
+def check_stationarity(series):
+    result = adfuller(series)
+    print("Estadístico ADF:", result[0])
+    print("Valor p:", result[1])
+    print("Valores críticos:")
+    for key, value in result[4].items():
+        print(f"    {key}: {value}")
+
+
+def suggest_arima_parameters(acf_values, pacf_values, confidence_interval):
+    """
+    Suggest ARIMA parameters p and q based on ACF and PACF values.
+
+    :param acf_values: Array of ACF values.
+    :param pacf_values: Array of PACF values.
+    :param confidence_interval: Confidence interval (e.g., 1.96 for 95%).
+    :return: Tuple (p, q) as suggested parameters.
+    """
+    p = sum(abs(pacf_values) > confidence_interval)
+    q = sum(abs(acf_values) > confidence_interval)
+
+    return p, q
+
+
+def suggest_sarima_parameters(acf_values, pacf_values, s, confidence_interval):
+    """
+    Suggest SARIMA parameters (p, d, q, P, D, Q) based on ACF and PACF values.
+
+    :param acf_values: Array of ACF values.
+    :param pacf_values: Array of PACF values.
+    :param s: Seasonal period.
+    :param confidence_interval: Confidence interval (e.g., 1.96 for 95%).
+    :return: Tuple (p, d, q, P, D, Q) as suggested parameters.
+    """
+    # Non-seasonal p and q
+    p = sum(abs(pacf_values[: s - 1]) > confidence_interval)
+    q = sum(abs(acf_values[: s - 1]) > confidence_interval)
+
+    # Seasonal P and Q
+    P = sum(abs(pacf_values[s - 1 :: s]) > confidence_interval)
+    Q = sum(abs(acf_values[s - 1 :: s]) > confidence_interval)
+
+    # Assuming D=1 as a common practice for seasonal differencing
+
+    return p, q, P, Q
+
+
+def format_models(models):
+    # Formatting the output to match the GRETL style
+    model_strings = []
+    for model in models:
+        # Assuming the model tuple structure is (params, AIC, BIC)
+        params, aic, bic = model
+        model_str = f"({' ,'.join(map(str, params[:-1]))}){params[-1]} - AIC: {aic:.5f} - BIC: {bic:.5f}"
+        model_strings.append(model_str)
+    return model_strings
+
+
+def best_arima(time_series, d, D, max_p=3, max_q=3):
+    best_models_aic = []
+    best_models_bic = []
+
+    # Iterate over various combinations of p, q, P, and Q
+    for p in range(max_p):
+        for q in range(max_q):
+            for P in range(max_p):
+                for Q in range(max_q):
+                    # Fit the ARIMA model
+                    model = ARIMA(
+                        order=(p, d, q),
+                        seasonal_order=(P, D, Q, 12),
+                        suppress_warnings=True,
+                    )
+                    model_fit = model.fit(time_series)
+
+                    # Append the model and its AIC/BIC to the lists
+                    best_models_aic.append((model_fit.aic(), model))
+                    best_models_bic.append((model_fit.bic(), model))
+
+    # Sort the models by AIC and BIC
+    best_models_aic.sort(key=lambda x: x[0])
+    best_models_bic.sort(key=lambda x: x[0])
+
+    # Return the top 5 models based on AIC and BIC
+    return best_models_aic[:5], best_models_bic[:5]
+
+
+def check_white_noise(residuals, alpha=0.05):
+    diagnostics = {}
+
+    all_tests_passed = True
+
+    # 1. Mean Value Test
+    t_stat, p_value_mean = stats.ttest_1samp(residuals, 0)
+    diagnostics["Mean Test p-value"] = p_value_mean
+    diagnostics["Mean Test"] = "Pass" if p_value_mean > alpha else "Fail"
+    if p_value_mean <= alpha:
+        all_tests_passed = False
+
+    # 2. Heteroscedasticity Test (White Test)
+    _, p_value_white, _, _ = het_white(residuals, sm.add_constant(residuals))
+    diagnostics["White Test p-value"] = p_value_white
+    diagnostics["White Test"] = "Pass" if p_value_white > alpha else "Fail"
+    if p_value_white <= alpha:
+        all_tests_passed = False
+
+    # 3. Normality Test (Shapiro-Wilk Test)
+    _, p_value_shapiro = stats.shapiro(residuals)
+    diagnostics["Shapiro Test p-value"] = p_value_shapiro
+    diagnostics["Shapiro Test"] = "Pass" if p_value_shapiro > alpha else "Fail"
+    if p_value_shapiro <= alpha:
+        all_tests_passed = False
+
+    # 4. Autocorrelation Test (Durbin-Watson Test)
+    dw_stat = durbin_watson(residuals)
+    diagnostics["Durbin-Watson stat"] = dw_stat
+    # Interpret Durbin-Watson statistic
+    if dw_stat < 1.5 or dw_stat > 2.5:
+        diagnostics["Durbin-Watson"] = "Fail"
+        all_tests_passed = False
+    else:
+        diagnostics["Durbin-Watson"] = "Pass"
+
+    # Final Verdict
+    diagnostics["Final Verdict"] = "Pass" if all_tests_passed else "Fail"
+
+    return diagnostics
+
+
+def plot_diagnostics(residuals, alpha=0.05):
+    # Q-Q plot for normality
+    plt.figure(figsize=(12, 8))
+    plt.subplot(221)
+    sm.qqplot(residuals, line="s")
+    plt.title("Q-Q Plot")
+
+    # Scatter plot for heteroscedasticity
+    plt.subplot(222)
+    plt.scatter(x=range(len(residuals)), y=residuals, alpha=0.5)
+    plt.axhline(y=np.mean(residuals), color="r", linestyle="dashed")
+    plt.title("Residuals Scatter Plot")
+
+    # Autocorrelation plot
+    plt.subplot(223)
+    plot_acf(residuals, alpha=alpha, lags=24)
+    plt.title("Autocorrelation Function")
+
+    # Plot of mean with confidence intervals
+    plt.subplot(224)
+    mean_residual = np.mean(residuals)
+    se = stats.sem(residuals)
+    ci = stats.t.interval(1 - alpha, len(residuals) - 1, loc=mean_residual, scale=se)
+    plt.axhline(y=mean_residual, color="r", linestyle="dashed")
+    plt.axhline(y=ci[0], color="g", linestyle="dashed")
+    plt.axhline(y=ci[1], color="g", linestyle="dashed")
+    plt.title("Mean of Residuals with Confidence Interval")
+
+    plt.tight_layout()
+    plt.show()
+
+
+def format_diagnostics(diagnostics):
+    print("\nDiagnostic Test Results:")
+    print("-" * 50)
+    for key, value in diagnostics.items():
+        print(f"{key.ljust(10)}: {value}")
