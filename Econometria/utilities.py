@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
-from pmdarima import plot_acf
+import seaborn as sns
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
+from pmdarima import plot_acf
 from pmdarima.arima import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import adfuller
@@ -14,6 +15,7 @@ from itertools import product
 from scipy import stats
 from statsmodels.stats.diagnostic import het_white
 from statsmodels.stats.stattools import durbin_watson
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 
 def compute_residuals(target_var, predictors, df):
@@ -348,19 +350,24 @@ def best_arima(time_series, d, D, max_p=3, max_q=3):
 
 
 def check_white_noise(residuals, alpha=0.05):
+    squared_residuals = residuals**2
+    independent_vars = np.column_stack([squared_residuals])
+    print(f"squared_residuals: {squared_residuals} \n")
     diagnostics = {}
 
     all_tests_passed = True
 
     # 1. Mean Value Test
-    t_stat, p_value_mean = stats.ttest_1samp(residuals, 0)
+    _, p_value_mean = stats.ttest_1samp(residuals, 0)
     diagnostics["Mean Test p-value"] = p_value_mean
     diagnostics["Mean Test"] = "Pass" if p_value_mean > alpha else "Fail"
     if p_value_mean <= alpha:
         all_tests_passed = False
 
     # 2. Heteroscedasticity Test (White Test)
-    _, p_value_white, _, _ = het_white(residuals, sm.add_constant(residuals))
+    _, p_value_white, _, _ = het_white(
+        squared_residuals, sm.add_constant(independent_vars)
+    )
     diagnostics["White Test p-value"] = p_value_white
     diagnostics["White Test"] = "Pass" if p_value_white > alpha else "Fail"
     if p_value_white <= alpha:
@@ -384,41 +391,13 @@ def check_white_noise(residuals, alpha=0.05):
         diagnostics["Durbin-Watson"] = "Pass"
 
     # Final Verdict
-    diagnostics["Final Verdict"] = "Pass" if all_tests_passed else "Fail"
+    diagnostics["Final Verdict"] = (
+        "The Residues are White Noise"
+        if all_tests_passed
+        else "The Residues are not White Noise"
+    )
 
     return diagnostics
-
-
-def plot_diagnostics(residuals, alpha=0.05):
-    # Q-Q plot for normality
-    plt.figure(figsize=(12, 8))
-    plt.subplot(221)
-    sm.qqplot(residuals, line="s")
-    plt.title("Q-Q Plot")
-
-    # Scatter plot for heteroscedasticity
-    plt.subplot(222)
-    plt.scatter(x=range(len(residuals)), y=residuals, alpha=0.5)
-    plt.axhline(y=np.mean(residuals), color="r", linestyle="dashed")
-    plt.title("Residuals Scatter Plot")
-
-    # Autocorrelation plot
-    plt.subplot(223)
-    plot_acf(residuals, alpha=alpha, lags=24)
-    plt.title("Autocorrelation Function")
-
-    # Plot of mean with confidence intervals
-    plt.subplot(224)
-    mean_residual = np.mean(residuals)
-    se = stats.sem(residuals)
-    ci = stats.t.interval(1 - alpha, len(residuals) - 1, loc=mean_residual, scale=se)
-    plt.axhline(y=mean_residual, color="r", linestyle="dashed")
-    plt.axhline(y=ci[0], color="g", linestyle="dashed")
-    plt.axhline(y=ci[1], color="g", linestyle="dashed")
-    plt.title("Mean of Residuals with Confidence Interval")
-
-    plt.tight_layout()
-    plt.show()
 
 
 def format_diagnostics(diagnostics):
@@ -426,3 +405,185 @@ def format_diagnostics(diagnostics):
     print("-" * 50)
     for key, value in diagnostics.items():
         print(f"{key.ljust(10)}: {value}")
+
+
+############################### GRAPHS ###############################
+
+
+def time_plot(
+    x,
+    y,
+    variable_name: str,
+    xlabel="Date",
+):
+    """
+    This function plots a time series plot with the following characteristics:
+    - Line plot with points
+    - Horizontal line at y=0
+    - Title with the name of the variable
+    - X and Y axis labels
+    - Grid
+    - Y axis starts at 0
+    - X axis labels rotated 45 degrees
+
+    Args:
+    x (pd.Series): X axis values.
+    y (pd.Series): Y axis values.
+    variable_name (str, optional): Name of the variable to be displayed in the title. Defaults to str.
+
+    xlabel (str, optional): X axis label. Defaults to "Date".
+    """
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        x,
+        y,
+        marker="o",
+        linestyle="-",
+        markersize=3,
+    )  # Line plot with points
+    plt.axhline(y=0, color="r", linestyle="--")
+    plt.title(f"Time Series Plot of {variable_name} Data")
+    plt.xlabel(xlabel)
+    plt.ylabel(variable_name)
+    plt.grid(True)
+    plt.ylim(bottom=y.min())
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def plots_for_seasonality(data, variable_name: str):
+    """
+    This function plots a range mean graph with the following characteristics:
+    - Scatter plot with points
+    - Linear regression line
+    - Title with the name of the variable
+    - X and Y axis labels
+    - Grid
+
+    Args:
+    data (pd.DataFrame): Dataframe with the data to be plotted.
+    variable_name (str): Name of the variable to be displayed in the title. Defaults to str.
+    """
+    try:
+        # Grouping the data by year
+        data["Year"] = data["obs"].dt.year
+        grouped_data = data.groupby("Year").agg(["mean", "max", "min"])
+
+        # Calculating the range for each year
+        grouped_data["Range"] = (
+            grouped_data[variable_name]["max"] - grouped_data[variable_name]["min"]
+        )
+
+        # Preparing data for plotting
+        mean_values = grouped_data[variable_name]["mean"]
+        range_values = grouped_data["Range"]
+        # Calculate the slope and intercept of the line
+        slope, intercept = np.polyfit(mean_values, range_values, 1)
+
+        # Create a figure with two subplots side by side
+        plt.figure(figsize=(15, 6))
+
+        # Subplot 1: Range Mean Graph by Year
+        plt.subplot(1, 2, 1)
+        plt.scatter(mean_values, range_values)
+        plt.plot(mean_values, slope * mean_values + intercept, color="red")
+        plt.title("Range Mean Graph by Year")
+        plt.xlabel(f"Mean of {variable_name}")
+        plt.ylabel(f"Range of {variable_name}")
+        plt.grid(True)
+
+        # Extracting month and year from the date
+        data["Month"] = data["obs"].dt.month
+
+        # Creating a pivot table for the annual subseries plot
+
+        # Subplot 2: Annual Subseries Plot
+        plt.subplot(1, 2, 2)
+        pivot_data = data.pivot_table(
+            values=variable_name, index="Month", columns="Year", aggfunc="mean"
+        )
+        sns.lineplot(data=pivot_data, dashes=False)
+        plt.title(f"Annual Subseries Plot of {variable_name} Data")
+        plt.xlabel("Month")
+        plt.ylabel(variable_name)
+        plt.legend(title="Year", bbox_to_anchor=(1.05, 1), loc="upper left")
+        plt.grid(True)
+
+        plt.tight_layout()
+        plt.show()
+    except Exception as e:
+        print(f"Error: {e}")
+        if variable_name not in data.columns:
+            print(f"Variable {variable_name} not found in the data.")
+
+
+def series_decomposition(data, variable_name: str):
+    plots_for_seasonality(data, "Vehiculos")
+    print("Given the data before, chose your model:")
+    print("1. Additive")
+    print("2. Multiplicative")
+
+    choice = input("Enter your choice (1 or 2): ")
+
+    if choice == "1":
+        # Additive: Append a phrase to the string
+        model_type = choice
+    elif choice == "2":
+        # Multiplicative: Repeat the string 3 times
+        model_type = choice
+    else:
+        # If the input is invalid, return the original string
+        print("Invalid choice. Setting the default mode, additive.")
+        model_type = "additive"
+
+    # We are using an multiplicatibe model because the seasonal variation is constant over time.
+    decomposition = seasonal_decompose(data[variable_name], model=model_type, period=12)
+
+    trend = decomposition.trend
+    seasonal = decomposition.seasonal
+    residual = decomposition.resid
+
+    # Plotting the components
+    plt.figure(figsize=(14, 8))
+
+    # Plot for the trend component
+    plt.subplot(411)
+    plt.plot(data["obs"], data[variable_name], label="Original")
+    plt.legend(loc="best")
+    plt.title("Original Time Series")
+    plt.grid(True)
+    plt.xlim(data["obs"][0])
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Plot for the trend component
+    plt.subplot(412)
+    plt.plot(data["obs"], trend, label="Trend")
+    plt.legend(loc="best")
+    plt.grid(True)
+    plt.xlim(data["obs"][0])
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Plot for the seasonal component
+    plt.subplot(413)
+    plt.plot(data["obs"], seasonal, label="Seasonality")
+    plt.legend(loc="best")
+    plt.grid(True)
+    plt.xlim(data["obs"][0])
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Plot for the residual component
+    plt.subplot(414)
+    plt.plot(data["obs"], residual, label="Residuals")
+    plt.legend(loc="best")
+    plt.grid(True)
+    plt.xlim(data["obs"][0])
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
