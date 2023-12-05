@@ -519,7 +519,17 @@ def plots_for_seasonality(data, variable_name: str):
 
 
 def series_decomposition(data, variable_name: str):
-    plots_for_seasonality(data, "Vehiculos")
+    """
+    This function plots different graphs for visualizing if the model is additive or multiplicative.
+    It lets you decide which model to use, and then plots the decomposition of the series.
+
+    args:
+    data (pd.DataFrame): Dataframe with the data to be plotted.
+    variable_name (str): Name of the variable to be displayed in the title. Obligatory.
+
+    """
+    plots_for_seasonality(data, variable_name)
+
     print("Given the data before, chose your model:")
     print("1. Additive")
     print("2. Multiplicative")
