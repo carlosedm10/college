@@ -3,6 +3,8 @@ import numpy as np
 import seaborn as sns
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
+import ipywidgets as widgets
+from IPython.display import display
 
 from pmdarima import plot_acf
 from pmdarima.arima import ARIMA
@@ -16,6 +18,8 @@ from scipy import stats
 from statsmodels.stats.diagnostic import het_white
 from statsmodels.stats.stattools import durbin_watson
 from statsmodels.tsa.seasonal import seasonal_decompose
+import ipywidgets as widgets
+from IPython.display import display
 
 
 def compute_residuals(target_var, predictors, df):

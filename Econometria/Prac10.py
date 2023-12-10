@@ -26,8 +26,8 @@ threshold = 0.05
 
 # Load the CSV file
 file_path = "Econometria/MST007.csv"
-data = pd.read_csv(file_path).dropna()
-data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")
+data = pd.read_csv(file_path).dropna()  # Drop all NaN values from table
+data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")  # Format date
 print(data)
 
 ######################################### VISUAL COMPROVATION #########################################
