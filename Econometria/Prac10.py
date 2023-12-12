@@ -5,10 +5,7 @@
 4. Predice la produccion de los 3 primeros meses de 1996, incluyendo los intervalos de confianza. 
 """
 
-import numpy as np
 import pandas as pd
-import seaborn as sns
-
 
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
@@ -29,22 +26,27 @@ threshold = 0.05
 
 # Load the CSV file
 file_path = "Econometria/MST007.csv"
+
 data = pd.read_csv(file_path).dropna()
 data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")
-print(data)
+print(data.head())
 
-######################################### VISUAL COMPROVATION #########################################
+variable_name = "Vehiculos"
 
 data = data[data["obs"].dt.year <= 1985]
 print(f"df_1985: {data}")
-y = data["Vehiculos"]
+y = data[variable_name]
 x = data["obs"]
 
+
+######################################### VISUAL COMPROVATION #########################################
+
+
 # Time series plot
-time_plot(x, y, variable_name="Vehiculos")
+time_plot(x, y, variable_name=variable_name, ylim=y.min())
 
 # Chosing the model and showing the Decomposition
-series_decomposition(data, variable_name="Vehiculos")
+series_decomposition(data, variable_name=variable_name)
 
 ######################################### Correlation and Autocorrelation #########################################
 lags = 24
@@ -57,40 +59,14 @@ plt.tight_layout()
 plt.show()
 
 stationary_series, num_differences, num_seasonal_diff = make_series_stationary(
-    data["Vehiculos"]
+    data[variable_name]
 )
 # ----------------------------- First Difference -----------------------------#
-plt.figure(figsize=(10, 6))
-plt.plot(
-    stationary_series,
-    marker="o",
-    linestyle="-",
-)  # Line plot with points
-plt.axhline(y=0, color="r", linestyle="--")
-plt.title("Time Series Plot of Vehiculos Data")
-plt.xlabel("Date")
-plt.ylabel("Vehiculos")
-plt.grid(True)
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+time_plot(stationary_series, variable_name=variable_name)
 
 stationary_series = stationary_series.diff().dropna()
 # ----------------------------- Second Difference -----------------------------#
-plt.figure(figsize=(10, 6))
-plt.plot(
-    stationary_series,
-    marker="o",
-    linestyle="-",
-)  # Line plot with points
-plt.axhline(y=0, color="r", linestyle="--")
-plt.title("Time Series Plot of Vehiculos Data")
-plt.xlabel("Date")
-plt.ylabel("Vehiculos")
-plt.grid(True)
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+time_plot(stationary_series, variable_name=variable_name)
 
 print(f" \n Number of differences applied: {num_differences}")
 print(f" Number of seasonal differences applied: {num_seasonal_diff} \n")

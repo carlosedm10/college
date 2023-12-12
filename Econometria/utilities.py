@@ -16,6 +16,7 @@ from scipy import stats
 from statsmodels.stats.diagnostic import het_white
 from statsmodels.stats.stattools import durbin_watson
 from statsmodels.tsa.seasonal import seasonal_decompose
+from numpy.typing import ArrayLike
 
 
 def compute_residuals(target_var, predictors, df):
@@ -411,10 +412,10 @@ def format_diagnostics(diagnostics):
 
 
 def time_plot(
-    x,
-    y,
+    *args: ArrayLike,
     variable_name: str,
     xlabel="Date",
+    ylim=None,
 ):
     """
     This function plots a time series plot with the following characteristics:
@@ -435,8 +436,7 @@ def time_plot(
     """
     plt.figure(figsize=(10, 6))
     plt.plot(
-        x,
-        y,
+        *args,
         marker="o",
         linestyle="-",
         markersize=3,
@@ -446,7 +446,7 @@ def time_plot(
     plt.xlabel(xlabel)
     plt.ylabel(variable_name)
     plt.grid(True)
-    plt.ylim(bottom=y.min())
+    plt.ylim(bottom=ylim)
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
