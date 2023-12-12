@@ -435,3 +435,199 @@ plt.tight_layout()
 
 # Show the plots
 plt.show()
+
+# ----------------------------- Chanel of Sales --------------------------------
+# Create a 2x2 grid of plots
+fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
+# Likelihood of Buying Iced Latte by Gender
+ax0 = sns.countplot(
+    x="Likelihood of Buying Iced Latte", data=data_cleaned, color="grey", ax=axes[0]
+)
+ax0 = sns.countplot(
+    x="Likelihood of Buying Iced Latte",
+    hue="Residence Environment",
+    data=data_cleaned,
+    ax=axes[0],
+)
+add_total_to_legend(ax0)
+ax0.set_title("Likelihood of Buying Iced Latte in Supermarkets by Importance Level")
+ax0.set_xlabel("Importance Level")
+ax0.set_ylabel("Count")
+ax0.tick_params(axis="x", rotation=0)
+
+# Preferred Purchase Location by Age Range
+ax1 = sns.countplot(
+    x="Preferred Purchase Location", data=data_cleaned, color="grey", ax=axes[1]
+)
+ax1 = sns.countplot(
+    x="Preferred Purchase Location",
+    hue="Residence Environment",
+    data=data_cleaned,
+    ax=axes[1],
+)
+add_total_to_legend(ax1)
+ax1.set_title("Preferred Purchase Location by Residence Environment")
+ax1.set_xlabel("Place")
+ax1.set_ylabel("Count")
+ax1.tick_params(axis="x", rotation=0)
+
+# Adjust spacing between plots
+plt.tight_layout()
+
+# Show the plots
+plt.show()
+
+# ----------------------------- Brand Importance and Pricing --------------------------------
+# Create a 2x2 grid of plots
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+
+# Importance of Brand by Current Situation
+ax0 = sns.countplot(
+    x="Importance of Brand", data=data_cleaned, color="grey", ax=axes[0, 0]
+)
+ax0 = sns.countplot(
+    x="Importance of Brand",
+    hue="Current Situation",  # Replace with the appropriate column name
+    data=data_cleaned,
+    ax=axes[0, 0],
+)
+add_total_to_legend(ax0)
+ax0.set_title("Importance of Brand by Current Situation")
+ax0.set_xlabel("Importance Level")
+ax0.set_ylabel("Count")
+ax0.tick_params(axis="x", rotation=0)
+
+# Importance of Price by Current Situation
+ax1 = sns.countplot(
+    x="Importance of Price", data=data_cleaned, color="grey", ax=axes[0, 1]
+)
+ax1 = sns.countplot(
+    x="Importance of Price",
+    hue="Current Situation",  # Replace with the appropriate column name
+    data=data_cleaned,
+    ax=axes[0, 1],
+)
+add_total_to_legend(ax1)
+ax1.set_title("Importance of Price by Current Situation")
+ax1.set_xlabel("Importance Level")
+ax1.set_ylabel("Count")
+ax1.tick_params(axis="x", rotation=0)
+
+# Too Expensive Price Range by Current Situation
+ax2 = sns.countplot(
+    x="Too Expensive Price Range", data=data_cleaned, color="grey", ax=axes[1, 0]
+)
+ax2 = sns.countplot(
+    x="Too Expensive Price Range",
+    hue="Current Situation",  # Replace with the appropriate column name
+    data=data_cleaned,
+    ax=axes[1, 0],
+)
+add_total_to_legend(ax2)
+ax2.set_title("Too Expensive Price Range by Current Situation")
+ax2.set_xlabel("Price Range")
+ax2.set_ylabel("Count")
+ax2.tick_params(axis="x", rotation=45)
+
+# Too Cheap Price Range by Current Situation
+ax3 = sns.countplot(
+    x="Too Cheap Price Range", data=data_cleaned, color="grey", ax=axes[1, 1]
+)
+ax3 = sns.countplot(
+    x="Too Cheap Price Range",
+    hue="Current Situation",  # Replace with the appropriate column name
+    data=data_cleaned,
+    ax=axes[1, 1],
+)
+add_total_to_legend(ax3)
+ax3.set_title("Too Cheap Price Range by Current Situation")
+ax3.set_xlabel("Price Range")
+ax3.set_ylabel("Count")
+ax3.tick_params(axis="x", rotation=45)
+
+# Adjust spacing between plots
+plt.tight_layout()
+
+# Show the plots
+plt.show()
+
+# ----------------------------- Idea Validation --------------------------------
+# Create a 2x2 grid of plots
+fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+
+# Specialness of Product Idea by Gender
+ax0 = sns.countplot(
+    x="Specialness of Product Idea", data=data_cleaned, color="grey", ax=axes[0, 0]
+)
+ax0 = sns.countplot(
+    x="Specialness of Product Idea",
+    hue="Gender",  # Replace with the actual column name for gender
+    data=data_cleaned,
+    ax=axes[0, 0],
+)
+add_total_to_legend(ax0)
+ax0.set_title("Specialness of Product Idea by Gender")
+ax0.set_xlabel("Specialness Level")
+ax0.set_ylabel("Count")
+ax0.tick_params(axis="x", rotation=0)
+
+# Specialness of Product Idea by Age
+ax1 = sns.countplot(
+    x="Specialness of Product Idea", data=data_cleaned, color="grey", ax=axes[0, 1]
+)
+ax1 = sns.countplot(
+    x="Specialness of Product Idea",
+    hue="Age Range",  # Replace with the actual column name for age range
+    data=data_cleaned,
+    ax=axes[0, 1],
+)
+add_total_to_legend(ax1)
+ax1.set_title("Specialness of Product Idea by Age Range")
+ax1.set_xlabel("Specialness Level")
+ax1.set_ylabel("Count")
+ax1.tick_params(axis="x", rotation=0)
+
+# Importance of Ready-to-Drink Feature by Gender
+ax2 = sns.countplot(
+    x="Importance of Ready-to-Drink Feature",
+    data=data_cleaned,
+    color="grey",
+    ax=axes[1, 0],
+)
+ax2 = sns.countplot(
+    x="Importance of Ready-to-Drink Feature",
+    hue="Gender",  # Replace with the actual column name for gender
+    data=data_cleaned,
+    ax=axes[1, 0],
+)
+add_total_to_legend(ax2)
+ax2.set_title("Importance of Ready-to-Drink Feature by Gender")
+ax2.set_xlabel("Importance Level")
+ax2.set_ylabel("Count")
+ax2.tick_params(axis="x", rotation=0)
+
+# Importance of Ready-to-Drink Feature by Age
+ax3 = sns.countplot(
+    x="Importance of Ready-to-Drink Feature",
+    data=data_cleaned,
+    color="grey",
+    ax=axes[1, 1],
+)
+ax3 = sns.countplot(
+    x="Importance of Ready-to-Drink Feature",
+    hue="Age Range",  # Replace with the actual column name for age range
+    data=data_cleaned,
+    ax=axes[1, 1],
+)
+add_total_to_legend(ax3)
+ax3.set_title("Importance of Ready-to-Drink Feature by Age Range")
+ax3.set_xlabel("Importance Level")
+ax3.set_ylabel("Count")
+ax3.tick_params(axis="x", rotation=0)
+
+# Adjust spacing between plots
+plt.tight_layout()
+
+# Show the plots
+plt.show()
