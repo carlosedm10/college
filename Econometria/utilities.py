@@ -10,17 +10,16 @@ from pmdarima import plot_acf
 from pmdarima.arima import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import adfuller
-from statsmodels.stats.diagnostic import acorr_ljungbox
+from statsmodels.stats.diagnostic import het_breuschpagan
 from scipy.stats import shapiro
 from pandas.core.api import DataFrame
 from itertools import product
 from scipy import stats
 from statsmodels.stats.diagnostic import het_white
-from statsmodels.stats.stattools import durbin_watson
+from statsmodels.stats.stattools import durbin_watson, jarque_bera
 from statsmodels.tsa.seasonal import seasonal_decompose
 from numpy.typing import ArrayLike
 from IPython.display import display
-
 
 
 def compute_residuals(target_var, predictors, df):
@@ -354,9 +353,31 @@ def best_arima(time_series, d, D, max_p=3, max_q=3):
     return best_models_aic[:5], best_models_bic[:5]
 
 
-def check_white_noise(residuals, alpha=0.05):
+def check_white_noise(residuals, exog, alpha=0.05):
+    """
+    Check if the residuals are white noise using the following tests:
+    - Mean Value Test
+    - Heteroscedasticity Tests
+        - White Test
+        - Breusch-Pagan Test
+        - F and t tests
+    - Normality Tests
+        - Shapiro-Wilk Test
+        - Jarque-Bera Test
+    - Autocorrelation Test (Durbin-Watson Test)
+
+    Args:
+    residuals (pd.Series): Residuals of the model.
+    alpha (float, optional): Significance level. Defaults to 0.05.
+
+    Returns:
+    dict: Dictionary with the results of the tests.
+    """
+    # Defining the model:
     squared_residuals = residuals**2
-    independent_vars = np.column_stack([squared_residuals])
+    y = exog
+    t = np.arange(1, len(y) + 1)
+
     print(f"squared_residuals: {squared_residuals} \n")
     diagnostics = {}
 
@@ -369,20 +390,51 @@ def check_white_noise(residuals, alpha=0.05):
     if p_value_mean <= alpha:
         all_tests_passed = False
 
-    # 2. Heteroscedasticity Test (White Test)
-    _, p_value_white, _, _ = het_white(
-        squared_residuals, sm.add_constant(independent_vars)
-    )
+    # 2. Heteroscedasticity Tests
+    # White Test
+    _, p_value_white, _, _ = het_white(squared_residuals, sm.add_constant(y))
     diagnostics["White Test p-value"] = p_value_white
     diagnostics["White Test"] = "Pass" if p_value_white > alpha else "Fail"
     if p_value_white <= alpha:
         all_tests_passed = False
 
-    # 3. Normality Test (Shapiro-Wilk Test)
+    # Breusch-Pagan Test
+    _, _, _, p_value_breusch_pagan = het_breuschpagan(residuals, sm.add_constant(y))
+    diagnostics["Breusch-Pagan Test p-value"] = p_value_breusch_pagan
+    diagnostics["Breusch-Pagan Test"] = (
+        "Pass" if p_value_breusch_pagan > alpha else "Fail"
+    )
+    if p_value_breusch_pagan <= alpha:
+        all_tests_passed = False
+
+    # F and t tests
+    _, p_value_f = stats.f_oneway(squared_residuals, y, t)
+    diagnostics["F Test p-value"] = p_value_f
+    diagnostics["F Test"] = "Pass" if p_value_f <= alpha else "Fail"
+    if p_value_f <= alpha:
+        all_tests_passed = False
+
+    _, p_value_t1 = stats.ttest_ind(squared_residuals, y)
+    diagnostics["t Test p-value for y"] = p_value_t1
+    _, p_value_t2 = stats.ttest_ind(squared_residuals, t)
+    diagnostics["t Test p-value for t"] = p_value_t2
+    diagnostics["t Test"] = "Pass" if p_value_t1 and p_value_t2 <= alpha else "Fail"
+    if p_value_t1 and p_value_t2 <= alpha:
+        all_tests_passed = False
+
+    # 3. Normality Tests
+    # Shapiro-Wilk Test
     _, p_value_shapiro = stats.shapiro(residuals)
     diagnostics["Shapiro Test p-value"] = p_value_shapiro
     diagnostics["Shapiro Test"] = "Pass" if p_value_shapiro > alpha else "Fail"
     if p_value_shapiro <= alpha:
+        all_tests_passed = False
+
+    # Jarque-Bera Test
+    _, p_value_jarque_bera, _, _ = jarque_bera(residuals)
+    diagnostics["Jarque-Bera Test p-value"] = p_value_jarque_bera
+    diagnostics["Jarque-Bera Test"] = "Pass" if p_value_jarque_bera > alpha else "Fail"
+    if p_value_jarque_bera <= alpha:
         all_tests_passed = False
 
     # 4. Autocorrelation Test (Durbin-Watson Test)

@@ -105,7 +105,8 @@ print(best_model.summary())
 
 # Checking if residues are white noise
 residuals = best_model.resid()
+print(residuals)
 print("\n----------------------White Noise ----------------------\n")
 print("White noise test:")
 
-print(format_diagnostics(check_white_noise(residuals, alpha=0.05)))
+print(format_diagnostics(check_white_noise(residuals, y, alpha=0.05)))
