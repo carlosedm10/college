@@ -14,6 +14,7 @@ from constants import (
 )
 
 file_path = "ICO/TEA IS LIKE A HUG.csv"
+save_path = "/Users/carlosedm10/Downloads/"
 data = pd.read_csv(file_path)
 ################################ DATA PROCESSING ################################
 
@@ -96,12 +97,61 @@ data_cleaned["Age Range"] = pd.Categorical(
 # Number of not ansered questionaries
 number_of_responses = len(data)
 number_of_valid_responses = len(data_cleaned) - len(inconsistent_responses)
-number_of_invalid_responses = number_of_responses - number_of_valid_responses
-
-print(
-    f"Number of responses: {number_of_responses}\nNumber of inconsistent responses: {len(inconsistent_responses)}\nNumber of valid responses: {number_of_valid_responses}\nNumber of invalid responses: {number_of_invalid_responses}\n"
+number_of_inconsistent_responses = len(inconsistent_responses)
+number_of_invalid_clients = (
+    number_of_responses - number_of_valid_responses - number_of_inconsistent_responses
 )
 
+print(
+    f"Number of responses: {number_of_responses}\nNumber of valid responses: {number_of_valid_responses}\nNumber of inconsistent responses: {number_of_inconsistent_responses}\nNumber of invalid responses: {number_of_invalid_clients}\n"
+)
+labels = ["Valid Responses", "Inconsistent Responses", "Invalid Clients"]
+sizes = [
+    number_of_valid_responses,
+    number_of_inconsistent_responses,
+    number_of_invalid_clients,
+]
+explode = (0.01, 0, 0)  # Explode the "Valid Responses" slice slightly
+
+# Create a pie chart
+plt.figure(figsize=(8, 8))
+plt.pie(
+    sizes,
+    labels=labels,
+    autopct="%1.1f%%",
+    startangle=140,
+    explode=explode,
+)
+
+# Add a title
+plt.title(f"Statistics for {number_of_responses} Responses")
+
+# Display the plot
+plt.axis("equal")  # Ensure a circular pie chart
+# plt.show()
+# Display the plot
+plt.axis("equal")  # Ensure a circular pie chart
+plt.savefig(f"{save_path}Responses pie.png")
+
+# Select columns for pie charts
+columns_for_pie_charts = ["Gender", "Age Range", "Residence Environment"]
+
+# Iterate through the selected columns and create pie charts
+for column in columns_for_pie_charts:
+    # Calculate value counts for the column
+    value_counts = data_cleaned[column].value_counts()
+
+    # Create a pie chart
+    plt.figure(figsize=(8, 8))
+    plt.pie(value_counts, labels=value_counts.index, autopct="%1.1f%%", startangle=140)
+
+    # Add a title based on the column name
+    plt.title(f"{column} Distribution")
+
+    # Display the plot
+    plt.axis("equal")  # Ensure a circular pie chart
+    plt.savefig(f"{save_path}{column} pie.png")
+    # plt.show()
 
 # ------------------------------ Consumptions habits ------------------------------
 # Analyzing consumption habits based on gender, age, and residence environment
@@ -159,7 +209,10 @@ ax2.set_ylabel("Count")
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+
+tittle = "Frequency of Cold Beverages"
+plt.savefig(f"{save_path}{tittle} plot.png")
 
 
 # Create subplots with three columns
@@ -208,7 +261,10 @@ ax1.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+tittle = "Iced Latte Tea Consumption Option"
+plt.savefig(f"{save_path}{tittle} plot.png")
+
 
 # ----------------------------- Importance of flavor --------------------------------
 
@@ -279,7 +335,9 @@ ax3.tick_params(axis="x", rotation=45)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+tittle = "Iced Latte Tea Consumption Option"
+plt.savefig(f"{save_path}{tittle} plot.png")
 
 # ----------------------------- Importance of Igredients --------------------------------
 # Create a 1x2 grid of plots
@@ -322,7 +380,10 @@ ax1.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+
+tittle = "Importance of Ingredients"
+plt.savefig(f"{save_path}{tittle} plot.png")
 
 # ----------------------------- Importance of Health --------------------------------
 # Create a 2x2 grid of plots
@@ -395,7 +456,9 @@ ax3.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+tittle = "Importance of Health"
+plt.savefig(f"{save_path}{tittle} plot.png")
 # ----------------------------- Importance of Veganism --------------------------------
 # Create a 1x2 grid of plots
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
@@ -434,8 +497,10 @@ ax1.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
 
+tittle = "Importance of Veganism"
+plt.savefig(f"{save_path}{tittle} plot.png")
 # ----------------------------- Chanel of Sales --------------------------------
 # Create a 2x2 grid of plots
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
@@ -476,7 +541,10 @@ ax1.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+
+tittle = "Chanel of Sales"
+plt.savefig(f"{save_path}{tittle} plot.png")
 
 # ----------------------------- Brand Importance and Pricing --------------------------------
 # Create a 2x2 grid of plots
@@ -550,8 +618,10 @@ ax3.tick_params(axis="x", rotation=45)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
 
+tittle = "Brand Importance and Pricing"
+plt.savefig(f"{save_path}{tittle} plot.png")
 # ----------------------------- Idea Validation --------------------------------
 # Create a 2x2 grid of plots
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
@@ -630,4 +700,7 @@ ax3.tick_params(axis="x", rotation=0)
 plt.tight_layout()
 
 # Show the plots
-plt.show()
+# plt.show()
+
+tittle = "Idea Validation"
+plt.savefig(f"{save_path}{tittle} plot.png")
