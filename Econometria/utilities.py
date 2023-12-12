@@ -3,7 +3,9 @@ import numpy as np
 import seaborn as sns
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
+import ipywidgets as widgets
 
+from IPython.display import display
 from pmdarima import plot_acf
 from pmdarima.arima import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -17,6 +19,8 @@ from statsmodels.stats.diagnostic import het_white
 from statsmodels.stats.stattools import durbin_watson
 from statsmodels.tsa.seasonal import seasonal_decompose
 from numpy.typing import ArrayLike
+from IPython.display import display
+
 
 
 def compute_residuals(target_var, predictors, df):
