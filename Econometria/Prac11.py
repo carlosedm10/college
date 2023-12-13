@@ -1,8 +1,10 @@
+import numpy as np
 import pandas as pd
 
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from pmdarima import ARIMA
 from matplotlib import pyplot as plt
 from utilities import (
     check_white_noise,
@@ -28,7 +30,7 @@ variable_name = "Vehiculos"  # Defining the variable name
 
 data = data[data["obs"].dt.year <= 1985]  # Selecting the data until 1985
 print(f"df_1985: {data}")
-y = data["Vehiculos"]
+y = data[variable_name]
 x = data["obs"]
 
 ######################################### VISUAL COMPROVATION #########################################
@@ -56,7 +58,29 @@ d = 0
 
 # NOTE: make this as many times as necessary
 
-dy = data[variable_name].diff().dropna()
+dy = np.log(y).diff().dropna()
+
+time_plot(dy, variable_name=variable_name)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+plot_acf(dy, ax=ax1, lags=lags)
+plot_pacf(dy, ax=ax2, lags=lags)
+
+plt.tight_layout()
+plt.show()
+
+dy = dy.diff().dropna()
+
+time_plot(dy, variable_name=variable_name)
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+plot_acf(dy, ax=ax1, lags=lags)
+plot_pacf(dy, ax=ax2, lags=lags)
+
+plt.tight_layout()
+plt.show()
+
+dy = dy.diff(periods=12).dropna()
 
 time_plot(dy, variable_name=variable_name)
 
@@ -76,6 +100,19 @@ P = int(input("P: "))
 D = int(input("D: "))
 Q = int(input("Q: "))
 S = int(input("S: "))
+
 model = SARIMAX(y, order=(p, d, q), seasonal_order=(P, D, Q, S))
 results = model.fit()
-print(results.summary())
+
+# Access the residuals using the 'resid' attribute
+residuals = results.resid
+
+# Print the first few residuals
+print(residuals.head())
+
+######################################### RESIDUALS #########################################
+
+print("\n----------------------White Noise ----------------------\n")
+print("White noise test:")
+
+print(format_diagnostics(check_white_noise(residuals, y, alpha=0.05)))

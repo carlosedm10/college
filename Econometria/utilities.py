@@ -410,16 +410,16 @@ def check_white_noise(residuals, exog, alpha=0.05):
     # F and t tests
     _, p_value_f = stats.f_oneway(squared_residuals, y, t)
     diagnostics["F Test p-value"] = p_value_f
-    diagnostics["F Test"] = "Pass" if p_value_f <= alpha else "Fail"
-    if p_value_f <= alpha:
+    diagnostics["F Test"] = "Pass" if p_value_f > alpha else "Fail"
+    if p_value_f > alpha:
         all_tests_passed = False
 
     _, p_value_t1 = stats.ttest_ind(squared_residuals, y)
     diagnostics["t Test p-value for y"] = p_value_t1
     _, p_value_t2 = stats.ttest_ind(squared_residuals, t)
     diagnostics["t Test p-value for t"] = p_value_t2
-    diagnostics["t Test"] = "Pass" if p_value_t1 and p_value_t2 <= alpha else "Fail"
-    if p_value_t1 and p_value_t2 <= alpha:
+    diagnostics["t Test"] = "Pass" if p_value_t1 and p_value_t2 > alpha else "Fail"
+    if p_value_t1 and p_value_t2 > alpha:
         all_tests_passed = False
 
     # 3. Normality Tests
