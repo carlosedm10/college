@@ -408,10 +408,11 @@ def check_white_noise(residuals, exog, alpha=0.05):
         all_tests_passed = False
 
     # F and t tests
-    _, p_value_f = stats.f_oneway(squared_residuals, y, t)
-    diagnostics["F Test p-value"] = p_value_f
-    diagnostics["F Test"] = "Pass" if p_value_f > alpha else "Fail"
-    if p_value_f > alpha:
+    residual_linear_model = sm.OLS(residuals**2, t).fit()
+    f_pvalue = residual_linear_model.f_pvalue  # P-value for the F-statistic
+    diagnostics["F Test p-value"] = f_pvalue
+    diagnostics["F Test"] = "Pass" if f_pvalue > alpha else "Fail"
+    if f_pvalue > alpha:
         all_tests_passed = False
 
     _, p_value_t1 = stats.ttest_ind(squared_residuals, y)

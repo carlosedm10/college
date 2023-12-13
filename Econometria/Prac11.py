@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
@@ -9,8 +10,6 @@ from matplotlib import pyplot as plt
 from utilities import (
     check_white_noise,
     format_diagnostics,
-    make_series_stationary,
-    series_decomposition,
     time_plot,
 )
 
@@ -20,99 +19,119 @@ from utilities import (
 threshold = 0.05
 
 # Load the CSV file
-file_path = "Econometria/MST007.csv"
+file_path = "Econometria/TASA_PARO.csv"
 
 data = pd.read_csv(file_path).dropna()  # Drop all NaN values from table
-data["obs"] = pd.to_datetime(data["obs"], format="%YM%m")
+# Split the "obs" column into year and quarter
+data[["Year", "Quarter"]] = data["obs"].str.split("Q", expand=True)
+
+# Create a new column "Date" with the first day of the respective quarter
+
 print(data.head())
 
-variable_name = "Vehiculos"  # Defining the variable name
+variable_name = "PARO"  # Defining the variable name
 
-data = data[data["obs"].dt.year <= 1985]  # Selecting the data until 1985
 print(f"df_1985: {data}")
 y = data[variable_name]
 x = data["obs"]
 
-######################################### VISUAL COMPROVATION #########################################
+
+######################################### Pregunta 2 #########################################
 
 # Time series plot
 time_plot(x, y, variable_name=variable_name, ylim=y.min())
 
-# Chosing the model and showing the Decomposition
-# series_decomposition(data, variable_name=variable_name) # Optional
+######################################### Pregunta 3 #########################################
 
-######################################### Correlation and Autocorrelation #########################################
-
-lags = 24
+lags = 12
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(y, ax=ax1, lags=lags)
-plot_pacf(y, ax=ax2, lags=lags)
+plot_acf(y, ax=ax1, lags=lags, title="Autocorrelation for time series")
+plot_pacf(y, ax=ax2, lags=lags, title="Partial Autocorrelation for time series")
 
 plt.tight_layout()
 plt.show()
 
-stop_differencing = 0
-d = 0
 # ----------------------------- Diferencing -----------------------------#
 
-# NOTE: make this as many times as necessary
-
-dy = np.log(y).diff().dropna()
-
-time_plot(dy, variable_name=variable_name)
-
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(dy, ax=ax1, lags=lags)
-plot_pacf(dy, ax=ax2, lags=lags)
-
-plt.tight_layout()
-plt.show()
-
-dy = dy.diff().dropna()
+dy = y.diff().dropna()  # First difference
+dy = dy.diff(periods=4).dropna()  # Seasonal difference for quarterly data
 
 time_plot(dy, variable_name=variable_name)
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(dy, ax=ax1, lags=lags)
-plot_pacf(dy, ax=ax2, lags=lags)
+plot_acf(dy, ax=ax1, lags=lags, title="Autocorrelation for differences")
+plot_pacf(dy, ax=ax2, lags=lags, title="Partial Autocorrelation for differences")
 
 plt.tight_layout()
 plt.show()
 
-dy = dy.diff(periods=12).dropna()
+######################################### Pregunta 4 #########################################
 
-time_plot(dy, variable_name=variable_name)
-
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(dy, ax=ax1, lags=lags)
-plot_pacf(dy, ax=ax2, lags=lags)
-
-plt.tight_layout()
-plt.show()
-
-######################################### ARIMA MODEL #########################################
-print("Write the ARIMA parameters: ")
-p = int(input("p: "))
-d = int(input("d: "))
-q = int(input("q: "))
-P = int(input("P: "))
-D = int(input("D: "))
-Q = int(input("Q: "))
-S = int(input("S: "))
+p = 1
+d = 1
+q = 0
+P = 1
+D = 1
+Q = 0
+S = 4
 
 model = SARIMAX(y, order=(p, d, q), seasonal_order=(P, D, Q, S))
 results = model.fit()
+print(results.summary())
 
 # Access the residuals using the 'resid' attribute
 residuals = results.resid
 
-# Print the first few residuals
-print(residuals.head())
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+plot_acf(residuals, ax=ax1, lags=lags, title="Autocorrelation for residues 1")
+plot_pacf(residuals, ax=ax2, lags=lags, title="Partial Autocorrelation for residues 1")
 
-######################################### RESIDUALS #########################################
+plt.tight_layout()
+plt.show()
 
-print("\n----------------------White Noise ----------------------\n")
-print("White noise test:")
+######################################### Preguntas 5-8 #########################################
+p = 1
+d = 1
+q = 0
+P = 1
+D = 1
+Q = 0
+S = 4
+
+model = SARIMAX(y, order=(p, d, q), seasonal_order=(P, D, Q, S))
+results = model.fit()
 
 print(format_diagnostics(check_white_noise(residuals, y, alpha=0.05)))
+######################################### RESIDUALS #########################################
+print("\n----------------------White Noise ----------------------\n")
+# Access the residuals using the 'resid' attribute
+residuals = results.resid
+
+time_plot(residuals, variable_name="Residuals")
+
+print(format_diagnostics(check_white_noise(residuals, y, alpha=0.05)))
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+plot_acf(residuals, ax=ax1, lags=lags, title="Autocorrelation for residues 2")
+plot_pacf(residuals, ax=ax2, lags=lags, title="Partial Autocorrelation for residues 2")
+
+plt.tight_layout()
+plt.show()
+X = np.arange(1, len(residuals) + 1)
+
+# Estimar el modelo con errores estándar robustos
+residual_linear_model = sm.OLS(residuals**2, X).fit()
+print(residual_linear_model.summary())
+
+
+f_pvalue = residual_linear_model.f_pvalue  # P-value for the F-statistic
+
+if f_pvalue < threshold:
+    print(
+        f"P-value for the F-statistic is {f_pvalue} and it is less than {threshold}. The model has heteroscedasticity. Reject H0."
+    )
+else:
+    print(
+        f"P-value for F-statistic is {f_pvalue} and it is greater than {threshold}. The model does not have heteroscedasticity. Accept H0."
+    )
