@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-from utilities import add_total_to_legend
+from utilities import add_total_to_legend, plot_statistics
 from constants import (
     COLUMN_NAMES,
     FRECUENCY_MAPPING,
@@ -152,7 +152,7 @@ for column in columns_for_pie_charts:
     plt.axis("equal")  # Ensure a circular pie chart
     plt.savefig(f"{save_path}{column} pie.png")
     # plt.show()
-
+plot_statistics(data_cleaned["Frequency of Cold Beverages"])
 # ------------------------------ Consumptions habits ------------------------------
 # Analyzing consumption habits based on gender, age, and residence environment
 
@@ -501,6 +501,7 @@ plt.tight_layout()
 
 tittle = "Importance of Veganism"
 plt.savefig(f"{save_path}{tittle} plot.png")
+
 # ----------------------------- Chanel of Sales --------------------------------
 # Create a 2x2 grid of plots
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
