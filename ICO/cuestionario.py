@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-from utilities import add_total_to_legend, plot_statistics
+from utilities import add_total_to_legend, generate_statistics_for_survey_dataset
 from constants import (
     COLUMN_NAMES,
     FRECUENCY_MAPPING,
@@ -116,6 +116,12 @@ data_cleaned["Too Cheap Price Range"] = pd.Categorical(
 # print(f"Data exported successfully to {export_path}")
 
 ################################ DATA ANALYSIS ################################
+
+# ------------------------------ General Statistics ------------------------------
+
+generate_statistics_for_survey_dataset(data_cleaned)
+
+
 # Number of not ansered questionaries
 number_of_responses = len(data)
 number_of_valid_responses = len(data_cleaned) - len(inconsistent_responses)
@@ -133,7 +139,6 @@ sizes = [
     number_of_inconsistent_responses,
     number_of_invalid_clients,
 ]
-explode = (0.01, 0, 0)  # Explode the "Valid Responses" slice slightly
 
 # Create a pie chart
 plt.figure(figsize=(8, 8))
@@ -142,7 +147,6 @@ plt.pie(
     labels=labels,
     autopct="%1.1f%%",
     startangle=140,
-    explode=explode,
 )
 
 # Add a title
@@ -174,7 +178,7 @@ for column in columns_for_pie_charts:
     plt.axis("equal")  # Ensure a circular pie chart
     plt.savefig(f"{save_path}{column} pie.png")
     # plt.show()
-plot_statistics(data_cleaned["Frequency of Cold Beverages"])
+# plot_statistics(data_cleaned["Frequency of Cold Beverages"])
 
 # ------------------------------ Consumptions habits ------------------------------
 
