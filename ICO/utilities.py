@@ -15,7 +15,11 @@ def add_total_to_legend(ax):
     )
 
 
-def generate_statistics_for_survey_dataset(dataset, filename="survey_statistics.xlsx"):
+def generate_statistics_for_dataset(
+    dataset, filename="survey_statistics.xlsx", cross_val_attributes=[]
+):
+    # Specified attributes for cross-validation
+
     # Get the "Downloads" directory path
     downloads_directory = os.path.join(os.path.expanduser("~"), "Downloads")
 
@@ -25,11 +29,16 @@ def generate_statistics_for_survey_dataset(dataset, filename="survey_statistics.
     # Initialize the Excel writer and process each column in the dataset
     with pd.ExcelWriter(full_path, engine="openpyxl") as writer:
         for column in dataset.columns:
+            # Skip the cross-validation columns themselves
+            if column in cross_val_attributes:
+                continue
+
+            # Processing the column
             data = dataset[column]
 
-            # Check if the data in the column is numeric
+            # Start with general statistics
             if pd.api.types.is_numeric_dtype(data):
-                # Calculate numeric statistics
+                # Numeric data statistics
                 statistics_data = pd.DataFrame(
                     {
                         "Variable": [
@@ -59,15 +68,29 @@ def generate_statistics_for_survey_dataset(dataset, filename="survey_statistics.
                     }
                 )
             else:
-                # Calculate frequency for non-numeric data
+                # Non-numeric data statistics
                 value_counts = data.value_counts()
                 statistics_data = pd.DataFrame(
                     {"Variable": value_counts.index, "Frecuencia": value_counts.values}
                 )
 
-            # Write to a new sheet in the Excel file
+            # Save initial statistics to Excel
             statistics_data.to_excel(
-                writer, sheet_name=column[:31], index=False
-            )  # Sheet names are limited to 31 characters
+                writer, sheet_name=column[:31], index=False, startrow=0
+            )
 
-    print(f"Survey statistics workbook has been saved in '{full_path}'")
+            # Cross-validation for specified attributes
+            start_row = len(statistics_data) + 2
+            for attr in cross_val_attributes:
+                cross_val_data = (
+                    dataset.groupby(attr)[column].value_counts().unstack().fillna(0)
+                )
+                # Write cross-validation data to Excel
+                cross_val_data.to_excel(
+                    writer, sheet_name=column[:31], startrow=start_row, index=True
+                )
+                # Update start_row for the next block of data
+                start_row += len(cross_val_data) + 3
+    print(
+        f"Survey statistics workbook with cross-validation has been saved in '{full_path}'"
+    )

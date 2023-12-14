@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-from utilities import add_total_to_legend, generate_statistics_for_survey_dataset
+from utilities import add_total_to_legend, generate_statistics_for_dataset
 from constants import (
     COLUMN_NAMES,
     FRECUENCY_MAPPING,
@@ -118,8 +118,14 @@ data_cleaned["Too Cheap Price Range"] = pd.Categorical(
 ################################ DATA ANALYSIS ################################
 
 # ------------------------------ General Statistics ------------------------------
+cross_val_attributes = [
+    "Age Range",
+    "Gender",
+    "Current Situation",
+    "Residence Environment",
+]
 
-generate_statistics_for_survey_dataset(data_cleaned)
+generate_statistics_for_dataset(data_cleaned, cross_val_attributes=cross_val_attributes)
 
 
 # Number of not ansered questionaries
