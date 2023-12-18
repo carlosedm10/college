@@ -102,7 +102,7 @@ def generate_statistics_for_dataset(
                         "Test": "Chi-squared",
                         "p-value": [p],
                         "Result": "Significant"
-                        if p <= threshold
+                        if round(p, 2) <= threshold
                         else "Not significant",
                     }
                 )
