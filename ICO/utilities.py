@@ -1,13 +1,15 @@
 import numpy as np
 import os
-from openpyxl import Workbook
 
 from matplotlib import patches
 import pandas as pd
-from scipy.stats import skew, kurtosis
+from scipy.stats import skew, kurtosis, chi2_contingency
 
 
 def add_total_to_legend(ax):
+    """
+    Add a "Total" entry to the legend of a Matplotlib plot.
+    """
     total_patch = patches.Patch(color="grey", label="Total")
     current_handles, current_labels = ax.get_legend_handles_labels()
     ax.legend(
@@ -16,10 +18,12 @@ def add_total_to_legend(ax):
 
 
 def generate_statistics_for_dataset(
-    dataset, filename="survey_statistics.xlsx", cross_val_attributes=[]
+    dataset, filename="survey_statistics.xlsx", cross_val_attributes=[], threshold=0.05
 ):
-    # Specified attributes for cross-validation
-
+    """
+    Generate a workbook with statistics for each column in the dataset.
+    The workbook will be saved in the Downloads directory.
+    """
     # Get the "Downloads" directory path
     downloads_directory = os.path.join(os.path.expanduser("~"), "Downloads")
 
@@ -89,8 +93,28 @@ def generate_statistics_for_dataset(
                 cross_val_data.to_excel(
                     writer, sheet_name=column[:31], startrow=start_row, index=True
                 )
+                # Perform Chi-square test if both variables are categorical
+
+                _, p, _, _ = chi2_contingency(cross_val_data)
+                # Adding Chi-square p-value to a DataFrame and writing it
+                p_value_df = pd.DataFrame(
+                    {
+                        "Test": "Chi-squared",
+                        "p-value": [p],
+                        "Result": "Significant"
+                        if p <= threshold
+                        else "Not significant",
+                    }
+                )
+                p_value_df.to_excel(
+                    writer,
+                    sheet_name=column[:31],
+                    startrow=start_row + len(cross_val_data) + 1,
+                    index=False,
+                )
+
                 # Update start_row for the next block of data
-                start_row += len(cross_val_data) + 3
+                start_row += len(cross_val_data) + 4
     print(
         f"Survey statistics workbook with cross-validation has been saved in '{full_path}'"
     )
