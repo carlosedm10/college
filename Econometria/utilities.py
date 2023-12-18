@@ -377,8 +377,6 @@ def check_white_noise(residuals, exog, alpha=0.05):
     squared_residuals = residuals**2
     y = exog
     t = np.arange(1, len(y) + 1)
-
-    print(f"squared_residuals: {squared_residuals} \n")
     diagnostics = {}
 
     all_tests_passed = True
@@ -392,7 +390,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
 
     # 2. Heteroscedasticity Tests
     # White Test
-    _, p_value_white, _, _ = het_white(squared_residuals, sm.add_constant(y))
+    _, p_value_white, _, _ = het_white(residuals, sm.add_constant(y))
     diagnostics["White Test p-value"] = p_value_white
     diagnostics["White Test"] = "Pass" if p_value_white > alpha else "Fail"
     if p_value_white <= alpha:
@@ -408,7 +406,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
         all_tests_passed = False
 
     # F and t tests
-    residual_linear_model = sm.OLS(residuals**2, t).fit()
+    residual_linear_model = sm.OLS(squared_residuals, t).fit()
     f_pvalue = residual_linear_model.f_pvalue  # P-value for the F-statistic
     diagnostics["F Test p-value"] = f_pvalue
     diagnostics["F Test"] = "Pass" if f_pvalue > alpha else "Fail"
@@ -424,6 +422,8 @@ def check_white_noise(residuals, exog, alpha=0.05):
         all_tests_passed = False
 
     # 3. Normality Tests
+    # Add test Kolmogorov-Smirnov
+
     # Shapiro-Wilk Test
     _, p_value_shapiro = stats.shapiro(residuals)
     diagnostics["Shapiro Test p-value"] = p_value_shapiro

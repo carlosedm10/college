@@ -5,7 +5,7 @@ import statsmodels.api as sm
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from pmdarima import ARIMA
+from pmdarima import ARIMA, auto_arima
 from matplotlib import pyplot as plt
 from utilities import (
     check_white_noise,
