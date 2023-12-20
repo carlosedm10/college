@@ -46,8 +46,8 @@ time_plot(x, y, variable_name=variable_name, ylim=y.min())
 lags = 12
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-plot_acf(y, ax=ax1, lags=lags, title="Autocorrelation for time series")
-plot_pacf(y, ax=ax2, lags=lags, title="Partial Autocorrelation for time series")
+plot_acf(y, ax=ax1, lags=lags, title=f"Autocorrelation for time series")
+plot_pacf(y, ax=ax2, lags=lags, title=f"Partial Autocorrelation for time series")
 
 plt.tight_layout()
 plt.show()

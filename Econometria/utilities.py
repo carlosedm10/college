@@ -3,15 +3,14 @@ import numpy as np
 import seaborn as sns
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
-import ipywidgets as widgets
+import os
 
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from IPython.display import display
-from pmdarima import plot_acf
 from pmdarima.arima import ARIMA
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.stats.diagnostic import het_breuschpagan
-from scipy.stats import shapiro
 from pandas.core.api import DataFrame
 from itertools import product
 from scipy import stats
@@ -19,7 +18,6 @@ from statsmodels.stats.diagnostic import het_white
 from statsmodels.stats.stattools import durbin_watson, jarque_bera
 from statsmodels.tsa.seasonal import seasonal_decompose
 from numpy.typing import ArrayLike
-from IPython.display import display
 
 
 def compute_residuals(target_var, predictors, df):
@@ -110,7 +108,8 @@ def backward_elimination(X, y, threshold):
             print("Deleting {} with p-value {}".format(remove, max_p_value))
             X = X.drop(remove, axis=1)  # Eliminar variable
         else:
-            break
+            model = sm.OLS(y, sm.add_constant(X)).fit()
+            break  # TODO: change this to return model
 
     return model
 
@@ -256,11 +255,11 @@ def make_series_stationary(
         p_value = adf_test(series)
         print(f"ADF test p-value: {p_value}")
 
-    # # Apply seasonal differencing until stationary or max_diff reached
-    # while p_value > p_value_threshold and num_seasonal_diff < max_diff:
-    #     num_seasonal_diff += 1
-    #     series = series.diff(seasonal_period).dropna()
-    #     p_value = adf_test(series)
+    # Apply seasonal differencing until stationary or max_diff reached
+    while p_value > p_value_threshold and num_seasonal_diff < max_diff:
+        num_seasonal_diff += 1
+        series = series.diff(periods=seasonal_period).dropna()
+        p_value = adf_test(series)
 
     return series, num_diff, num_seasonal_diff
 
@@ -373,6 +372,13 @@ def check_white_noise(residuals, exog, alpha=0.05):
     Returns:
     dict: Dictionary with the results of the tests.
     """
+
+    def format_diagnostics(diagnostics):
+        print("\nDiagnostic Test Results:")
+        print("-" * 50)
+        for key, value in diagnostics.items():
+            print(f"{key.ljust(10)}: {value}")
+
     # Defining the model:
     squared_residuals = residuals**2
     y = exog
@@ -413,16 +419,13 @@ def check_white_noise(residuals, exog, alpha=0.05):
     if f_pvalue > alpha:
         all_tests_passed = False
 
-    _, p_value_t1 = stats.ttest_ind(squared_residuals, y)
-    diagnostics["t Test p-value for y"] = p_value_t1
-    _, p_value_t2 = stats.ttest_ind(squared_residuals, t)
-    diagnostics["t Test p-value for t"] = p_value_t2
-    diagnostics["t Test"] = "Pass" if p_value_t1 and p_value_t2 > alpha else "Fail"
-    if p_value_t1 and p_value_t2 > alpha:
-        all_tests_passed = False
-
     # 3. Normality Tests
     # Add test Kolmogorov-Smirnov
+    _, p_value = stats.kstest(residuals, "norm")
+    diagnostics["Kolmogorov-Smirnov Test p-value"] = p_value
+    diagnostics["Kolmogorov-Smirnov Test"] = "Pass" if p_value > alpha else "Fail"
+    if p_value <= alpha:
+        all_tests_passed = False
 
     # Shapiro-Wilk Test
     _, p_value_shapiro = stats.shapiro(residuals)
@@ -455,7 +458,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
         else "The Residues are not White Noise"
     )
 
-    return diagnostics
+    return format_diagnostics(diagnostics)
 
 
 def format_diagnostics(diagnostics):
@@ -473,6 +476,7 @@ def time_plot(
     variable_name: str,
     xlabel="Date",
     ylim=None,
+    save_path=None,
 ):
     """
     This function plots a time series plot with the following characteristics:
@@ -506,10 +510,13 @@ def time_plot(
     plt.ylim(bottom=ylim)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.show()
+    if save_path == None:
+        plt.show()
+    else:
+        plt.savefig(f"{save_path}/{variable_name} time plot.png")
 
 
-def plots_for_seasonality(data, variable_name: str):
+def plots_for_seasonality(data, variable_name: str, save_path=None):
     """
     This function plots a range mean graph with the following characteristics:
     - Scatter plot with points
@@ -522,6 +529,8 @@ def plots_for_seasonality(data, variable_name: str):
     data (pd.DataFrame): Dataframe with the data to be plotted.
     variable_name (str): Name of the variable to be displayed in the title. Defaults to str.
     """
+    # Get the "Downloads" directory path
+    downloads_directory = os.path.join(os.path.expanduser("~"), "Downloads")
     try:
         # Grouping the data by year
         data["Year"] = data["obs"].dt.year
@@ -553,7 +562,7 @@ def plots_for_seasonality(data, variable_name: str):
         # Extracting month and year from the date
         data["Month"] = data["obs"].dt.month
 
-        # Creating a pivot table for the annual subseries plot
+        tittle = f"Series decomposition of {variable_name} data"
 
         # Subplot 2: Annual Subseries Plot
         plt.subplot(1, 2, 2)
@@ -568,7 +577,10 @@ def plots_for_seasonality(data, variable_name: str):
         plt.grid(True)
 
         plt.tight_layout()
-        plt.show()
+        if save_path == None:
+            plt.show()
+        else:
+            plt.savefig(f"{downloads_directory}/{tittle} plot.png")
     except Exception as e:
         print(f"Error: {e}")
         if variable_name not in data.columns:
@@ -585,6 +597,8 @@ def series_decomposition(data, variable_name: str):
     variable_name (str): Name of the variable to be displayed in the title. Obligatory.
 
     """
+    # Get the "Downloads" directory path
+    downloads_directory = os.path.join(os.path.expanduser("~"), "Downloads")
     plots_for_seasonality(data, variable_name)
 
     print("Given the data before, chose your model:")
@@ -653,4 +667,47 @@ def series_decomposition(data, variable_name: str):
 
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.show()
+    plt.savefig(f"{downloads_directory}/{variable_name} decomposition.png")
+
+
+def autocorrelation_plots(series, variable_name: str, lags=12, save_path=None):
+    """
+    Plots the autocorrelation and partial autocorrelation functions for a time series.
+
+    :param series: The time series.
+    :param lags: Number of lags to plot.
+    """
+    _, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+    plot_acf(
+        series,
+        ax=ax1,
+        lags=lags,
+        title=f"Autocorrelation for {variable_name} time series",
+    )
+    plot_pacf(series, ax=ax2, lags=lags)
+
+    plt.tight_layout()
+    if save_path == None:
+        plt.show()
+    else:
+        plt.savefig(f"{save_path}/{variable_name} autocorrelation.png")
+
+
+def residues_plot(residues, variable, variable_name: str, save_path=None):
+    """
+    Args:
+    residues (pd.Series): Residues of the model.
+    variable (pd.Series): Independent variable.
+    variable_name (str): Name of the independent variable.
+    """
+    plt.figure(figsize=(10, 6))
+    plt.scatter(x=variable, y=residues)
+    plt.axhline(y=0, color="red", linestyle="--")
+    plt.title(f"{variable_name} vs Residues")
+    plt.xlabel(variable_name)
+    plt.ylabel("Residues")
+    plt.tight_layout()
+    if save_path == None:
+        plt.show()
+    else:
+        plt.savefig(f"{save_path}/{variable_name} vs Residues.png")
