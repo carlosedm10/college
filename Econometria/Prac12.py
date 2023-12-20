@@ -29,8 +29,6 @@ from utilities import (
     autocorrelation_plots,
     backward_elimination,
     check_white_noise,
-    create_interactions,
-    format_diagnostics,
     residues_plot,
     time_plot,
 )
@@ -101,47 +99,47 @@ autocorrelation_plots(
 )
 ############################# NEW MODEL #############################
 
-# data["DUMMY 1992"] = data["obs"].apply(lambda x: 1 if x == 1992 else 0)
-# data["DUMMY*PARQUE"] = data["DUMMY 1992"] * data["PARQUE"]
+data["DUMMY 1992"] = data["obs"].apply(lambda x: 1 if x == 1992 else 0)
+data["DUMMY*PARQUE"] = data["DUMMY 1992"] * data["PARQUE"]
 
-# X = data[
-#     [
-#         "PARQUE",
-#         "DUMMY 1992",
-#         "DUMMY*PARQUE",
-#     ]
-# ]
-# linear_model = sm.OLS(data[variable_name], sm.add_constant(X)).fit()
+X = data[
+    [
+        "PARQUE",
+        "DUMMY 1992",
+        "DUMMY*PARQUE",
+    ]
+]
+linear_model = sm.OLS(data[variable_name], sm.add_constant(X)).fit()
 
-# data["New Model Residues"] = linear_model.resid
+data["New Model Residues"] = linear_model.resid
 
-# check_white_noise(data["New Model Residues"], exog=data["obs"])
-
-
-# residues_plot(
-#     residues=data["New Model Residues"],
-#     variable=data["obs"],
-#     variable_name="obs",
-#     save_path=save_path,
-# )
-
-# autocorrelation_plots(
-#     series=data["New Model Residues"],
-#     lags=6,
-#     variable_name=data["New Model Residues"].name,
-#     save_path=save_path,
-# )
+check_white_noise(data["New Model Residues"], exog=data["obs"])
 
 
-# auto_arima(
-#     data["New Model Residues"], seasonal=False, m=1, trace=True, error_action="ignore"
-# )
+residues_plot(
+    residues=data["New Model Residues"],
+    variable=data["obs"],
+    variable_name="obs",
+    save_path=save_path,
+)
 
-# model = SARIMAX(
-#     data["New Model Residues"],
-#     order=(1, 1, 0),
-#     exog=data[["PARQUE", "DUMMY 1992", "DUMMY*PARQUE"]],
-# )
+autocorrelation_plots(
+    series=data["New Model Residues"],
+    lags=6,
+    variable_name=data["New Model Residues"].name,
+    save_path=save_path,
+)
 
 
-# print(model.fit().summary())
+auto_arima(
+    data["New Model Residues"], seasonal=False, m=1, trace=True, error_action="ignore"
+)
+
+model = SARIMAX(
+    data["New Model Residues"],
+    order=(1, 1, 0),
+    exog=data[["PARQUE", "DUMMY 1992", "DUMMY*PARQUE"]],
+)
+
+
+print(model.fit().summary())
