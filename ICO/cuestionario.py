@@ -257,9 +257,7 @@ ax2 = sns.countplot(
     ax=axes[0, 1],
 )
 add_total_to_legend(ax2)
-ax2.set_title(
-    f"Importance of Finding Coffee Alternatives by Gender (p-value: {p_value:.2f})"
-)
+ax2.set_title(f"Importance of Coffee Alternatives by Gender (p-value: {p_value:.2f})")
 ax2.set_xlabel("Importance Level")
 ax2.set_ylabel("Count")
 ax2.tick_params(axis="x", rotation=0)
@@ -284,7 +282,7 @@ ax3 = sns.countplot(
 )
 add_total_to_legend(ax3)
 ax3.set_title(
-    f"Importance of Finding Coffee Alternatives by Age Range (p-value: {p_value:.2f})"
+    f"Importance of Coffee Alternatives by Age Range (p-value: {p_value:.2f})"
 )
 ax3.set_xlabel("Importance Level")
 ax3.set_ylabel("Count")
@@ -307,9 +305,7 @@ ax4 = sns.countplot(
     ax=axes[0, 2],
 )
 add_total_to_legend(ax4)
-ax4.set_title(
-    f"Attractiveness of Healthy Option in Iced Latte by Gender (p-value: {p_value:.2f})"
-)
+ax4.set_title(f"Attractiveness of Healthy Option by Gender (p-value: {p_value:.2f})")
 ax4.set_xlabel("Attractiveness Level")
 ax4.set_ylabel("Count")
 ax4.tick_params(axis="x", rotation=0)
@@ -330,9 +326,7 @@ ax5 = sns.countplot(
     ax=axes[1, 2],
 )
 add_total_to_legend(ax5)
-ax5.set_title(
-    f"Attractiveness of Healthy Option in Iced Latte by Age Range (p-value: {p_value:.2f})"
-)
+ax5.set_title(f"Attractiveness of Healthy Option by Age Range (p-value: {p_value:.2f})")
 ax5.set_xlabel("Attractiveness Level")
 ax5.set_ylabel("Count")
 ax5.tick_params(axis="x", rotation=0)
@@ -475,7 +469,7 @@ ax0 = sns.countplot(
 )
 add_total_to_legend(ax0)
 ax0.set_title(
-    f"Likelihood of Buying it in Supermarkets by Importance Level (p-value: {p_value:.2f})"
+    f"Likelihood of Buying it in Supermarkets by Residence Environment (p-value: {p_value:.2f})"
 )
 ax0.set_xlabel("Importance Level")
 ax0.set_ylabel("Count")
