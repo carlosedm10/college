@@ -15,7 +15,7 @@ import seaborn as sns
 from numpy import mean
 from matplotlib import pyplot as plt
 from scipy.stats import f
-from utilities import backward_elimination
+from utilities import backward_elimination, residues_plot
 from statsmodels.stats.diagnostic import het_white
 
 # Significance level

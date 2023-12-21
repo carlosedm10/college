@@ -171,7 +171,8 @@ check = check_stationarity(stationary_series)
 
 print(f"Analysis of stationarity: {check}\n")
 # Gráficos ACF y PACF
-lags = len(stationary_series) // 2 - 1
+print(f"length: {len(stationary_series)}")
+lags = 24
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
 plot_acf(stationary_series, ax=ax1, lags=lags)
@@ -190,16 +191,24 @@ confidence_level = 1.96
 
 # Sugerir valores de p y q
 p, q = suggest_arima_parameters(acf_vals, pacf_vals, confidence_level)
-p, q, P, D, Q = suggest_sarima_parameters(
-    acf_vals, pacf_vals, num_differences, 12, confidence_level
-)
+
 
 print("\n----------------------ARIMA Model ----------------------\n")
 model = ARIMA(stationary_series, order=(p, num_differences, q))
 results = model.fit()
 print(results.summary())
 
+# fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
+# plot_acf(model, ax=ax1, lags=lags)
+# plot_pacf(model, ax=ax2, lags=lags)
+
+plt.tight_layout()
+plt.show()
+
 print("\n----------------------SARIMA Model ----------------------\n")
+p, q, P, D, Q = suggest_sarima_parameters(
+    acf_vals, pacf_vals, num_differences, 12, confidence_level
+)
 model = ARIMA(
     stationary_series, order=(p, num_differences, q), seasonal_order=(P, D, Q, 12)
 )
