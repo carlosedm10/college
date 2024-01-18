@@ -396,7 +396,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
 
     # 2. Heteroscedasticity Tests
     # White Test
-    _, p_value_white, _, _ = het_white(residuals, sm.add_constant(y))
+    _, p_value_white, _, _ = het_white(squared_residuals, sm.add_constant(y))
     diagnostics["White Test p-value"] = p_value_white
     diagnostics["White Test"] = "Pass" if p_value_white > alpha else "Fail"
     if p_value_white <= alpha:
