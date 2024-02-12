@@ -1,8 +1,13 @@
 # college_projects
 Virtual environment:
     Installation: pip install virtualenv OR pip3 install virtualenv
-    For Mac: source /path/to/your/venv/bin/activate
-    For Windows: \path\to\your\venv\Scripts\activate
+    Creation: python3 -m venv venv
+    Activation:
+        For Mac: source venv/bin/activate
+        For Windows: .\venv\Scripts\activate
+    Requirements: pip install -r requirements.txt
+    Updating requirements: pip freeze > requirements.txt
+
 
 Changes and staged changes guide:
     Once you have made a change in the file and save it, it will appear as a change in Source Control.
@@ -17,6 +22,3 @@ GitHub Workflow:
         For all changes: git commit -am "comment explaining the changes"        Then: git push
     Once your job is finished, create a pull request to dev. Someone else will have to check it and approve it.
     After all changes are tested and working in dev, we will merg it with main.
-
-Export .gdt dataset to .cvs:
-    Go to Gretl --> open the .gdt data set --> go to file --> export data --> then select csv as the type (separate columns by commas).
