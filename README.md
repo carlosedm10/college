@@ -1,8 +1,12 @@
 # college_projects
 Virtual environment:
     Installation: pip install virtualenv OR pip3 install virtualenv
-    For Mac: source /path/to/your/venv/bin/activate
-    For Windows: \path\to\your\venv\Scripts\activate
+    Creation: python3 -m venv venv
+    Activation:
+        For Mac: source venv/bin/activate
+        For Windows: .\venv\Scripts\activate
+    Requirements: pip install -r requirements.txt
+
 
 Changes and staged changes guide:
     Once you have made a change in the file and save it, it will appear as a change in Source Control.
