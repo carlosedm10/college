@@ -6,6 +6,7 @@ Virtual environment:
         For Mac: source venv/bin/activate
         For Windows: .\venv\Scripts\activate
     Requirements: pip install -r requirements.txt
+    Updating requirements: pip freeze > requirements.txt
 
 
 Changes and staged changes guide:
@@ -21,6 +22,3 @@ GitHub Workflow:
         For all changes: git commit -am "comment explaining the changes"        Then: git push
     Once your job is finished, create a pull request to dev. Someone else will have to check it and approve it.
     After all changes are tested and working in dev, we will merg it with main.
-
-Export .gdt dataset to .cvs:
-    Go to Gretl --> open the .gdt data set --> go to file --> export data --> then select csv as the type (separate columns by commas).
