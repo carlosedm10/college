@@ -1,5 +1,12 @@
 # college_projects
-Virtual environment:
+Matlab Set Up:
+    - First Matlab should be installed and usable in the Applications folder
+    - Then compile the command: . ./setup.sh
+    - For being able to compile the matlab file, use the command: make mtlb run="filename"  //This file should have the .m extension
+    - Now your terminal will be matlab, so if you want to compile any file inside the TDS folder just type: "filename"
+    - For exiting this matlab terminal just type: exit
+
+Virtual Python environment:
     Installation: pip install virtualenv OR pip3 install virtualenv
     Creation: python3 -m venv venv
     Activation:
