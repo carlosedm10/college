@@ -500,7 +500,7 @@ def time_plot(
         *args,
         marker="o",
         linestyle="-",
-        markersize=3,
+        markersize=1,
     )  # Line plot with points
     plt.axhline(y=0, color="r", linestyle="--")
     plt.title(f"Time Series Plot of {variable_name} Data")
