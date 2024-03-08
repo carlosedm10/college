@@ -19,7 +19,9 @@ future==1.0.0
 importlib-metadata==7.0.1
 importlib-resources==6.1.0
 ipykernel==6.29.2
+ipympl==0.9.3
 ipython==8.18.1
+ipython-genutils==0.2.0
 ipywidgets==8.1.1
 jedi==0.19.1
 Jinja2==3.1.3

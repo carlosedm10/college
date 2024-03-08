@@ -1,15 +1,17 @@
 from matplotlib import pyplot as plt
 from numpy.typing import ArrayLike
+from typing import Sequence, Optional
 
 
 def continuous_time_plot(
     *args: ArrayLike,
     variable_name: str,
-    xlabel="Date",
+    xlabel="Time (s)",
     ylim=None,
     save_path=None,
     line_style="-",  # Default line style
     linewidth=2,  # Adjust the width of the line
+    vertical_lines=None,
 ):
     """
     This function plots a time series plot with the following characteristics:
@@ -44,6 +46,11 @@ def continuous_time_plot(
     plt.ylim(bottom=ylim)
     plt.xticks(rotation=45)
     plt.tight_layout()
+
+    if vertical_lines is not None:
+        for line in vertical_lines:
+            plt.axvline(x=line, color="r", linestyle="--")
+
     if save_path is None:
         plt.show()
     else:
@@ -53,7 +60,7 @@ def continuous_time_plot(
 def discrete_time_plot(
     *args: ArrayLike,
     variable_name: str,
-    xlabel="Time (s)",
+    xlabel="Muestras (n)",
     ylim=None,
     save_path=None,
     markerfmt="o",  # Default marker format
