@@ -2,6 +2,8 @@ from matplotlib import pyplot as plt
 from numpy.typing import ArrayLike
 from typing import Sequence, Optional
 from scipy.signal import get_window
+from scipy.io.wavfile import write, read
+
 import numpy as np
 
 
@@ -153,3 +155,130 @@ def split_signal_into_frames(
     windowed_frames = frames * window
 
     return windowed_frames
+
+
+def number_count_detector(
+    signal, sample_rate, window_size, window_overlap, count=10, margin=0.02
+):
+    """
+    Detects the presence of voice in a number count using a simple energy-based approach
+
+    Args:
+    signal (np.array): The input signal
+    sample_rate (int): The sample rate of the signal
+    window_size (float): The size of the window in seconds
+    window_overlap (float): The overlap between consecutive windows in seconds
+    count (int): The number of numbers to detect
+    margin (float): The safety margin of seconds to add to the detected voice
+
+
+    Returns:
+    np.array: A binary array indicating the presence of voice
+    """
+    # Split the signal into frames
+    windowed_frames = split_signal_into_frames(
+        signal, sample_rate, window_size, window_overlap
+    )
+    window_samples = round(window_size * sample_rate)
+    count_flag = False
+
+    thresholds = []
+
+    # Calculating the energy of each frame
+
+    energy = np.sum(windowed_frames**2, axis=1)
+    for thres in np.arange(100):
+        count_numbers = 0
+        threshold = (thres / 100) * np.max(energy)
+        vad = (energy > threshold).astype(int)
+        voice = np.repeat(vad, window_samples)
+
+        # Counting the number of numbers detected
+        for i in range(len(voice)):
+            if voice[i] == 1 and voice[i - 1] == 0:
+                count_numbers += 1
+
+        if count_numbers == count and count_flag == False:
+            count_flag = True
+            thresholds.append(thres)
+
+        elif count_numbers > count:
+            thresholds.append(thres)
+            break
+
+    print(f"Thresholds used: {thresholds}")
+    threshold = (np.mean(thresholds) / 100) * np.max(energy)
+    vad = (energy > threshold).astype(int)
+    voice = np.repeat(vad, window_samples)
+    print(f"Threshold used: {np.mean(thresholds) / 100}")
+    # Counting the number of numbers detected
+    count_numbers = 0
+    for i in range(len(voice)):
+        if voice[i] == 1 and voice[i - 1] == 0:
+            count_numbers += 1
+    print(f"Number of numbers detected: {count_numbers}")
+
+    # Now adding a safety margin to the detected voice
+    safety_margin = int(margin * sample_rate)
+
+    # Find the start and end indices of each voice segment
+    voice_segments = np.where(np.diff(voice))[0] + 1
+
+    # Add the safety margin to these indices
+    for start in voice_segments[::2]:
+        voice[max(0, start - safety_margin) : start] = 1
+    for end in voice_segments[1::2]:
+        voice[end : min(len(voice), end + safety_margin)] = 1
+
+    return voice
+
+
+def export_numbers(signal, sample_rate, voice, count, output_path):
+    """
+    Exports the detected numbers in the signal to individual wav files
+
+    Args:
+    signal (np.array): The input signal
+    sample_rate (int): The sample rate of the signal
+    voice (np.array): A binary array indicating the presence of voice
+    count (int): The number of numbers to detect
+    output_path (str): The path to save the detected numbers
+    """
+
+    # Find the start and end indices of each voice segment
+    voice_segments = np.where(np.diff(voice))[0] + 1
+
+    # Make sure we have an even number of indices
+    if len(voice_segments) % 2 != 0:
+        voice_segments = np.append(voice_segments, len(voice))
+
+    # Export each voice segment to a separate wav file
+    for i in range(0, min(len(voice_segments), 2 * count), 2):
+        start, end = voice_segments[i], voice_segments[i + 1]
+        write(f"{output_path}/number_{i//2}.wav", sample_rate, signal[start:end])
+
+
+def audio_to_numbers(
+    wavfile,
+    count=10,
+    margin=0.02,
+    window_size=0.02,
+    window_overlap=0,
+    output_path="output",
+):
+    """
+    Detects the presence of voice in a number count using a simple energy-based approach
+
+    Args:
+    wavfile (str): The path to the wav file
+    count (int): The number of numbers to detect
+    margin (float): The safety margin of seconds to add to the detected voice
+    window_size (float): The size of the window in seconds
+    window_overlap (float): The overlap between consecutive windows in seconds
+    output_path (str): The path to save the detected numbers
+    """
+    sample_rate, signal = read(wavfile)
+    voice = number_count_detector(
+        signal, sample_rate, window_size, window_overlap, count, margin
+    )
+    export_numbers(signal, sample_rate, voice, count, output_path)
