@@ -191,9 +191,9 @@ def number_count_detector(
     energy = np.sum(windowed_frames**2, axis=1)
 
     # Finding the threshold that gives the correct number of numbers detected
-    for thres in np.arange(100):
+    for thres in np.arange(1000):
         count_numbers = 0
-        threshold = (thres / 100) * np.max(energy)
+        threshold = (thres / 1000) * np.max(energy)
         vad = (energy > threshold).astype(int)  # Voice Activity Detection
         voice = np.repeat(
             vad, window_samples
@@ -212,7 +212,7 @@ def number_count_detector(
             thresholds.append(thres)
             break
 
-    print(f"Thresholds used: {thresholds}")
+    # print(f"Thresholds used: {thresholds}")
     threshold = (np.median(thresholds) / 100) * np.max(energy)
     vad = (energy > threshold).astype(int)
     voice = np.repeat(vad, window_samples)
