@@ -2,9 +2,12 @@ from matplotlib import pyplot as plt
 from numpy.typing import ArrayLike
 from typing import Sequence, Optional
 from scipy.signal import get_window
+import scipy.signal as signal
 from scipy.io.wavfile import write, read
+from scipy.io import wavfile
 
 import numpy as np
+import pydub
 
 
 def continuous_time_plot(
@@ -185,13 +188,16 @@ def number_count_detector(
     thresholds = []
 
     # Calculating the energy of each frame
-
     energy = np.sum(windowed_frames**2, axis=1)
+
+    # Finding the threshold that gives the correct number of numbers detected
     for thres in np.arange(100):
         count_numbers = 0
         threshold = (thres / 100) * np.max(energy)
-        vad = (energy > threshold).astype(int)
-        voice = np.repeat(vad, window_samples)
+        vad = (energy > threshold).astype(int)  # Voice Activity Detection
+        voice = np.repeat(
+            vad, window_samples
+        )  # Repeat the voice detection to match the signal length
 
         # Counting the number of numbers detected
         for i in range(len(voice)):
@@ -207,10 +213,10 @@ def number_count_detector(
             break
 
     print(f"Thresholds used: {thresholds}")
-    threshold = (np.mean(thresholds) / 100) * np.max(energy)
+    threshold = (np.median(thresholds) / 100) * np.max(energy)
     vad = (energy > threshold).astype(int)
     voice = np.repeat(vad, window_samples)
-    print(f"Threshold used: {np.mean(thresholds) / 100}")
+    print(f"Threshold used: {np.median(thresholds) / 100}")
     # Counting the number of numbers detected
     count_numbers = 0
     for i in range(len(voice)):
@@ -255,7 +261,7 @@ def export_numbers(signal, sample_rate, voice, count, output_path):
     # Export each voice segment to a separate wav file
     for i in range(0, min(len(voice_segments), 2 * count), 2):
         start, end = voice_segments[i], voice_segments[i + 1]
-        write(f"{output_path}/number_{i//2}.wav", sample_rate, signal[start:end])
+        write(f"{output_path}{i//2}.wav", sample_rate, signal[start:end])
 
 
 def audio_to_numbers(
@@ -282,3 +288,42 @@ def audio_to_numbers(
         signal, sample_rate, window_size, window_overlap, count, margin
     )
     export_numbers(signal, sample_rate, voice, count, output_path)
+
+
+def m4a_to_wav(m4a_file, wav_file):
+    """
+    Convert an m4a file to a wav file
+
+    Args:
+    m4a_file (str): The path to the m4a file
+    wav_file (str): The path to save the wav file
+    """
+
+    sound = pydub.AudioSegment.from_file(m4a_file)
+    sound.export(wav_file, format="wav")
+
+    # Read the audio file
+    freq, audio_data = wavfile.read(wav_file)
+
+    # Now we will make the audio Mono
+    if audio_data.ndim > 1:
+        audio_data = audio_data.mean(axis=1)
+        print("Audio is stereo, converting to mono")
+
+    audio_data = audio_data / 2**15
+
+    # Normalization (if your audio data is in integers and needs to be normalized)
+    # audio_data = audio_data / np.max(np.abs(audio_data))
+
+    # Changing the audio frequency to 16kHz if necesary
+    # Target frequency
+    target_freq = 16000
+
+    if freq != 16000:
+        print(f"Resampling audio from {freq}Hz to {target_freq}Hz")
+        # Calculate new length of the sample
+        new_length = round(len(audio_data) * target_freq / freq)
+
+        # Resample the audio to the target frequency
+        audio_data = signal.resample(audio_data, new_length)
+    return audio_data, freq
