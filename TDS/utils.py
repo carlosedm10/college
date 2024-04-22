@@ -222,7 +222,8 @@ def number_count_detector(
     for i in range(len(voice)):
         if voice[i] == 1 and voice[i - 1] == 0:
             count_numbers += 1
-    print(f"Number of numbers detected: {count_numbers}")
+    # print(f"Number of numbers detected: {count_numbers}")
+    print(f"Maximum amplitude: {np.max(signal)}")
 
     # Now adding a safety margin to the detected voice
     safety_margin = int(margin * sample_rate)
