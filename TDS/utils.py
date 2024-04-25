@@ -212,7 +212,7 @@ def number_count_detector(
             thresholds.append(thres)
             break
 
-    # print(f"Thresholds used: {thresholds}")
+    print(f"Thresholds used: {thresholds}")
     threshold = (np.median(thresholds) / 100) * np.max(energy)
     vad = (energy > threshold).astype(int)
     voice = np.repeat(vad, window_samples)
@@ -222,7 +222,7 @@ def number_count_detector(
     for i in range(len(voice)):
         if voice[i] == 1 and voice[i - 1] == 0:
             count_numbers += 1
-    # print(f"Number of numbers detected: {count_numbers}")
+    print(f"Number of numbers detected: {count_numbers}")
     print(f"Maximum amplitude: {np.max(signal)}")
 
     # Now adding a safety margin to the detected voice
@@ -251,7 +251,6 @@ def export_numbers(signal, sample_rate, voice, count, output_path):
     count (int): The number of numbers to detect
     output_path (str): The path to save the detected numbers
     """
-
     # Find the start and end indices of each voice segment
     voice_segments = np.where(np.diff(voice))[0] + 1
 
@@ -305,6 +304,7 @@ def m4a_to_wav(m4a_file, wav_file):
 
     # Read the audio file
     freq, audio_data = wavfile.read(wav_file)
+    print(f"Audio frequency: {freq}Hz")
 
     # Now we will make the audio Mono
     if audio_data.ndim > 1:
@@ -327,4 +327,4 @@ def m4a_to_wav(m4a_file, wav_file):
 
         # Resample the audio to the target frequency
         audio_data = signal.resample(audio_data, new_length)
-    return audio_data, freq
+    return audio_data, freq, target_freq
