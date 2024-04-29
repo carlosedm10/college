@@ -1,6 +1,11 @@
+"""
+This file contains functions to extract specific audio features from an audio signal.
+"""
+
 import librosa
-from matplotlib import pyplot as plt
 import numpy as np
+
+from matplotlib import pyplot as plt
 
 
 def _spectrogram(audio):
@@ -70,7 +75,7 @@ def spectral_flux(audio, sample_rate, plot=True):
     spec = _spectrogram(audio)
 
     # Compute spectral flux
-    spectral_flux = np.sum(np.square(np.diff(spec, axis=1)), axis=0)
+    flux = np.sum(np.square(np.diff(spec, axis=1)), axis=0)
     if plot:
         # Plot spectral flux
         plt.figure(figsize=(20, 10))
@@ -88,15 +93,15 @@ def spectral_flux(audio, sample_rate, plot=True):
 
         # Plot spectral flux on the twin axis
         ax2.plot(
-            np.linspace(0, len(audio) / sample_rate, len(spectral_flux)),
-            20 * np.log10(spectral_flux),
+            np.linspace(0, len(audio) / sample_rate, len(flux)),
+            20 * np.log10(flux),
             color="r",
             linewidth=2,
         )
         ax2.set_ylabel("Spectral flux (dB)", color="r")
         ax2.tick_params("y", colors="r")
 
-    return spectral_flux
+    return flux
 
 
 def spectral_centroid(audio, sample_rate, plot=True):
@@ -175,13 +180,13 @@ def spectral_kurtosis(audio, sample_rate, plot=True):
     centroid_data = spectral_centroid(audio, sample_rate, plot=False)
 
     # Compute spectral kurtosis
-    spectral_kurtosis = np.sum(
+    kurtosis = np.sum(
         ((np.arange(0, spec.shape[0])[:, np.newaxis] - centroid_data) ** 4) * spec,
         axis=0,
     ) / (np.sum(spec, axis=0) * np.var(spec, axis=0) ** 2)
     # Normalize kurtosis to the range of the _spectrogram
-    kurtosis_norm = (spectral_kurtosis - np.min(spectral_kurtosis)) / (
-        np.max(spectral_kurtosis) - np.min(spectral_kurtosis)
+    kurtosis_norm = (kurtosis - np.min(kurtosis)) / (
+        np.max(kurtosis) - np.min(kurtosis)
     )
     if plot:
         # Plot _spectrogram
@@ -199,7 +204,7 @@ def spectral_kurtosis(audio, sample_rate, plot=True):
         ax2 = plt.twinx()
         ax2.plot(
             np.linspace(0, len(audio) / sample_rate, len(kurtosis_norm)),
-            20 * np.log10(spectral_kurtosis),
+            20 * np.log10(kurtosis),
             color="r",
             linewidth=2,
         )
@@ -207,7 +212,7 @@ def spectral_kurtosis(audio, sample_rate, plot=True):
         ax2.tick_params("y", colors="r")
 
         plt.show()
-    return spectral_kurtosis
+    return kurtosis
 
 
 def spectral_rolloff(audio, sample_rate, plot=True):
@@ -283,12 +288,12 @@ def spectral_skewness(audio, sample_rate, plot=True):
     spec = _spectrogram(audio)
 
     centroid_data = spectral_centroid(audio, sample_rate, plot=False)
-    spectral_skewness = np.sum(
-        ((np.arange(0, spec.shape[1]) - centroid_data) ** 3) * spec
-    ) / (np.sum(spec, axis=0) * np.var(spec, axis=0) ** (3 / 2))
+    skewness = np.sum(((np.arange(0, spec.shape[1]) - centroid_data) ** 3) * spec) / (
+        np.sum(spec, axis=0) * np.var(spec, axis=0) ** (3 / 2)
+    )
 
-    normalized_skewness = (spectral_skewness - np.min(spectral_skewness)) / (
-        np.max(spectral_skewness) - np.min(spectral_skewness)
+    normalized_skewness = (skewness - np.min(skewness)) / (
+        np.max(skewness) - np.min(skewness)
     )
     if plot:
         # Plot spectral skewness
@@ -306,7 +311,7 @@ def spectral_skewness(audio, sample_rate, plot=True):
         # Create a twin axis
         ax2 = plt.twinx()
         ax2.plot(
-            np.linspace(0, len(audio) / sample_rate, spectral_skewness.shape[0]),
+            np.linspace(0, len(audio) / sample_rate, skewness.shape[0]),
             20 * np.log10(normalized_skewness),
             color="r",
             linewidth=2,
@@ -315,7 +320,7 @@ def spectral_skewness(audio, sample_rate, plot=True):
         ax2.tick_params("y", colors="r")
 
         plt.show()
-    return spectral_skewness
+    return skewness
 
 
 def spectral_spread(audio, sample_rate, plot=True):
@@ -391,7 +396,7 @@ def calculate_audio_features(audio, sample_rate):
     flux = spectral_flux(audio, sample_rate, plot=False)
     skewness = spectral_skewness(audio, sample_rate, plot=False)
     kurtosis = spectral_kurtosis(audio, sample_rate, plot=False)
-    
+
     # Concatenate all features into a single array
     features = np.hstack(
         [
