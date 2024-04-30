@@ -14,7 +14,7 @@ def _spectrogram(audio):
     return spec
 
 
-def mfcc(audio, sample_rate, n_mfcc: float, plot=True):
+def mfcc(audio, sample_rate, n_mfcc: float, hop_length: int, plot=True):
     """
     Compute the Mel-frequency cepstral coefficients (MFCCs) of an audio signal.
 
@@ -33,7 +33,9 @@ def mfcc(audio, sample_rate, n_mfcc: float, plot=True):
         The MFCCs of the audio signal.
     """
     # Compute MFCCs
-    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=n_mfcc)
+    mfccs = librosa.feature.mfcc(
+        y=audio, sr=sample_rate, n_mfcc=n_mfcc, hop_length=hop_length
+    )
     d_mfccs = librosa.feature.delta(mfccs, order=1)
 
     if plot:
@@ -371,7 +373,7 @@ def spectral_spread(audio, sample_rate, plot=True):
     return spread[0]
 
 
-def calculate_audio_features(audio, sample_rate):
+def calculate_audio_features(audio, sample_rate, hop_length: int):
     """
     This function calculates all the audio features to later analyze by a neural network.
 
@@ -389,7 +391,9 @@ def calculate_audio_features(audio, sample_rate):
     """
 
     # Calculate the features
-    mfccs, delta_mfccs = mfcc(audio, sample_rate, n_mfcc=13, plot=False)
+    mfccs, delta_mfccs = mfcc(
+        audio, sample_rate, n_mfcc=13, hop_length=hop_length, plot=False
+    )
     centroid = spectral_centroid(audio, sample_rate, plot=False)
     spread = spectral_spread(audio, sample_rate, plot=False)
     rollof = spectral_rolloff(audio, sample_rate, plot=False)
