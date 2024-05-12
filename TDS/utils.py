@@ -166,7 +166,8 @@ def number_count_detector(
     signal, sample_rate, window_size, window_overlap, count=10, margin=0.1
 ):
     """
-    Detects the presence of voice in a number count using a simple energy-based approach
+    Detects the presence of voice in a number count using a simple energy-based approach, but
+    using a safety margin and a statistic distribution decision to find the correct threshold.
 
     Args:
     signal (np.array): The input signal
@@ -220,14 +221,17 @@ def number_count_detector(
         if count_numbers == count:
             thresholds.append(thres)
     print(f"Thresholds: {thresholds}")
+
+    # Choosing the final threshold:
     if thresholds == []:
         print("No threshold found")
-        threshold = 0.1 * max(energy)
+        threshold = 0.1 * max(energy)  # Standard threshold that usually works well
     else:
-        threshold = np.percentile(thresholds, 25) * max(energy)
+        threshold = np.percentile(thresholds, 25) * max(
+            energy
+        )  # 25th percentile of the thresholds
     print(f"Threshold used: {threshold/(np.max(energy))}")
 
-    # threshold = 0.1 * np.max(energy)
     vad = (energy > threshold).astype(int)
     voice = np.repeat(vad, window_samples)
 
@@ -250,9 +254,14 @@ def number_count_detector(
             count_numbers += 1
 
     # ------------------ Plotting the results ------------------#
-    print(f"Number of numbers detected: {count_numbers}")
-    print(f"Maximum amplitude: {max(signal)}")
 
+    if max(signal) > 0.97:
+        raise ValueError(
+            "The signal is too loud. Please reduce the volume and try again."
+        )
+    else:
+        print(f"Number of numbers detected: {count_numbers}")
+        print(f"Maximum amplitude: {max(signal)}")
     return voice
 
 
