@@ -5,6 +5,8 @@ from scipy.signal import get_window
 import scipy.signal as signal
 from scipy.io.wavfile import write, read
 from scipy.io import wavfile
+from pydub.effects import compress_dynamic_range
+
 
 import numpy as np
 import pydub
@@ -161,10 +163,11 @@ def split_signal_into_frames(
 
 
 def number_count_detector(
-    signal, sample_rate, window_size, window_overlap, count=10, margin=0.02
+    signal, sample_rate, window_size, window_overlap, count=10, margin=0.1
 ):
     """
-    Detects the presence of voice in a number count using a simple energy-based approach
+    Detects the presence of voice in a number count using a simple energy-based approach, but
+    using a safety margin and a statistic distribution decision to find the correct threshold.
 
     Args:
     signal (np.array): The input signal
@@ -178,53 +181,61 @@ def number_count_detector(
     Returns:
     np.array: A binary array indicating the presence of voice
     """
+    # ------------------ Windowing and Energy Calculation ------------------#
     # Split the signal into frames
     windowed_frames = split_signal_into_frames(
         signal, sample_rate, window_size, window_overlap
     )
     window_samples = round(window_size * sample_rate)
-    count_flag = False
 
     thresholds = []
 
     # Calculating the energy of each frame
     energy = np.sum(windowed_frames**2, axis=1)
 
+    # ------------------ Threshold Estimation ------------------#
     # Finding the threshold that gives the correct number of numbers detected
-    for thres in np.arange(1000):
-        count_numbers = 0
-        threshold = (thres / 1000) * np.max(energy)
+    for thres in np.arange(0, 1 + 1 / 100, 1 / 100):
+        threshold = (thres) * max(energy)
         vad = (energy > threshold).astype(int)  # Voice Activity Detection
-        voice = np.repeat(
-            vad, window_samples
-        )  # Repeat the voice detection to match the signal length
+        voice = np.repeat(vad, window_samples)
+
+        # Now adding a safety margin to the detected voice
+        safety_margin = int(margin * sample_rate)
+
+        # Find the start and end indices of each voice segment
+        voice_segments = np.where(np.diff(voice))[0] + 1
+
+        # Add the safety margin to these indices
+        for start in voice_segments[::2]:
+            voice[max(0, start - safety_margin) : start] = 1
+        for end in voice_segments[1::2]:
+            voice[end : min(len(voice), end + safety_margin)] = 1
 
         # Counting the number of numbers detected
+        count_numbers = 0
         for i in range(len(voice)):
             if voice[i] == 1 and voice[i - 1] == 0:
                 count_numbers += 1
 
-        if count_numbers == count and count_flag == False:
-            count_flag = True
+        if count_numbers == count:
             thresholds.append(thres)
+    print(f"Thresholds: {thresholds}")
 
-        elif count_numbers > count:
-            thresholds.append(thres)
-            break
+    # Choosing the final threshold:
+    if thresholds == []:
+        print("No threshold found")
+        threshold = 0.1 * max(energy)  # Standard threshold that usually works well
+    else:
+        threshold = np.percentile(thresholds, 25) * max(
+            energy
+        )  # 25th percentile of the thresholds
+    print(f"Threshold used: {threshold/(np.max(energy))}")
 
-    print(f"Thresholds used: {thresholds}")
-    threshold = (np.median(thresholds) / 100) * np.max(energy)
     vad = (energy > threshold).astype(int)
     voice = np.repeat(vad, window_samples)
-    print(f"Threshold used: {np.median(thresholds) / 100}")
-    # Counting the number of numbers detected
-    count_numbers = 0
-    for i in range(len(voice)):
-        if voice[i] == 1 and voice[i - 1] == 0:
-            count_numbers += 1
-    print(f"Number of numbers detected: {count_numbers}")
-    print(f"Maximum amplitude: {np.max(signal)}")
 
+    # ------------------ Safety Margin ------------------#
     # Now adding a safety margin to the detected voice
     safety_margin = int(margin * sample_rate)
 
@@ -237,6 +248,20 @@ def number_count_detector(
     for end in voice_segments[1::2]:
         voice[end : min(len(voice), end + safety_margin)] = 1
 
+    count_numbers = 0
+    for i in range(len(voice)):
+        if voice[i] == 1 and voice[i - 1] == 0:
+            count_numbers += 1
+
+    # ------------------ Plotting the results ------------------#
+
+    if max(signal) > 0.97:
+        raise ValueError(
+            "The signal is too loud. Please reduce the volume and try again."
+        )
+    else:
+        print(f"Number of numbers detected: {count_numbers}")
+        print(f"Maximum amplitude: {max(signal)}")
     return voice
 
 
