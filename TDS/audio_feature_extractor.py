@@ -380,7 +380,7 @@ def calculate_audio_features(audio, sample_rate, hop_length: int):
     Parameters
     ----------
     audio : np.ndarray
-        The audio signal from which to compute the audio features.
+        The audio signal from which to compute the audio features. Must be in mono and normalized to matlab format.
     sample_rate : int
         The sample rate of the audio signal.
 
