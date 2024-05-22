@@ -1,48 +1,40 @@
 import pandas as pd
 import numpy as np
-from PIL import Image
-import pytesseract
-import re
 
-# Load the images
-demand = "/demand.png"
-sales = "/sales.png"
-
-# Open images
-demand = Image.open(demand)
-sales = Image.open(sales)
-
-# Perform OCR on the images
-text_1 = pytesseract.image_to_string(demand)
-text_2 = pytesseract.image_to_string(sales)
+# Load the Excel files
+transition_matrix_path = "/Users/carlosedm10/projects/college/DC/transition_matrix.xlsx"
+sales_data_path = "/Users/carlosedm10/projects/college/DC/sales.xlsx"
 
 
-# Function to parse transition matrix text
-def parse_transition_matrix(text):
-    matrix = {}
-    lines = text.strip().split("\n")
-    for line in lines:
-        key, values = line.split(":")
-        key = key.strip()
-        values = re.findall(r"[-+]?\d*\.\d+|\d+", values)
-        values = [float(v) for v in values]
-        matrix[key] = values
-    return matrix
+transition_matrix_pd = pd.read_excel(transition_matrix_path, sheet_name="Transition")
+sales_pd = pd.read_excel(sales_data_path, sheet_name="Sales")
 
+transition_matrix = transition_matrix_pd.iloc[0:32, 1:33].values
+sales_vector = sales_pd.iloc[0:32, 1].values
 
-# Function to parse sales data text
-def parse_sales_data(text):
-    sales = {}
-    lines = text.strip().split("\n")
-    for line in lines:
-        if ":" in line:
-            key, value = line.split(":")
-            key = key.strip()
-            value = re.findall(r"[-+]?\d*\.\d+|\d+", value)[0]
-            sales[key] = int(value)
-    return sales
+products = sales_pd.iloc[0:32, 0].values
 
+# Convert column vector to row vector
+sales_vector = sales_vector.reshape(-1, 1)
 
-sales = parse_sales_data(text_2)
+# Perform the multiplication
+result = np.dot(transition_matrix, sales_vector)
 
-matrix = parse_transition_matrix(text_1)
+# Convert the result back to a DataFrame for easy viewing/saving
+result_df = pd.DataFrame(result, columns=["Result"])
+
+assert (
+    result_df.size
+    == products.size
+    == sales_vector.size
+    == transition_matrix.shape[0]
+    == transition_matrix.shape[1]
+)
+
+result_df["Product"] = products
+result_df = result_df.reindex(columns=["Product", "Result"])
+# Print the result
+print(f"Expected demand: \n{round(result_df)}")
+
+# Save the result to a new Excel file
+result_df.to_excel("/Users/carlosedm10/projects/college/DC/result.xlsx", index=False)
