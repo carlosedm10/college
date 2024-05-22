@@ -34,7 +34,7 @@ assert (
 result_df["Product"] = products
 result_df = result_df.reindex(columns=["Product", "Result"])
 # Print the result
-print(f"Expected demand: \n{round(result_df)}")
+print(f"Expected demand: \n{round(result_df,0)}")
 
 # Save the result to a new Excel file
 result_df.to_excel("/Users/carlosedm10/projects/college/DC/result.xlsx", index=False)
