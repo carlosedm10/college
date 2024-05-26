@@ -139,5 +139,3 @@ If you encounter any issues during the process, please ensure the following:
 - You have GPG installed on your system.
 - You have the correct public GPG key from the repository owner.
 - You have `git-crypt` installed on your system.
-
-For further assistance, please contact the repository owner at `carlosedm@gmail.com`.
