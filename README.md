@@ -141,7 +141,3 @@ If you encounter any issues during the process, please ensure the following:
 - You have `git-crypt` installed on your system.
 
 For further assistance, please contact the repository owner at `carlosedm@gmail.com`.
-
----
-
-This guide now includes instructions for installing GPG using Homebrew, making it easier for users on macOS to get started. Feel free to modify it further based on your specific needs.
