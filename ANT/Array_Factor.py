@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Parameters
-N = 4  # Number of dipoles in the array
+N = 2  # Number of dipoles in the array
 K = 2 * np.pi  # Wavenumber (lambda = 1)
 D = 0.5  # Distance in terms of lambda
-ALPHA = 45  # Phase shift in degrees
+ALPHA = 90  # Phase shift in degrees
 
 # Convert alpha to radians
 alpha = ALPHA * np.pi / 180

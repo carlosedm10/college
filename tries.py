@@ -1,42 +1,42 @@
-# Noise function
-from matplotlib import pyplot as plt
-from scipy.fftpack import fft
+import math
 
-import numpy as np
+# Datos proporcionados
+sigma_0 = 42.47 * 10**-12  # en segundos
+D = 17 * 10**-6  # s/nm/km convertido a s/m
+lambda_m = 1.55 * 10**-6  # micrómetros a metros
+c = 3 * 10**8  # velocidad de la luz en m/s
+L_60km = 60 * 10**3  # en metros
+L_85km = 85 * 10**3  # en metros
+C = 3
+# Cálculo de Beta_2
+beta_2 = -D * lambda_m**2 / (2 * math.pi * c)
 
-time = np.linspace(0, 1, 1000)
-noise = 5 * np.random.normal(0, 1, 1000)
+# Calcular el factor para 60 km
+factor_60km = beta_2 * L_60km / (2 * sigma_0**2)
+sigma_60km = sigma_0 * math.sqrt(
+    (1 - C * beta_2 * L_60km / (2 * sigma_0**2)) ** 2 + factor_60km**2
+)
 
-signal_1 = 4 * np.cos(2 * np.pi * 5 * time)
-signal_2 = 3 * np.cos(2 * np.pi * 10 * time + 0.1)
+# Calcular el factor para 85 km
+factor_85km = beta_2 * L_85km / (2 * sigma_0**2)
+sigma_85km = sigma_0 * math.sqrt(
+    (1 - C * beta_2 * L_85km / (2 * sigma_0**2)) ** 2 + factor_85km**2
+)
 
-signal = signal_1 + signal_2 + noise
+# Calcular la tasa de transmisión máxima B a partir de las sigmas calculadas
+B_60km = 1 / (4 * sigma_60km)
+B_85km = 1 / (4 * sigma_85km)
 
-# Calculate the power of the signal and the noise
-signal_power = np.sum(np.abs(fft(signal_1 + signal_2)) ** 2) / len(time)
-noise_power = np.sum(np.abs(fft(noise)) ** 2) / len(time)
+# Imprimir los resultados
+print("Cálculo de Beta_2:")
+print(f"Beta_2: {beta_2:.2e} s^2/m\n")
 
-# Calculate the noise to signal ratio
-nsr = noise_power / signal_power
+print("Cálculo de sigma para 60 km:")
+print(f"Factor para 60 km: {factor_60km:.2e}")
+print(f"Sigma para 60 km: {sigma_60km:.2e} s")
+print(f"Tasa de transmisión máxima para 60 km: {B_60km / 10**9:.2f} Gb/s\n")
 
-# Plot the signal and the noise
-plt.figure(figsize=(10, 6))
-plt.plot(time, signal_1 + signal_2 + noise, label="Signal")
-plt.title(f"Signal with NSR = {nsr:.2f}")
-plt.xlabel("Time")
-plt.ylabel("Amplitude")
-plt.legend()
-plt.show()
-
-# Now analizing the spectrum using fft
-spectrum = fft(signal)
-
-length = len(spectrum)
-t = np.linspace(0, 1, length)
-plt.figure(figsize=(10, 6))
-plt.plot(t, np.abs(spectrum), label="Spectrum")
-plt.title(f"Spectrum with NSR = {nsr:.2f}")
-plt.xlabel("Frequency")
-plt.ylabel("Amplitude")
-plt.legend()
-plt.show()
+print("Cálculo de sigma para 85 km:")
+print(f"Factor para 85 km: {factor_85km:.2e}")
+print(f"Sigma para 85 km: {sigma_85km:.2e} s")
+print(f"Tasa de transmisión máxima para 85 km: {B_85km / 10**9:.2f} Gb/s\n")
