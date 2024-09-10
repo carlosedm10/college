@@ -1,6 +1,6 @@
 # Define the detailed tasks with adjusted timelines for parones and more programming
 from matplotlib import pyplot as plt
-from matplotlib.dates import date2num
+
 import pandas as pd
 import matplotlib.dates as mdates
 
@@ -204,16 +204,16 @@ fig, ax = plt.subplots(figsize=(26, 12))
 for i, task in df_adjusted.iterrows():
     ax.barh(
         task["Task"],
-        date2num(task["End"]) - date2num(task["Start"]),
-        left=date2num(task["Start"]),
+        mdates.date2num(task["End"]) - mdates.date2num(task["Start"]),
+        left=mdates.date2num(task["Start"]),
         color=task["Color"],
         edgecolor="black",
         alpha=0.6,
     )
     ax.barh(
         task["Task"],
-        date2num(task["Margin End"]) - date2num(task["Margin Start"]),
-        left=date2num(task["Margin Start"]),
+        mdates.date2num(task["Margin End"]) - mdates.date2num(task["Margin Start"]),
+        left=mdates.date2num(task["Margin Start"]),
         color=task["Color"],
         edgecolor="black",
         alpha=0.3,
