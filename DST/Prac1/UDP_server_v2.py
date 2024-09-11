@@ -10,16 +10,14 @@ print("Server's Up and Running")
 
 while communication_active:
     message, client_address = server_sock.recvfrom(2048)
-    print("(Server) Message recieved: ", message.decode(), "sending...")
+    print("(Server) Message recieved: ", message.decode(), "sending response...")
 
     modified_message = message.decode().upper()  # Transforms to uppercase
     server_sock.sendto(
         modified_message.encode(), client_address
     )  # Sends the message to the client
 
-    server_message = input("(Server) Write 'end' to finish the transmission: ")
-    server_sock.sendto(server_message.encode(), client_address)
-    if server_message.lower() == "end":
+    if modified_message.lower() == "end":
         communication_active = False
         print("(Server) Transmission Finished.")
         break
