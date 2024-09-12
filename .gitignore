@@ -2,7 +2,7 @@ venv
 **/.DS_Store
 TDS/Audio Prep/Final Audios/*
 TDS/P6/numbers_db/*
-
+DST/Prac1/constants.py
 gpg-keys.txt
 
 .gitattributes
