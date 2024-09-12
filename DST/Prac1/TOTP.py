@@ -1,10 +1,9 @@
 import pyotp
 import base64
 
+from constants import DNI  # file not uploaded to GitHub
 from generate_qr import get_QR
 
-# Constants
-DNI = "21793078"
 
 # Encode the DNI and convert it to a string
 secret = base64.b32encode(bytearray(DNI, "ascii")).decode("utf-8")
