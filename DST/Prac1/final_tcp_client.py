@@ -2,6 +2,7 @@
 import base64
 import socket
 import pyotp
+from generate_qr import get_QR
 from constants import DNI
 
 SERVER_ADDRESS = "158.42.32.220"
@@ -19,8 +20,13 @@ secret = base64.b32encode(bytearray(DNI, "ascii")).decode("utf-8")
 totp_object = pyotp.TOTP(secret)
 qr_text = totp_object.provisioning_uri(name="mi_usuario", issuer_name="Mi App")
 
+get_QR(qr_text)
+
+otp = input("ingresa el código OTP:")
+valid = totp_object.verify(otp)
+
 # Prepare the message
-message = f"Carlos Eduardo Dominguez Martinez#{DNI}#"
+message = f"Carlos Eduardo Dominguez Martinez#{DNI}#" + otp
 
 # Encode the message into bytes before sending it
 client_socket.send(message.encode("utf-8"))
