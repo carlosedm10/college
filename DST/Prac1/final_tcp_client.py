@@ -16,14 +16,8 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((SERVER_ADDRESS, SERVER_PORT))
 
 # Generate TOTP secret using the DNI
-secret = base64.b32encode(bytearray(DNI, "ascii")).decode("utf-8")
-totp_object = pyotp.TOTP(secret)
-qr_text = totp_object.provisioning_uri(name="mi_usuario", issuer_name="Mi App")
 
-get_QR(qr_text)
-
-otp = input("ingresa el código OTP:")
-valid = totp_object.verify(otp)
+otp = pyotp.TOTP(base64.b32encode(DNI.encode()).decode()).now()
 
 # Prepare the message
 message = f"Carlos Eduardo Dominguez Martinez#{DNI}#" + otp
