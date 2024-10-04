@@ -1,9 +1,9 @@
-# Constants for the server's address and port
 import base64
 import socket
 import pyotp
 from constants import DNI
 
+# Constants for the server's address and port
 SERVER_ADDRESS = "158.42.32.220"
 SERVER_PORT = 21000
 server_responded = False
@@ -16,10 +16,11 @@ client_socket.connect((SERVER_ADDRESS, SERVER_PORT))
 
 # Generate TOTP secret using the DNI
 
-otp = pyotp.TOTP(base64.b32encode(DNI.encode()).decode()).now()
+otp = str(pyotp.TOTP(base64.b32encode(DNI.encode()).decode("utf-8")).now())
+
 
 # Prepare the message
-message = f"Carlos Eduardo Dominguez Martinez#{DNI}#" + otp
+message = f"Carlos Eduardo Dominguez Martinez#{DNI}#{otp}"
 
 # Encode the message into bytes before sending it
 client_socket.send(message.encode("utf-8"))
@@ -30,7 +31,7 @@ while not server_responded:
     received_message = client_socket.recv(1024)
 
     # Decode and print the received message
-    print(received_message.decode("utf-8"))
+    print("Message from server:", received_message.decode("utf-8"))
 
     # If a message was received, mark server_responded as True
     if received_message:
