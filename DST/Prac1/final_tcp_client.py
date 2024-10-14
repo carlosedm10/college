@@ -20,7 +20,7 @@ otp = str(pyotp.TOTP(base64.b32encode(DNI.encode()).decode("utf-8")).now())
 
 
 # Prepare the message
-message = f"Carlos Eduardo Dominguez Martinez#{DNI}#{otp}"
+message = f"Carlos Eduardo Dominguez Martinez&{DNI}&{otp}"
 
 # Encode the message into bytes before sending it
 client_socket.send(message.encode("utf-8"))
