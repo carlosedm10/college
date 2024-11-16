@@ -2,11 +2,12 @@
 import base64
 import socket
 import pyotp
-from constants import DNI
+import os
 
 SERVER_ADDRESS = "158.42.32.220"
 SERVER_PORT = 21000
 server_responded = False
+DNI = os.getenv("DNI")
 
 # Create a TCP/IP socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,7 +16,6 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((SERVER_ADDRESS, SERVER_PORT))
 
 # Generate TOTP secret using the DNI
-
 otp = pyotp.TOTP(base64.b32encode(DNI.encode()).decode()).now()
 
 # Prepare the message
