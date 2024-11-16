@@ -22,5 +22,5 @@ print(qr_text)
 get_QR(qr_text)
 
 otp = input("ingresa el código OTP:")
-valid = totp_object.verify(otp)
+valid = totp_object.verify(totp_object)
 print(valid)
