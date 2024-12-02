@@ -1,4 +1,6 @@
+import base64
 import os
+import ssl
 import sys
 import smtplib
 
@@ -7,13 +9,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
-DNI = os.getenv("DNI")
+DNI = str(os.getenv("DNI"))
+EMAIL_PASS = str(os.getenv("EMAIL_PASS"))
+
 PDF_PATH = "/Users/carlosedm10/projects/college/DST/PDF_PRAC3.pdf"
 
 SMTP_SERVER = "smtp.upv.es"
-SMTP_PORT = 25
+SMTP_PORT = 587
 
-EMAIL_FROM = "cedommar@upv.edu.es"
+EMAIL_FROM = os.getenv("UPV_USERNAME")
+# EMAIL_FROM = "cedommar@upv.edu.es"
 EMAIL_TO = "practica.dst@gmail.com"
 EMAIL_SUBJECT = "Prac3"
 EMAIL_MESSAGE = f"Mi nombre es: Carlos Eduardo \n Mi DNI es: {DNI}"
@@ -59,12 +64,19 @@ except OSError as e:
 
 
 try:
-    mailServer = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-    mailServer.ehlo()
-    mailServer.starttls()
-    mailServer.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
-    mailServer.quit()
-    print(f"Mail sent to {EMAIL_TO} from {EMAIL_FROM} with subject {EMAIL_SUBJECT}")
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as mailServer:
+        mailServer.set_debuglevel(1)
+        mailServer.ehlo()
+        mailServer.starttls()
+        mailServer.ehlo()
+
+        # AUTH LOGIN
+        mailServer.docmd("AUTH LOGIN")
+        mailServer.docmd(base64.b64encode(EMAIL_FROM.encode()).decode())
+        mailServer.docmd(base64.b64encode(EMAIL_PASS.encode()).decode())
+        mailServer.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
+        mailServer.quit()
+        print(f"Mail sent to {EMAIL_TO} from {EMAIL_FROM} with subject {EMAIL_SUBJECT}")
 except smtplib.SMTPException as e:
     print(e)
     print("Error sending mail")
