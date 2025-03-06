@@ -1,0 +1,539 @@
+---
+title: "Ejemplo inicial sobre indicadores de desarrollo"
+author: "Joaquín Martínez-Minaya"
+output: 
+  # rmarkdown::html_vignette:
+  bookdown::html_document2:
+    df_print: paged
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache   = FALSE
+)
+
+library(readxl)
+library(psych)
+library(FactoMineR)
+library(factoextra)
+library(dplyr)
+library(gridExtra)
+library(grid)
+
+```
+
+# Introducción al problema
+Disponemos de un banco de datos sobre indicadores de desarrollo de distintos países (91 registros).
+
+- **Tasa Nat**: Tasa de natalidad por cada 1.000 habitantes. 
+- **Tasa Mort**: Tasa de mortalidad por cada 1.000 habitantes. 
+- **Mort Inf**: Mortalidad de niños (menores de un año) por cada 1.000 nacimientos. 
+- **Esp Hom**: Esperanza de vida en hombres. 
+- **Esp Muj**: Esperanza de vida en mujeres. 
+
+```{r}
+datos <- read_xlsx("../DATA/datos_desarrollo.xlsx")
+datos
+
+```
+
+# Análisis descriptivo univariante {.tabset}
+
+## Diagrama de estrellas
+En este gráfico, utilizamos diagramas de estrellas. En él, podemos ver las características de cada país, pero no podemos ver las relaciones entre variables.
+
+```{r}
+datos <- as.data.frame(datos)
+rownames(datos) <- datos$Pais
+
+stars(datos[1:20,-1],
+      key.loc = c(-2,6),
+      lwd = 1)
+  
+```
+
+
+## Grafíco de Correlaciones
+A continuación, se representa un gráfico de correlaciones. Podemos observar las correlaciones entre variables siempre y cuando el número de éstas no sea grande.
+
+```{r}
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+    par(usr = c(0, 1, 0, 1))
+    r <- cor(x, y)
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste0(prefix, txt)
+    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+    text(0.5, 0.5, txt, cex = cex.cor * abs(r))
+}
+pairs(datos[,-1],
+      lower.panel = panel.cor, pch = 20, col = "red3")
+
+```
+
+# PCA
+
+## Escalado de datos y ajuste
+Se escalan los datos previamente a la realización del modelo, y se ajusta el modelo. Este se ajusta con el máximo número de componentes posibles, que son 5.
+
+```{r}
+datos_ae <- scale(datos[,-1])
+rownames(datos_ae) <- datos$Pais
+res.pca = PCA(datos_ae, scale.unit = FALSE, 
+              graph = FALSE, ncp = 5)
+
+```
+
+## Número de componentes a elegir
+Representamos la variabilidad explicada por cada componente.
+
+
+```{r}
+fviz_eig(res.pca, addlabels = TRUE) 
+```
+
+<!-- Además, podemos calcular los valores propios. -->
+
+```{r}
+  eig.val <- get_eigenvalue(res.pca)
+  eig.val
+```
+
+Nos quedaremos únicamente con las dos primeras componentes principales, explicando así, el 96.2\% de la variabilidad total de los datos.
+
+```{r}
+K <- 2
+I = nrow(datos)
+res.pca = PCA(datos_ae, scale.unit = FALSE, 
+              graph = FALSE, ncp = 2)
+```
+
+
+
+# Validación del modelo PCA
+
+## Distancia al modelo (SCR)
+
+Ahora estudiaremos la distancia al modelo PCA mediante la Suma de Cuadrados Residual (SCR), que nos ayudará a detectar los valores anómalos moderados, es decir, aquellas observaciones (países) que no están bien explicados por el modelo PCA. Recordemos que los anómalos severos son aquellos detectados con el gráfico $T^2$ de Hotelling pero que presentan una baja SCR.
+
+Para ello, primero calcularemos la matriz de residuos y, a partir de ella, la SCR.
+
+```{r SCR, fig.width=5, fig.height=5}
+X <- as.matrix(datos_ae)
+misScores = res.pca$ind$coord[,1:K]
+misLoadings = sweep(res.pca$var$coord, 2, sqrt(res.pca$eig[1:K,1]), FUN="/")
+myE = X - misScores %*% t(misLoadings) 
+mySCR = rowSums(myE^2)  
+
+
+
+
+# Gráfico SCR
+g = var(mySCR)/(2*mean(mySCR))
+h = (2*mean(mySCR)^2)/var(mySCR)
+chi2lim = g*qchisq(0.95, df = h)
+chi2lim99 = g*qchisq(0.99, df = h)
+
+moderada = which(mySCR > chi2lim)
+moderada
+
+p1 <- ggplot() +
+  geom_label(data = data.frame(Pais = datos$Pais, x = 1:length(mySCR), y = mySCR)[moderada,], 
+             aes ( x= x, y = y, label = Pais)) +
+  geom_point(data = data.frame(Pais = datos$Pais, x = 1:length(mySCR), y = mySCR)[-moderada,], 
+             aes ( x= x, y = y)) +
+  geom_text(check_overlap = TRUE) +
+  geom_hline(yintercept = chi2lim, col = "orange", linewidth = 1) +
+  geom_hline(yintercept = chi2lim99, col = "red3", linewidth = 1) +
+  ggtitle("SCR") +
+  theme_bw()
+p1
+
+```
+
+**Conclusión:** En este caso, hay `r sum(mySCR > chi2lim)` paises que se salen fuera del límite del 95%, y `r sum(mySCR > chi2lim99)` fuera del límite del 99%. Dado que se podrían considerar falsas alarmas y tampoco distan en exceso del límite (menos de dos veces dicho límite), no descartaremos ninguna observación en este caso. Estas son las observaciones peor explicadas por el modelo: `r names(which(mySCR > chi2lim))`. 
+
+Se puede observar también el gráfico de contribuciones para dichas observaciones. Recordar que la contribución de cada variable es simplemente el cuadrado de ese residuo (se mantiene el signo). Nos centramos en México.
+
+
+
+```{r SCR2, fig.width=5, fig.height=5}
+## Función para calcular las contribuciones a la SCR
+ContriSCR = function(E, SCR) {
+  # E es la matriz de residuos del modelo 
+  # SCR es la suma de cuadrados residual
+  contribucion = NULL
+  for (j in 1:length(SCR)){
+    eind<-E[j,]
+    signo<-sign(eind)
+    contri<-(signo*(eind^2)/SCR[j])*100
+    contribucion<-rbind(contribucion,contri)
+  }
+  rownames(contribucion) = rownames(E)
+  return(contribucion)
+}
+## Calculamos las contribuciones de todas las observaciones
+mycontris = ContriSCR(E = myE, SCR = mySCR)
+## Gráfico para Special_K
+barplot(mycontris["Mexico",],las=2, cex.names = 0.7,
+        main=c('Contribuciones a SCR para México'))
+
+```
+
+Representamos un diagrama de dispersión entre dos variables que tienen una contribución en sentido contrario, por ejemplo, Tasa de Mortalidad y Mortalidad Infantil. Podemos observar que existe una correlación positiva entre estas dos variables. Sin embargo, México, tiene un comportamiento diferente, una mortalidad infantil entorno a la media, y una tasa de mortalidad muy alta. Se ha roto la estructura de correlación.
+
+```{r}
+datos_ae <- as.data.frame(datos_ae)
+a <- ggplot(data = datos_ae) +
+  geom_point(aes(x = Mort.Inf, y = Tasa.Mort.))+
+    tune::coord_obs_pred() +
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 0) +
+  theme_bw()
+
+b <- ggplot(data = datos_ae) +
+  geom_label(aes(x = Mort.Inf, y = Tasa.Mort., label = rownames(datos)), size = 3)+
+    tune::coord_obs_pred() +
+  theme_bw()
+
+
+  
+grid.arrange(a, b, ncol = 2)
+```
+
+
+**EJERCICIO 1**
+Realiza los mismo estudios para los otros 4 países que son anómalos moderados.
+
+## Detección de anómalos con T2-Hotelling {.tabset}
+
+### Representación gráfica
+
+El estadístico $T^2$ de Hotelling nos permite identificar valores anómalos extremos, que podrían estar condicionando el modelo, es decir, la creación de las PCs. Este estadístico se calcula a partir de los scores, por ello, visualizaremos también los gráficos de scores para las PCs seleccionadas, además del gráfico con los valores del $T^2$ tomando las `r K` Ps e incluyendo los límites de confianza al 95% y 99%, en naranja y rojo, respectivamente. Recordamos además, que la $T^2$ en dos dimensiones es una elipse. 
+
+```{r T2, fig.width=10, fig.height=5}
+
+# Gráfico T2 Hotelling
+misScores = res.pca$ind$coord[,1:K]
+miT2 = colSums(t(misScores**2)/eig.val[1:K,1])
+F95 = K*(I**2 - 1)/(I*(I - K)) * qf(0.95, K, I-K)
+F99 = K*(I**2 - 1)/(I*(I - K)) * qf(0.99, K, I-K)
+anomalas = which(miT2 > F95)
+anomalas
+
+p1 <- ggplot() +
+  geom_label(data = data.frame(Pais = datos$Pais, x = 1:length(miT2), y = miT2)[anomalas,], 
+             aes ( x= x, y = y, label = Pais)) +
+  geom_point(data = data.frame(Pais = datos$Pais, x = 1:length(miT2), y = miT2)[-anomalas,], 
+             aes ( x= x, y = y)) +
+  geom_text(check_overlap = TRUE) +
+  geom_hline(yintercept = F95, col = "orange", linewidth = 1) +
+  geom_hline(yintercept = F99, col = "red3", linewidth = 1) +
+  ggtitle("T2 Hotelling") +
+  theme_bw()
+
+
+# T2 Hotelling en dos dimensiones
+coord_2PCs_99 <- HotellingEllipse::ellipseCoord(x = as.data.frame(misScores), 
+                                                pcx = 1, pcy = 2, conf.limit = 0.99, pts = 500)
+coord_2PCs_95 <- HotellingEllipse::ellipseCoord(x = as.data.frame(misScores), pcx = 1, pcy = 2, conf.limit = 0.95, pts = 500)
+
+
+p2 = fviz_pca_ind(res.pca, axes = c(1,2), geom = c("point"),
+                  habillage = factor(miT2 > F95)) +
+  geom_polygon(data = coord_2PCs_95, aes(x = x, y = y), col = "orange", fill = "white", alpha = 0) +
+  geom_polygon(data = coord_2PCs_99, aes(x = x, y = y), col = "red3", fill = "white", alpha = 0) + 
+  tune::coord_obs_pred()
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Observamos que México parece ser una observación extrema.
+
+### Contribución de las variables a las observaciones anómalas
+
+Si identificamos la observación anómala en el gráfico de scores, podemos utilizar los gráficos de loadings o los gráficos de variables (que se muestran más adelante) para entender qué variables contribuyen más a que esa observación haya resultado anómala. Otra forma de averiguarlo es mediante el gráfico de contribuciones a la $T^2$ de Hotelling que se muestra a continuación, y que ha sido programado a partir del artículo de Kourti y MacGregor (Journal of Quality Technology, 1996).
+
+
+```{r T2contrib, warning=FALSE, fig.width=8, fig.height=5}
+contribT2 = function (X, scores, loadings, eigenval, observ, cutoff = 2) {
+  # X is data matrix and must be centered (or centered and scaled if data were scaled)
+  misScoresNorm = t(t(scores**2) / eigenval)
+  misContrib = NULL
+  for (oo in observ) {
+    print(rownames(misScores)[oo])
+    print(misScores[oo,])
+    misPCs = which(as.numeric(misScoresNorm[oo,]) > cutoff)
+    lacontri = sapply(misPCs, function (cc) (misScores[oo,cc]/eigenval[cc])*loadings[,cc]*X[oo,])
+    lacontri = rowSums((1*(sign(lacontri) == 1))*lacontri)
+    misContrib = cbind(misContrib, lacontri)
+  }
+  colnames(misContrib) = rownames(misScoresNorm[observ,])
+  return(misContrib)
+}
+```
+
+La función anterior se ha programado para calcular las contribuciones a la $T^2$ de una o más observaciones anómalas. Aplicamos dicha función para calcular las contribuciones de nuestra observación anómala y las representamos gráficamente. 
+
+```{r T2contriPlot, warning=FALSE, fig.width=8, fig.height=5}
+# Recuperamos los datos utilizados en el modelo PCA, centrados y escalados
+X = as.matrix(datos_ae)
+misLoadings = sweep(res.pca$var$coord, 2, sqrt(res.pca$eig[1:K,1]), FUN="/")
+
+# Calculamos las contribuciones
+mycontrisT2 = contribT2(X = X, scores = misScores, loadings = misLoadings, 
+                        eigenval = eig.val[1:K, 1], observ = which.max(miT2),
+                        cutoff = 2)
+
+par(mar = c(10,2.3,3,1))
+barplot(mycontrisT2[,1], las = 2, #cex.names = 0.5,
+        main= paste0("Observación: ", rownames(datos_ae)[which.max(miT2)]))
+```
+
+
+El gráfico de contribuciones muestra que `r rownames(datos_ae)[which.max(miT2)]` es anómalo debido a que tiene valores anormalmente altos (o bajos) en la variable *tasa de mortalidad*.
+
+
+
+
+
+## Medidas de validación {.tabset}
+
+### $R^2$
+El $R^2$ es una medida de bondad de ajuste de nuestro modelo.
+
+```{r, fig.asp=0.5}
+measR2 <- function(K){
+   res.pca = PCA(datos_ae, scale.unit = FALSE, 
+                graph = FALSE, ncp = K)
+  eig <- get_eigenvalue(res.pca)
+  misLoadings = sweep(res.pca$var$coord, 2, sqrt(res.pca$eig[1:K,1]), FUN="/")
+  misScores = res.pca$ind$coord[,1:K]
+  myE = X - misScores %*% t(misLoadings)
+  SCT_j <- apply(X, 2, function(i)sum(i^2))
+  SCE_j <- apply(misScores %*% t(misLoadings),2, function(i) sum(i^2))
+  SCR_j <- apply(myE, 2, function(i) sum(i^2))
+  
+  SCT_j - SCE_j
+  
+  SCT <- sum(SCT_j)
+  SCE <- sum(SCE_j)
+  SCR <- sum(SCR_j)
+  SCT == SCE + SCR
+  
+  R2_j <- SCE_j/SCT_j
+  R2 <- SCE/SCT
+
+  list(SCE_j = SCE_j,
+       SCR_j = SCR_j,
+       R2_j = R2_j,
+       R2 = R2)
+}
+R2_K2 <- measR2(K = 2)
+
+R2_K2$R2_j
+# Define your custom colors
+my_colors <- c("R2" = "blue4", "Q2" = "red4")
+ggplot(data = data.frame(R2 = R2_K2$R2_j, vars = colnames(datos_ae)), 
+       aes(y = R2, x = vars))  +
+    geom_bar(position="dodge", stat="identity", fill = my_colors[1]) + 
+    scale_fill_manual(values = my_colors[1])+   # Set custom colors
+    theme_bw() +
+  ggtitle("R2 por variable con K = 2")
+```
+
+### $Q^2$
+
+Es una medida de bondad de predicción de nuestro modelo. Se realiza con validación cruzada. 
+
+```{r}
+# Función que calcula el Q2_j y el Q2 y depende de K (número de componentes del modelo)
+measQ2 <- function(K){
+  pred_cv <- matrix(ncol = ncol(datos_ae), nrow = nrow(datos_ae))
+colnames(pred_cv) <- colnames(datos_ae)
+rownames(pred_cv) <- rownames(datos_ae)
+SCT_j <- apply(X, 2, function(i)sum(i^2))
+
+for(i in 1:nrow(datos_ae)){
+  datos_aux <- datos_ae[-i, ]
+  res.pca = PCA(datos_aux, scale.unit = FALSE, 
+                graph = FALSE, ncp = K)
+  
+  eig <- get_eigenvalue(res.pca)
+  misLoadings = sweep(res.pca$var$coord, 2, sqrt(res.pca$eig[1:K,1]), FUN="/")
+  
+  pred_cv[i,] <- predict.PCA(res.pca, datos_ae[i,])$coord %*% t(misLoadings)
+}
+pred_cv
+
+SCE_cv_j <- apply(pred_cv, 2, function(i)sum(i^2))
+SCR_cv_j <- apply(X - pred_cv, 2, function(i)sum(i^2))
+Q2_j <- 1 - SCR_cv_j/SCT_j
+Q2_j %>% round(., 4)
+Q2 <- 1- sum(SCR_cv_j)/sum(SCT_j)
+list(SCE_cv_j = SCR_cv_j,
+     SCR_cv_j = SCR_cv_j,
+     Q2_j = Q2_j,
+     Q2 = Q2)
+}
+
+```
+
+
+
+```{r, fig.asp=0.5}
+Q2_K2 <- measQ2(K = 2)
+Q2_K2$Q2_j
+ggplot(data = data.frame(Q2 = Q2_K2$Q2_j, vars = colnames(datos_ae)), 
+       aes(y = Q2, x = vars))  +
+    geom_bar(position="dodge", stat="identity", fill = my_colors[2]) + 
+    scale_fill_manual(values = my_colors[1])+   # Set custom colors
+    theme_bw() +
+  ggtitle("Q2 por variable con K = 2")
+```
+
+### $R^2$ vs $Q^2$
+Observamos que $Q^2$ siempre es menor que $R^2$.
+
+
+```{r, fig.asp=0.5}
+
+est <- factor(c(rep("R2", length(R2_K2$R2_j)),
+                    rep("Q2", length(R2_K2$R2_j))),
+                ordered = TRUE, levels = c("R2", "Q2"))
+validacion <- data.frame(values = c(R2_K2$R2_j, Q2_K2$Q2_j), 
+                         vars = rep(colnames(datos_ae),2), 
+                         est = est)
+
+
+
+
+# Use ggplot with custom colors
+ggplot(validacion, 
+       aes(y = values, x = vars,  fill = est)) + 
+    geom_bar(position="dodge", stat="identity")  +
+    scale_fill_manual(values = my_colors) +  # Set custom colors
+    theme_bw() +
+  ggtitle("Medidas de validación")
+
+```
+
+
+### Cálculo de $R^2$ y $Q^2$ para diferentes valores de K
+
+Representamos la proporción de variabilidad explicada (y predicha) por el modelo para cada variable para diferentes valores de K. 
+
+```{r}
+K <- 5
+J <- dim(datos_ae)[2]
+R2_JK <- lapply(1:K, function(x)  measR2(x)$R2_j) %>% 
+  unlist(.) %>% data.frame(est_j = ., K = as.factor(rep(1:K, rep(J, K))))
+R2_JK$est <- rep("R2", K*J)
+R2_JK$var <- rep(colnames(datos_ae), K)
+
+Q2_JK <- lapply(1:5, function(x) measQ2(x)$Q2_j)  %>% unlist(.) %>% data.frame(est_j = ., K = as.factor(rep(1:K, rep(J, K))))
+Q2_JK$est <- rep("Q2", K*J)
+Q2_JK$var <- rep(colnames(datos_ae), K)
+
+medidas_JK <- rbind(R2_JK, Q2_JK)
+ggplot(medidas_JK, 
+       aes(y = est_j, x = var,  fill = K)) + 
+    geom_bar(position="dodge", stat="identity")  +
+  facet_wrap(~ est, ncol = 1) + # Set custom colors
+    theme_bw() +
+  ggtitle("Medidas de validación")
+```
+
+### Cálculo de $R^2$ y $Q^2$ para el modelo completo
+
+
+```{r}
+  K <- 5
+R2_K <- lapply(1:K, function(x)  measR2(x)$R2) %>% 
+  unlist(.) %>% data.frame(est_j = ., 
+                           K = as.factor(1:K))
+R2_K$est <- rep("R2", K)
+
+Q2_K <- lapply(1:K, function(x) measQ2(x)$Q2)  %>% unlist(.) %>% data.frame(est_j = ., K = as.factor(rep(1:K)))
+Q2_K$est <- rep("Q2", K)
+
+medidas_K <- rbind(R2_K, Q2_K)
+
+medidas_K$est <- factor(medidas_K$est,
+                ordered = TRUE, levels = c("R2", "Q2"))
+ggplot(medidas_K, 
+       aes(y = est_j, x = K , fill = est)) + 
+    geom_bar(position="dodge", stat="identity")  +
+    scale_fill_manual(values = my_colors) +  # Set custom colors
+    theme_bw() +
+  ggtitle("Medidas de validación")
+
+
+```
+
+
+
+
+# Interpretación del modelo PCA
+
+
+Decidimos utilizar el modelo únicamente con dos componentes y procedemos a interpretarlo.
+
+Representamos a continuación el gráfico de scores y loadings para ver qué variables son las que tienen más peso en nuestras componentes principales.
+
+```{r}
+K <- 2
+#Loadings
+misLoadings2 = sweep(res.pca$var$coord, 2, sqrt(res.pca$eig[1:K,1]), FUN="/")
+
+
+m2 <- (round(misLoadings2, 2))
+m2 %>% as.data.frame(.)
+```
+
+
+
+
+
+```{r loading2, fig.asp=0.5, fig.height=5}
+#Scores
+p1 <- fviz_pca_ind(res.pca, axes = c(1,2), geom = c("text"), 
+              labelsize = 2) 
+              #repel = FALSE, select.ind = list("cos2"=50))
+p1 <- p1 + tune::coord_obs_pred()
+
+
+
+#Loadings
+p2 <- fviz_pca_var(res.pca, 
+                   axes = c(1, 2), repel = TRUE, col.var = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"))
+p2 <- p2 + tune::coord_obs_pred()
+
+
+grid.arrange(p1, p2, nrow = 1)
+```
+
+Por último, podemos observar aquellas variables cuya contribución es mayor en cada una de las componentes.
+
+```{r}
+grid.arrange(fviz_contrib(res.pca, choice = "var", axes = 1),
+              fviz_contrib(res.pca, choice = "var", axes = 2), ncol = 2)
+              
+
+```
+
+
+# A hombros de gigantes
+Este ejemplo se ha construido con ideas y código de:
+
+- Alberto Ferrer
+
+- Sonia Tarazona

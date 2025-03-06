@@ -1,0 +1,365 @@
+---
+title: "Partial Least Squares Regression (PLS)"
+author: "Joaquín Martínez-Minaya a partir de notas de Alberto Ferrer y Sonia Tarazona"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+```{r setup, include=TRUE, warning=FALSE, message=FALSE}
+library(knitr)
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+# BiocManager::install("ropls")
+library(ropls)
+# https://bioconductor.org/packages/release/bioc/vignettes/ropls/inst/doc/ropls-vignette.html
+
+library(viridis)
+library(patchwork)
+library(dplyr)
+library(readxl)
+library(caret)
+library(ggplot2)
+```
+
+
+
+# PLS-DA (2 clases): Iris   
+
+La base de datos **Iris_new.xls** contiene datos de longitud y anchura de pétalos y sépalos de 3 especies	de lirios. Disponemos de un total de 160 observaciones, de las cuales 120 se utilizarán para entrenar el modelo (*Training*), y 40 para testearlo (*Validation*). 
+
+
+
+## Lectura y preparación de datos
+Leemos los datos, los cuales están en dos hojas de excel diferentes.
+
+```{r message=FALSE}
+iris.train <- read_excel("../DATA/Iris_new.xls", sheet = "Training")
+iris.test <- read_excel("../DATA/Iris_new.xls", sheet = "Validation")
+dim(iris.train)
+dim(iris.test)
+```
+
+
+Definimos las matrices de train y test de los dos espacios.
+
+```{r}
+Xtrain = iris.train %>% select(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width) 
+Ytrain = iris.train %>% select(Species) %>% pull(.) %>% factor(.)
+
+Xtest = iris.test %>% select(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width) 
+Ytest = iris.test %>% select(Species) %>% pull(.) %>% factor(.)
+```
+
+
+
+## Estimación del modelo y del número de componentes
+
+En este caso, escalaremos la matriz **X** en la propia función *opls*.
+
+```{r plsDAcan, message=FALSE}
+maxNC = min(dim(Xtrain)); maxNC
+myplsda = opls(x = Xtrain, 
+               y = Ytrain, 
+               predI = maxNC, 
+               crossvalI = nrow(Xtrain), 
+               scaleC = "standard", permI = 40)
+```
+
+Como se ve en los resultados anteriores, el modelo estima en 3 el número óptimo de componentes. Como siempre, generaremos nuestro propio gráfico para optimizar el número de componentes, aunque en este caso sería más adecuado utilizar medidas específicas del error de clasificación en lugar de $R^2$ y $Q^2$.
+
+
+```{r, message=FALSE, fig.width=5, fig.height=5}
+plot(1:maxNC, myplsda@modelDF$`R2Y(cum)`, type = "o", pch = 16, col = "blue3",
+     lwd = 2, xlab = "Components", ylab = "", ylim = c(0.4,0.65),
+     main = "PLS-DA model: Breast cancer")
+lines(1:maxNC, myplsda@modelDF$`Q2(cum)`, type = "o", pch = 16, col = "red3",
+      lwd = 2)
+abline(h = 0.5, col = "red3", lty = 2)
+legend("bottomleft", c("R2Y", "Q2"), lwd = 2, 
+       col = c("blue3", "red3"), bty = "n")
+```
+
+
+Como podemos observar, la tercera componente no supone una mejora importante en el valor de la $Q^2$ y dado que tenemos solo dos grupos, nos quedaremos con las dos primeras componentes en lugar de las 3 que recomienda la función *opls*. 
+
+```{r plsDAcan2, message=FALSE}
+myplsda = opls(x = Xtrain, 
+               y = Ytrain, 
+               predI = 2, 
+               crossvalI = nrow(Xtrain), 
+               scaleC = "standard", permI = 40)
+```
+
+
+## Validación del modelo PLS
+
+
+### Detección de anómalos severos con T2-Hotelling
+
+Podemos detectar posibles valores anómalos en las observaciones a partir los scores, tal como hacíamos en PCA. 
+
+Dado que hemos seleccionado solo 2 componentes, tenemos dos opciones de gráfico para la detección de anómalos a partir del estadístico $T^2$ de Hotelling.
+
+La primera opción sería representar el gráfico de scores de **X** y dibujar la elipse correspondiente al límite del intervalo de confianza del estadístico $T^2$. Este gráfico se puede obtener con la propia librería *ropls*. La ayuda sobre los argumentos de la función *plot* adaptada a esta librería se puede consultar con *?plot.opls*.
+
+
+```{r T2a, fig.width=5, fig.height=4.5}
+plot(x = myplsda, typeVc = "x-score",
+     parAsColFcVn = Ytrain, parCexN = 0.8, parCompVi = c(1, 2),
+     parEllipsesL = TRUE, parLabVc = rownames(Xtrain), parPaletteVc = NA,
+     parTitleL = TRUE, parCexMetricN = NA)
+```
+
+
+
+```{r T2b, fig.width=5, fig.height=5}
+A <- 2
+misScores = myplsda@scoreMN
+varT = apply(misScores, 2, var)
+miT2 = colSums(t(misScores**2) / varT)
+N = nrow(Xtrain)
+#A = 2
+F95 = A*(N**2 - 1)/(N*(N - A)) * qf(0.95, A, N-A); F95
+F99 = A*(N**2 - 1)/(N*(N - A)) * qf(0.99, A, N-A); F99
+plot(1:length(miT2), miT2, type = "l", xlab = "aceites", ylab = "T2",
+     main = "PLS: T2-Hotelling", ylim = c(0,15))
+abline(h = F95, col = "orange", lty = 2, lwd = 2)
+abline(h = F99, col = "red3", lty = 2, lwd = 2)
+```
+
+
+En el gráfico anterior, podemos observar que no hay valores fuera del Intervalo del 99%, por lo que no tenemos observaciones anómalas.
+
+
+### Detección de casos atípicos con la SCR (distancia al modelo)
+
+En el siguiente gráfico representamos la Suma de Cuadrados Residual y su límite de confianza al 95%. El gráfico de la distancia al modelo sería equivalente pero calculando la raíz cuadrada de la SCR (y del límite correspondiente).
+
+```{r SCR, fig.width=5, fig.height=5}
+myT = myplsda@scoreMN
+myP = myplsda@loadingMN
+
+Xtrain.scaled <- scale(Xtrain)
+center.x <- attr(Xtrain.scaled,"scaled:center")
+scale.x <- attr(Xtrain.scaled, "scaled:scale")
+
+
+myE = Xtrain.scaled - myT%*%t(myP) 
+mySCR = rowSums(myE^2)   # SPE 
+plot(1:length(mySCR), mySCR, type = "l", main = "PLS: Distancia2 al modelo", 
+     ylab = "SCR", xlab = "Lirios", ylim = c(0,2))
+g = var(mySCR)/(2*mean(mySCR))
+h = (2*mean(mySCR)^2)/var(mySCR)
+chi2lim = g*qchisq(0.95, df = h)
+abline(h = chi2lim, col = "orange", lty = 2)
+chi2lim99 = g*qchisq(0.99, df = h)
+abline(h = chi2lim99, col = "red3", lty = 2)
+```
+
+---- 
+
+A continuación, realizamos el gráfico de contribuciones para cada una de esas observaciones.
+
+----
+```{r, fig.asp=0.3}
+## Función para calcular las contribuciones a la SCR
+ContriSCR = function(E, SCR) {
+  # E es la matriz de residuos del modelo 
+  # SCR es la suma de cuadrados residual
+  contribucion = NULL
+  for (j in 1:length(SCR)){
+    eind<-E[j,]
+    signo<-sign(eind)
+    contri<-(signo*(eind^2)/SCR[j])*100
+    contribucion<-rbind(contribucion,contri)
+  }
+  rownames(contribucion) = rownames(E)
+  return(contribucion)
+}
+
+## Calculamos las contribuciones de todas las observaciones
+mycontris = ContriSCR(E = myE, SCR = mySCR)
+index <- which(mySCR> chi2lim99)
+par(mfrow=c(1,3))
+for(j in index){
+barplot(mycontris[j,],las=2, cex.names = 0.7,
+        main=c(paste0('Observación-', j)))
+}
+
+```
+Las variables que más contribuyen al SCR de estos tres valores son Sepal.Length y Petal.Width. Parece razonable pues ambas variables parecen tener una relevancia importante en nuestro modelo para discriminar. Dado que son 3 datos, y son coherentes, los dejamos en nuestro modelo. Los representamos a continuación en color azul oscuro.
+
+
+```{r}
+ggplot(iris.train) +
+  geom_point(aes(x = Sepal.Length, y = Petal.Width, col = Species),
+             cex = 2) +
+  geom_point(data = iris.train[index, ], aes(x = Sepal.Length, y = Petal.Width),
+             col = "black") +
+  theme_bw() 
+```
+
+## Interpretación del modelo
+
+
+```{r interprCan, message=FALSE}
+plot(x = myplsda, typeVc = "x-score",
+     parCexN = 0.8, parCompVi = c(1, 2), parPaletteVc = NA,
+     parTitleL = TRUE, parCexMetricN = NA)
+```
+En el gráfico de "scores" (Scores plot), podemos observar cómo la primera componente separa claramente la clase Setosa de las clases Versicolor y Virgínica.
+
+```{r interpre2, fig.width=5, fig.height=4}
+data_plot <- rbind(data.frame(myplsda@weightStarMN, space = "X"),
+      data.frame(myplsda@cMN, space = "Y"))
+data_plot <- cbind(data_plot, variable = rownames(data_plot))
+
+ggplot(data_plot) +
+  geom_label(aes(x = p1, y = p2, label = variable, col = space)) +
+  xlim(-1,1) +
+  ylim(-1,1) +
+  coord_fixed(ratio = 1) +
+  theme_bw() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  xlab("w*c") +
+  ylab("w*c")
+```
+
+En el gráfico de "weightings" se muestra cómo la primera componente separa la espcie Setosa de la Virgínica, siendo las variables *Petal.length*, *Petal.Width* y *Sepal.width* las que mejor discriminan entre ambos grupos (tomando valores mayores que la media para la especie Virgínica e inferiores que la media para la especie Setosa). La especie Versicolor toma valores medios para esas variables.
+
+La 2ª componente PLS-DA tiende a separar la especie Versicolor del resto, siendo la variable *Sepal.Width* la que más contribuye a esta separación (valores menores que la media para la especie Versicolor). Sin mebargo, el poder discriminante de esta segunda componente es muy pequeño (6%), por lo que la discriminación no será buena.
+
+Una interpretación similar puede obtenerse a partir de los gráficos de los coeficientes $\beta_i$ del modelo PLS-DA de la figura anterior para predecir cada una de las clases: Virgínica, Versicolor y Setosa.
+
+
+```{r, fig.asp=0.5}
+coef_pls <- coef(myplsda)
+
+# Convertir la matriz en data frame
+df <- as.data.frame(coef_pls)
+df <- cbind(variables = rownames(coef_pls), df)
+
+# Reestructurar el data frame para el plotting
+df_long <- tidyr::pivot_longer(df, 
+                               cols = c(setosa, versicolor, virginica), 
+                               names_to = "Species", values_to = "Coefficient")
+
+
+# Mostrar la estructura de los datos
+pp <- ggplot(df_long, aes(x = variables, y = Coefficient, fill = variables)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  facet_wrap(~ Species, ncol = 3) +  # Crea un panel para cada característica de flor
+  labs(title = "Coeficientes por Especie",
+       x = "Especies", y = "Coeficiente") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+
+pp +    theme(legend.position="bottom")
+```
+
+Como se observa en el gráfico de VIP, de todas las variables, las de mayor importancia en la discriminación son la **Longitud y la Anchura de los pétalos**.
+
+
+```{r}
+barplot(sort(myplsda@vipVn, decreasing = TRUE), main = "VIP", las = 2)
+abline(h = 1, col = 2, lty = 2)
+```
+
+
+Cuando se miran ejemplares de las 3 especies, podemos darnos cuenta que la morfología de Setosa es diferente a la de las otras dos especies (Versicolor y Virgínica.)
+
+
+![](lirios.png)
+
+
+## Predicciones del modelo PLS-DA
+El PLS-DA muestra para cada observación las predicciones obtenidas para cada una de las categorías de la variable dependiente, y la decisión final del modelo para cada observación. 
+
+```{r prediDAtrain, message=FALSE, warning=FALSE}
+mypred = predict(myplsda)
+caret::confusionMatrix(mypred, Ytrain)
+```
+
+La matriz de confusión muestra que el modelo clasifica correctamente el 100% de las observaciones de entrenamiento de la especie Setosa, pero no es capaz de clasificar bien las especies Virgínica y Versicolor.
+
+Pero la	verdadera	capacidad	predictiva del modelo	debe valorarse	usando un conjunto de	datos	distinto al	usado	para construir el modelo (datos	de	validación). En este caso usamos los datos test que contiene 40 observaciones: 10 son de clase **Setosa**, 10 de clase **Versicolor**, 10 **Virgínica** y las 10 últimas son **Rosas**.
+
+A continuación se representa la distancia al modelo (SCR) en el espacio de proyección de las 40 nuevas observaciones, una vez proyectadas sobre el modelo PLS-DA construido con los datos de entrenamiento.
+
+
+
+```{r}
+myT.pred = scale(Xtest, center = center.x, scale = scale.x) %*% myP 
+myE.pred = scale(Xtest, center = center.x, scale = scale.x) - myT.pred%*%t(myP) 
+mySCR.pred = rowSums(myE.pred^2)   # SPE 
+species_colors <- c("setosa" = "red", "versicolor" = "green", "virginica" = "blue",
+                    "Rosa" = "pink")
+plot(1:length(mySCR.pred), mySCR.pred, type = "l", 
+     main = "PLS: Distancia al modelo", 
+     ylab = "SCR", xlab = "Lirios", ylim = c(0, 30))
+points(1:length(mySCR.pred), mySCR.pred, 
+       col = species_colors[iris.test$Species])
+abline(h = chi2lim, col = "orange", lty = 2)
+abline(h = chi2lim99, col = "red3", lty = 2)
+```
+
+El gráfico de SCR muestra que las 30 primeras observaciones mantienen la estructura de correlación del modelo PLS-DA, mientras que las 10 últimas observaciones rompen la estructura de correlación. La razón de esta ruptura es que no corresponden a lirios, sino a otro tipo de flor, rosa, con una morfología totalmente distinta al lirio. Si se selecciona cualquiera de estas 10 últimas observaciones y se representa el gráfico de contribución al SPE se observa que algo ocurre entre la longitud de sépalo y la anchura de los pétalos.
+
+```{r}
+## Función para calcular las contribuciones a la SCR
+ContriSCR = function(E, SCR) {
+  # E es la matriz de residuos del modelo 
+  # SCR es la suma de cuadrados residual
+  contribucion = NULL
+  for (j in 1:length(SCR)){
+    eind<-E[j,]
+    signo<-sign(eind)
+    contri<-(signo*(eind^2)/SCR[j])*100
+    contribucion<-rbind(contribucion,contri)
+  }
+  rownames(contribucion) = rownames(E)
+  return(contribucion)
+}
+
+#Observación 40
+myE.pred[40,]
+mySCR.pred[40]
+
+myE.pred[40,] %>% class(.)
+
+## Calculamos las contribuciones de todas las observaciones
+mycontris = ContriSCR(E = myE.pred[31:40,], SCR = mySCR.pred[31:40])
+
+## Gráfico para Special_K
+barplot(mycontris[7,],las=2, cex.names = 0.7,
+        main=c('Contribuciones a SCR para Special_K'))
+```
+En el gráfico de contribuciones a la anomalía, se puede observar que la contribución de las variables *Sepal.Length* y *Petal.Width* parecen tener una contribución relevante. En el siguiente gráfico, vemos qué estructura de correlación tienes las rosas.
+
+```{r}
+ggplot(iris.test) +
+  geom_point(aes(x = Sepal.Length, y = Petal.Width, col = Species),
+             cex = 2) +
+  theme_bw() 
+```
+
+El modelo predice bien las observaciones de Setosa, pero el resto no las predice bien:
+
+```{r , message=FALSE}
+mypred = predict(myplsda, Xtest)
+caret::confusionMatrix(mypred, Ytest, positive = "M")
+```
+
+
+
+
+
+
