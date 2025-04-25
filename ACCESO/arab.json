@@ -1,0 +1,482 @@
+[
+    {
+    "dataYear": 2005,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 8.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 8.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 71287,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2006,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 10.5
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 10.5
+    }
+    ],
+    "classID": 177,
+    "dataID": 71308,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2007,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 14.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 14.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 71978,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2008,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 17.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 17.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 75214,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2009,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 19.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 19.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 75340,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2010,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 22.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 22.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 75557,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2011,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 25.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 25.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 76637,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2012,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 28.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 28.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 74493,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2013,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 31
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 31
+    }
+    ],
+    "classID": 177,
+    "dataID": 72371,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2014,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 34.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 34.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 71556,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2015,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 37.9
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 37.9
+    }
+    ],
+    "classID": 177,
+    "dataID": 76549,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2016,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 40.9
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 40.9
+    }
+    ],
+    "classID": 177,
+    "dataID": 76464,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2017,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 46
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 46
+    }
+    ],
+    "classID": 177,
+    "dataID": 76520,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2018,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 48.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 48.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 76453,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2019,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 53.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 53.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 76429,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2020,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 60.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 60.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 76247,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2021,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 64.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 64.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 75944,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2022,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 67.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 67.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 74648,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2023,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 68.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 68.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 75277,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    },
+    {
+    "dataYear": 2024,
+    "updateDate": "2025-03-04T15:33:47.000Z",
+    "answersPercentage": [
+    {
+    "value": 69.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 647,
+    "answer": [
+    {
+    "value": 69.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 244420,
+    "code": "i99H",
+    "createDate": "2025-03-04T15:33:47.000Z",
+    "databaseID": 1,
+    "regionName": "Arab States"
+    }
+    ]

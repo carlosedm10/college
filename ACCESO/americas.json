@@ -1,0 +1,482 @@
+[
+    {
+    "dataYear": 2005,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 35.9
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 35.9
+    }
+    ],
+    "classID": 177,
+    "dataID": 71286,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2006,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 38.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 38.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 71307,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2007,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 42.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 42.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 71974,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2008,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 44.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 44.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 75213,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2009,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 46.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 46.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 75339,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2010,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 48.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 48.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 75556,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2011,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 51.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 51.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 76636,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2012,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 55.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 55.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 74492,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2013,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 56
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 56
+    }
+    ],
+    "classID": 177,
+    "dataID": 72370,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2014,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 58.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 58.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 71555,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2015,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 62.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 62.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 76545,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2016,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 68.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 68.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 71589,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2017,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 71.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 71.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 76519,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2018,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 74.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 74.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 76444,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2019,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 76
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 76
+    }
+    ],
+    "classID": 177,
+    "dataID": 76428,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2020,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 80
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 80
+    }
+    ],
+    "classID": 177,
+    "dataID": 76244,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2021,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 81.9
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 81.9
+    }
+    ],
+    "classID": 177,
+    "dataID": 71868,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2022,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 82.9
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 82.9
+    }
+    ],
+    "classID": 177,
+    "dataID": 74645,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2023,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 84.7
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 84.7
+    }
+    ],
+    "classID": 177,
+    "dataID": 75276,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    },
+    {
+    "dataYear": 2024,
+    "updateDate": "2025-03-04T15:33:47.000Z",
+    "answersPercentage": [
+    {
+    "value": 86.5
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 646,
+    "answer": [
+    {
+    "value": 86.5
+    }
+    ],
+    "classID": 177,
+    "dataID": 244305,
+    "code": "i99H",
+    "createDate": "2025-03-04T15:33:47.000Z",
+    "databaseID": 1,
+    "regionName": "The Americas"
+    }
+    ]

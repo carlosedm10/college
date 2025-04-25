@@ -1,0 +1,482 @@
+[
+    {
+    "dataYear": 2005,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 9.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 9.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 71288,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2006,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 10.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 10.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 71309,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2007,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 13.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 13.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 71980,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2008,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 16.3
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 16.3
+    }
+    ],
+    "classID": 177,
+    "dataID": 75215,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2009,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 19
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 19
+    }
+    ],
+    "classID": 177,
+    "dataID": 75341,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2010,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 22.5
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 22.5
+    }
+    ],
+    "classID": 177,
+    "dataID": 75558,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2011,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 25.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 25.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 76639,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2012,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 27.2
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 27.2
+    }
+    ],
+    "classID": 177,
+    "dataID": 74494,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2013,
+    "updateDate": "2024-04-24T18:20:23.000Z",
+    "answersPercentage": [
+    {
+    "value": 29.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 29.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 76591,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2014,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 31.3
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 31.3
+    }
+    ],
+    "classID": 177,
+    "dataID": 71557,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2015,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 33.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 33.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 76550,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2016,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 36.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 36.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 76465,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2017,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 38.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 38.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 76521,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2018,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 42.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 42.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 76454,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2019,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 48.3
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 48.3
+    }
+    ],
+    "classID": 177,
+    "dataID": 71623,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2020,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 55.8
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 55.8
+    }
+    ],
+    "classID": 177,
+    "dataID": 76249,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2021,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 59.3
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 59.3
+    }
+    ],
+    "classID": 177,
+    "dataID": 75948,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2022,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 61.6
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 61.6
+    }
+    ],
+    "classID": 177,
+    "dataID": 74649,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2023,
+    "updateDate": "2025-03-04T15:27:31.000Z",
+    "answersPercentage": [
+    {
+    "value": 63.4
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 63.4
+    }
+    ],
+    "classID": 177,
+    "dataID": 75278,
+    "code": "i99H",
+    "createDate": "2024-04-24T18:20:23.000Z",
+    "databaseID": 1,
+    "regionName": "Asia & Pacific"
+    },
+    {
+    "dataYear": 2024,
+    "updateDate": "2025-03-04T15:33:47.000Z",
+    "answersPercentage": [
+    {
+    "value": 66.1
+    }
+    ],
+    "codeID": 11624,
+    "numberOfAnswer": "",
+    "internalNote": "",
+    "regionID": 648,
+    "answer": [
+    {
+    "value": 66.1
+    }
+    ],
+    "classID": 177,
+    "dataID": 244092,
+    "code": "i99H",
+    "createDate": "2025-03-04T15:33:47.000Z",
+    "databaseID": 1,
+    "regionName": "Asia-Pacific"
+    }
+    ]
