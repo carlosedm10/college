@@ -1,4 +1,4 @@
-venv
+.venv/
 **/.DS_Store
 TDS/Audio Prep/Final Audios/*
 TDS/P6/numbers_db/*
