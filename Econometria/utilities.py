@@ -373,7 +373,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
     dict: Dictionary with the results of the tests.
     """
 
-    def format_diagnostics(diagnostics):
+    def _format_diagnostics(diagnostics):
         print("\nDiagnostic Test Results:")
         print("-" * 50)
         for key, value in diagnostics.items():
@@ -458,7 +458,7 @@ def check_white_noise(residuals, exog, alpha=0.05):
         else "The Residues are not White Noise"
     )
 
-    return format_diagnostics(diagnostics)
+    return _format_diagnostics(diagnostics)
 
 
 def format_diagnostics(diagnostics):
